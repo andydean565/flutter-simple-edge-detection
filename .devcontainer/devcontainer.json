@@ -1,0 +1,15 @@
+{
+    "name": "flutter-simple-edge-detection",
+    "context": "..",
+    "dockerFile": "./Dockerfile",
+    "remoteUser": "dev",
+
+    "settings": {
+      "terminal.integrated.shell.linux": null
+    },
+    "runArgs": ["--privileged", "-v", "/dev/bus/usb:/dev/bus/usb"],
+    "extensions": ["dart-code.dart-code", "dart-code.flutter"],
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/dev/app,type=bind,consistency=delegated",
+    "workspaceFolder": "/home/dev/app"
+  }
+  
