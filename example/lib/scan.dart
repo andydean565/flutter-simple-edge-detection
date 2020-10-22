@@ -51,9 +51,7 @@ class _ScanState extends State<Scan> {
     }
 
     if (imagePath == null && edgeDetectionResult == null) {
-      return CameraView(
-        controller: controller
-      );
+      return CameraView(controller: controller);
     }
 
     return ImagePreview(
@@ -73,11 +71,8 @@ class _ScanState extends State<Scan> {
       return;
     }
 
-    controller = CameraController(
-        cameras[0],
-        ResolutionPreset.veryHigh,
-        enableAudio: false
-    );
+    controller = CameraController(cameras[0], ResolutionPreset.veryHigh,
+        enableAudio: false);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -100,9 +95,7 @@ class _ScanState extends State<Scan> {
           child: Icon(Icons.check),
           onPressed: () {
             if (croppedImagePath == null) {
-              return _processImage(
-                imagePath, edgeDetectionResult
-              );
+              return _processImage(imagePath, edgeDetectionResult);
             }
 
             setState(() {
@@ -115,22 +108,19 @@ class _ScanState extends State<Scan> {
       );
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        FloatingActionButton(
-          foregroundColor: Colors.white,
-          child: Icon(Icons.camera_alt),
-          onPressed: onTakePictureButtonPressed,
-        ),
-        SizedBox(width: 16),
-        FloatingActionButton(
-          foregroundColor: Colors.white,
-          child: Icon(Icons.image),
-          onPressed: _onGalleryButtonPressed,
-        ),
-      ]
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      FloatingActionButton(
+        foregroundColor: Colors.white,
+        child: Icon(Icons.camera_alt),
+        onPressed: onTakePictureButtonPressed,
+      ),
+      SizedBox(width: 16),
+      FloatingActionButton(
+        foregroundColor: Colors.white,
+        child: Icon(Icons.image),
+        onPressed: _onGalleryButtonPressed,
+      ),
+    ]);
   }
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
@@ -175,12 +165,14 @@ class _ScanState extends State<Scan> {
     });
   }
 
-  Future _processImage(String filePath, EdgeDetectionResult edgeDetectionResult) async {
+  Future _processImage(
+      String filePath, EdgeDetectionResult edgeDetectionResult) async {
     if (!mounted || filePath == null) {
       return;
     }
 
-    bool result = await EdgeDetector().processImage(filePath, edgeDetectionResult);
+    bool result =
+        await EdgeDetector().processImage(filePath, edgeDetectionResult);
 
     if (result == false) {
       return;
@@ -213,11 +205,8 @@ class _ScanState extends State<Scan> {
 
   Padding _getBottomBar() {
     return Padding(
-      padding: EdgeInsets.only(bottom: 32),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: _getButtonRow()
-      )
-    );
+        padding: EdgeInsets.only(bottom: 32),
+        child:
+            Align(alignment: Alignment.bottomCenter, child: _getButtonRow()));
   }
 }

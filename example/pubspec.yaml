@@ -14,6 +14,7 @@ dependencies:
   camera: ^0.5.8+5
   path_provider: ^1.6.14
   image_picker: ^0.6.7+7
+  image: ^2.1.18
 
   simple_edge_detection:
     # When depending on this package from a real application you should use:
