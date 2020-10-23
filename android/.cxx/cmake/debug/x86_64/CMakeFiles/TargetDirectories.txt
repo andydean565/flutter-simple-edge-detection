@@ -1,3 +1,0 @@
-/home/dev/app/android/.cxx/cmake/debug/x86_64/CMakeFiles/edit_cache.dir
-/home/dev/app/android/.cxx/cmake/debug/x86_64/CMakeFiles/rebuild_cache.dir
-/home/dev/app/android/.cxx/cmake/debug/x86_64/CMakeFiles/native_edge_detection.dir
