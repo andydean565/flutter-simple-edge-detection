@@ -1,0 +1,21 @@
+{
+  "buildFiles": [
+    "/home/dev/app/android/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/home/dev/Android/sdk/cmake/3.6.4111459/bin/cmake --build /home/dev/app/android/.cxx/cmake/debug/armeabi-v7a --target clean"
+  ],
+  "libraries": {
+    "lib_opencv-Debug-armeabi-v7a": {
+      "artifactName": "lib_opencv",
+      "abi": "armeabi-v7a",
+      "output": "/home/dev/app/android/src/main/jniLibs/armeabi-v7a/libopencv_java4.so"
+    },
+    "native_edge_detection-Debug-armeabi-v7a": {
+      "artifactName": "native_edge_detection",
+      "buildCommand": "/home/dev/Android/sdk/cmake/3.6.4111459/bin/cmake --build /home/dev/app/android/.cxx/cmake/debug/armeabi-v7a --target native_edge_detection",
+      "abi": "armeabi-v7a",
+      "output": "/home/dev/app/example/build/simple_edge_detection/intermediates/cmake/debug/obj/armeabi-v7a/libnative_edge_detection.so"
+    }
+  }
+}
