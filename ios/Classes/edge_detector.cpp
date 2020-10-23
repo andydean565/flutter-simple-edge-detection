@@ -130,12 +130,15 @@ vector<vector<cv::Point> > EdgeDetector::find_squares(Mat& image){
     // medianBlur(gray, gray, 3);      // blur will enhance edge detection
     vector<vector<cv::Point> > contours;
 
+    // int thresholdLevels[] = {10, 30, 50, 70};
     int thresholdLevels[] = {10, 30, 50, 70, 90, 120};
     for(int thresholdLevel : thresholdLevels) {
         Canny(gray, gray0, thresholdLevel, thresholdLevel*3);
 
-        dilate(gray0, gray0, Mat(), Point(-1, -1), 2);
-        findContours(gray0, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+        dilate(gray0, gray0, Mat(), Point(-1, -1), 2, 2);
+        erode(gray0, gray0, Mat(), Point(-1, -1), 2, 1);
+        // findContours(gray0, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+        findContours(gray0, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
 
         vector<Point> approx;
         for (const auto & contour : contours) {
