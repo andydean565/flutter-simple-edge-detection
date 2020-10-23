@@ -131,14 +131,16 @@ vector<vector<cv::Point> > EdgeDetector::find_squares(Mat& image){
     vector<vector<cv::Point> > contours;
 
     // int thresholdLevels[] = {10, 30, 50, 70};
-    int thresholdLevels[] = {10, 30, 50, 70, 90, 120};
+    int thresholdLevels[] = {5, 10, 15, 20};
     for(int thresholdLevel : thresholdLevels) {
+
         Canny(gray, gray0, thresholdLevel, thresholdLevel*3);
 
-        dilate(gray0, gray0, Mat(), Point(-1, -1), 2, 2);
+        dilate(gray0, gray0, Mat(), Point(-1, -1), 2);
         erode(gray0, gray0, Mat(), Point(-1, -1), 2, 1);
+
         // findContours(gray0, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
-        findContours(gray0, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
+        findContours(gray0, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
 
         vector<Point> approx;
         for (const auto & contour : contours) {
