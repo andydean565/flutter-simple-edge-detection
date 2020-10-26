@@ -13,4 +13,4 @@ example/.idea
 
 .idea
 
-android/.cxx
+android/.cxx/*

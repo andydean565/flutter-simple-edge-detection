@@ -1,5 +1,0 @@
-# ninja log v5
-2	3964	0	CMakeFiles/native_edge_detection.dir/home/dev/app/ios/Classes/native_edge_detection.cpp.o	330c7be9f5f65967
-1	4356	0	CMakeFiles/native_edge_detection.dir/home/dev/app/ios/Classes/edge_detector.cpp.o	ccab48fe61d242d9
-3966	6032	0	CMakeFiles/native_edge_detection.dir/home/dev/app/ios/Classes/image_processor.cpp.o	66095032fc40e260
-6032	6174	0	/home/dev/app/example/build/simple_edge_detection/intermediates/cmake/debug/obj/arm64-v8a/libnative_edge_detection.so	f49bd77581b40c98
