@@ -79,7 +79,7 @@ CV_EXPORTS @interface BackgroundSubtractor : Algorithm
  *
  * @param backgroundImage The output background image.
  *
- *     NOTE: Sometimes the background image can be very blurry, as it contain the average background
+ *     @note Sometimes the background image can be very blurry, as it contain the average background
  *     statistics.
  */
 - (void)getBackgroundImage:(Mat*)backgroundImage NS_SWIFT_NAME(getBackgroundImage(backgroundImage:));

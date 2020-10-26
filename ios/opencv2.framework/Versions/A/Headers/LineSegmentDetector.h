@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * following the algorithm described at CITE: Rafael12 .
  *
- * NOTE: Implementation has been removed due original code license conflict
+ * @note Implementation has been removed due original code license conflict
  *
  * Member of `Imgproc`
  */

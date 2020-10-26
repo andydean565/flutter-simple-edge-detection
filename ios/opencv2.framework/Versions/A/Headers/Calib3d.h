@@ -20,23 +20,12 @@
 @class Scalar;
 @class Size2i;
 @class TermCriteria;
-@class UsacParams;
 
 
-// C++: enum RobotWorldHandEyeCalibrationMethod
-typedef NS_ENUM(int, RobotWorldHandEyeCalibrationMethod) {
-    CALIB_ROBOT_WORLD_HAND_EYE_SHAH = 0,
-    CALIB_ROBOT_WORLD_HAND_EYE_LI = 1
-};
-
-
-// C++: enum HandEyeCalibrationMethod
-typedef NS_ENUM(int, HandEyeCalibrationMethod) {
-    CALIB_HAND_EYE_TSAI = 0,
-    CALIB_HAND_EYE_PARK = 1,
-    CALIB_HAND_EYE_HORAUD = 2,
-    CALIB_HAND_EYE_ANDREFF = 3,
-    CALIB_HAND_EYE_DANIILIDIS = 4
+// C++: enum UndistortTypes
+typedef NS_ENUM(int, UndistortTypes) {
+    PROJ_SPHERICAL_ORTHO = 0,
+    PROJ_SPHERICAL_EQRECT = 1
 };
 
 
@@ -54,46 +43,13 @@ typedef NS_ENUM(int, SolvePnPMethod) {
 };
 
 
-// C++: enum ScoreMethod
-typedef NS_ENUM(int, ScoreMethod) {
-    SCORE_METHOD_RANSAC = 0,
-    SCORE_METHOD_MSAC = 1,
-    SCORE_METHOD_MAGSAC = 2,
-    SCORE_METHOD_LMEDS = 3
-};
-
-
-// C++: enum LocalOptimMethod
-typedef NS_ENUM(int, LocalOptimMethod) {
-    LOCAL_OPTIM_NULL = 0,
-    LOCAL_OPTIM_INNER_LO = 1,
-    LOCAL_OPTIM_INNER_AND_ITER_LO = 2,
-    LOCAL_OPTIM_GC = 3,
-    LOCAL_OPTIM_SIGMA = 4
-};
-
-
-// C++: enum UndistortTypes
-typedef NS_ENUM(int, UndistortTypes) {
-    PROJ_SPHERICAL_ORTHO = 0,
-    PROJ_SPHERICAL_EQRECT = 1
-};
-
-
-// C++: enum SamplingMethod
-typedef NS_ENUM(int, SamplingMethod) {
-    SAMPLING_UNIFORM = 0,
-    SAMPLING_PROGRESSIVE_NAPSAC = 1,
-    SAMPLING_NAPSAC = 2,
-    SAMPLING_PROSAC = 3
-};
-
-
-// C++: enum NeighborSearchMethod
-typedef NS_ENUM(int, NeighborSearchMethod) {
-    NEIGH_FLANN_KNN = 0,
-    NEIGH_GRID = 1,
-    NEIGH_FLANN_RADIUS = 2
+// C++: enum HandEyeCalibrationMethod
+typedef NS_ENUM(int, HandEyeCalibrationMethod) {
+    CALIB_HAND_EYE_TSAI = 0,
+    CALIB_HAND_EYE_PARK = 1,
+    CALIB_HAND_EYE_HORAUD = 2,
+    CALIB_HAND_EYE_ANDREFF = 3,
+    CALIB_HAND_EYE_DANIILIDIS = 4
 };
 
 
@@ -104,9 +60,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The Calib3d module
  *
- * Member classes: `UsacParams`, `CirclesGridFinderParameters`, `StereoMatcher`, `StereoBM`, `StereoSGBM`
+ * Member classes: `CirclesGridFinderParameters`, `StereoMatcher`, `StereoBM`, `StereoSGBM`
  *
- * Member enums: `SolvePnPMethod`, `HandEyeCalibrationMethod`, `RobotWorldHandEyeCalibrationMethod`, `SamplingMethod`, `LocalOptimMethod`, `ScoreMethod`, `NeighborSearchMethod`, `GridType`, `UndistortTypes`
+ * Member enums: `SolvePnPMethod`, `HandEyeCalibrationMethod`, `GridType`, `UndistortTypes`
  */
 CV_EXPORTS @interface Calib3d : NSObject
 
@@ -124,13 +80,6 @@ CV_EXPORTS @interface Calib3d : NSObject
 @property (class, readonly) int LMEDS NS_SWIFT_NAME(LMEDS);
 @property (class, readonly) int RANSAC NS_SWIFT_NAME(RANSAC);
 @property (class, readonly) int RHO NS_SWIFT_NAME(RHO);
-@property (class, readonly) int USAC_DEFAULT NS_SWIFT_NAME(USAC_DEFAULT);
-@property (class, readonly) int USAC_PARALLEL NS_SWIFT_NAME(USAC_PARALLEL);
-@property (class, readonly) int USAC_FM_8PTS NS_SWIFT_NAME(USAC_FM_8PTS);
-@property (class, readonly) int USAC_FAST NS_SWIFT_NAME(USAC_FAST);
-@property (class, readonly) int USAC_ACCURATE NS_SWIFT_NAME(USAC_ACCURATE);
-@property (class, readonly) int USAC_PROSAC NS_SWIFT_NAME(USAC_PROSAC);
-@property (class, readonly) int USAC_MAGSAC NS_SWIFT_NAME(USAC_MAGSAC);
 @property (class, readonly) int CALIB_CB_ADAPTIVE_THRESH NS_SWIFT_NAME(CALIB_CB_ADAPTIVE_THRESH);
 @property (class, readonly) int CALIB_CB_NORMALIZE_IMAGE NS_SWIFT_NAME(CALIB_CB_NORMALIZE_IMAGE);
 @property (class, readonly) int CALIB_CB_FILTER_QUADS NS_SWIFT_NAME(CALIB_CB_FILTER_QUADS);
@@ -236,7 +185,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * The computed transformation is then refined further (using only inliers) with the
  * Levenberg-Marquardt method to reduce the re-projection error even more.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but needs a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -300,7 +249,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * The computed transformation is then refined further (using only inliers) with the
  * Levenberg-Marquardt method to reduce the re-projection error even more.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but needs a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -363,7 +312,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * The computed transformation is then refined further (using only inliers) with the
  * Levenberg-Marquardt method to reduce the re-projection error even more.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but needs a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -425,7 +374,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * The computed transformation is then refined further (using only inliers) with the
  * Levenberg-Marquardt method to reduce the re-projection error even more.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but needs a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -486,7 +435,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * The computed transformation is then refined further (using only inliers) with the
  * Levenberg-Marquardt method to reduce the re-projection error even more.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but needs a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -546,7 +495,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * The computed transformation is then refined further (using only inliers) with the
  * Levenberg-Marquardt method to reduce the re-projection error even more.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but needs a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -605,7 +554,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * The computed transformation is then refined further (using only inliers) with the
  * Levenberg-Marquardt method to reduce the re-projection error even more.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but needs a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -613,12 +562,6 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @see `+estimateAffinePartial2D:to:inliers:method:ransacReprojThreshold:maxIters:confidence:refineIters:`, `getAffineTransform`
  */
 + (Mat*)estimateAffine2D:(Mat*)from to:(Mat*)to NS_SWIFT_NAME(estimateAffine2D(from:to:));
-
-
-//
-//  Mat cv::estimateAffine2D(Mat pts1, Mat pts2, Mat& inliers, UsacParams params)
-//
-+ (Mat*)estimateAffine2D:(Mat*)pts1 pts2:(Mat*)pts2 inliers:(Mat*)inliers params:(UsacParams*)params NS_SWIFT_NAME(estimateAffine2D(pts1:pts2:inliers:params:));
 
 
 //
@@ -661,7 +604,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * Where `$$ \theta $$` is the rotation angle, `$$ s $$` the scaling factor and `$$ t_x, t_y $$` are
  * translations in `$$ x, y $$` axes respectively.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but need a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -706,7 +649,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * Where `$$ \theta $$` is the rotation angle, `$$ s $$` the scaling factor and `$$ t_x, t_y $$` are
  * translations in `$$ x, y $$` axes respectively.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but need a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -750,7 +693,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * Where `$$ \theta $$` is the rotation angle, `$$ s $$` the scaling factor and `$$ t_x, t_y $$` are
  * translations in `$$ x, y $$` axes respectively.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but need a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -793,7 +736,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * Where `$$ \theta $$` is the rotation angle, `$$ s $$` the scaling factor and `$$ t_x, t_y $$` are
  * translations in `$$ x, y $$` axes respectively.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but need a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -835,7 +778,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * Where `$$ \theta $$` is the rotation angle, `$$ s $$` the scaling factor and `$$ t_x, t_y $$` are
  * translations in `$$ x, y $$` axes respectively.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but need a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -876,7 +819,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * Where `$$ \theta $$` is the rotation angle, `$$ s $$` the scaling factor and `$$ t_x, t_y $$` are
  * translations in `$$ x, y $$` axes respectively.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but need a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -916,7 +859,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * Where `$$ \theta $$` is the rotation angle, `$$ s $$` the scaling factor and `$$ t_x, t_y $$` are
  * translations in `$$ x, y $$` axes respectively.
  *
- * NOTE:
+ * @note
  * The RANSAC method can handle practically any ratio of outliers but need a threshold to
  * distinguish inliers from outliers. The method LMeDS does not need any threshold but it works
  * correctly only when there are more than 50% of inliers.
@@ -924,241 +867,6 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @see `+estimateAffine2D:to:inliers:method:ransacReprojThreshold:maxIters:confidence:refineIters:`, `getAffineTransform`
  */
 + (Mat*)estimateAffinePartial2D:(Mat*)from to:(Mat*)to NS_SWIFT_NAME(estimateAffinePartial2D(from:to:));
-
-
-//
-//  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat cameraMatrix2, Mat dist_coeff1, Mat dist_coeff2, Mat& mask, UsacParams params)
-//
-+ (Mat*)findEssentialMat:(Mat*)points1 points2:(Mat*)points2 cameraMatrix1:(Mat*)cameraMatrix1 cameraMatrix2:(Mat*)cameraMatrix2 dist_coeff1:(Mat*)dist_coeff1 dist_coeff2:(Mat*)dist_coeff2 mask:(Mat*)mask params:(UsacParams*)params NS_SWIFT_NAME(findEssentialMat(points1:points2:cameraMatrix1:cameraMatrix2:dist_coeff1:dist_coeff2:mask:params:));
-
-
-//
-//  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, int method = RANSAC, double prob = 0.999, double threshold = 1.0, Mat& mask = Mat())
-//
-/**
- * Calculates an essential matrix from the corresponding points in two images from potentially two different cameras.
- *
- * @param points1 Array of N (N \>= 5) 2D points from the first image. The point coordinates should
- * be floating-point (single or double precision).
- * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix1 Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
- * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera matrix. If this assumption does not hold for your use case, use
- * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera matrix. When
- * passing these coordinates, pass the identity matrix for this parameter.
- * @param cameraMatrix2 Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
- * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera matrix. If this assumption does not hold for your use case, use
- * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera matrix. When
- * passing these coordinates, pass the identity matrix for this parameter.
- * @param distCoeffs1 Input vector of distortion coefficients
- * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$`
- * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
- * @param distCoeffs2 Input vector of distortion coefficients
- * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$`
- * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
- * @param method Method for computing an essential matrix.
- * -   **RANSAC** for the RANSAC algorithm.
- * -   **LMEDS** for the LMedS algorithm.
- * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
- * confidence (probability) that the estimated matrix is correct.
- * @param threshold Parameter used for RANSAC. It is the maximum distance from a point to an epipolar
- * line in pixels, beyond which the point is considered an outlier and is not used for computing the
- * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
- * point localization, image resolution, and the image noise.
- * @param mask Output array of N elements, every element of which is set to 0 for outliers and to 1
- * for the other points. The array is computed only in the RANSAC and LMedS methods.
- *
- * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
- * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
- *
- * `$$[p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0$$`
- *
- * where `$$E$$` is an essential matrix, `$$p_1$$` and `$$p_2$$` are corresponding points in the first and the
- * second images, respectively. The result of this function may be passed further to
- * decomposeEssentialMat or recoverPose to recover the relative pose between cameras.
- */
-+ (Mat*)findEssentialMat:(Mat*)points1 points2:(Mat*)points2 cameraMatrix1:(Mat*)cameraMatrix1 distCoeffs1:(Mat*)distCoeffs1 cameraMatrix2:(Mat*)cameraMatrix2 distCoeffs2:(Mat*)distCoeffs2 method:(int)method prob:(double)prob threshold:(double)threshold mask:(Mat*)mask NS_SWIFT_NAME(findEssentialMat(points1:points2:cameraMatrix1:distCoeffs1:cameraMatrix2:distCoeffs2:method:prob:threshold:mask:));
-
-/**
- * Calculates an essential matrix from the corresponding points in two images from potentially two different cameras.
- *
- * @param points1 Array of N (N \>= 5) 2D points from the first image. The point coordinates should
- * be floating-point (single or double precision).
- * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix1 Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
- * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera matrix. If this assumption does not hold for your use case, use
- * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera matrix. When
- * passing these coordinates, pass the identity matrix for this parameter.
- * @param cameraMatrix2 Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
- * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera matrix. If this assumption does not hold for your use case, use
- * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera matrix. When
- * passing these coordinates, pass the identity matrix for this parameter.
- * @param distCoeffs1 Input vector of distortion coefficients
- * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$`
- * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
- * @param distCoeffs2 Input vector of distortion coefficients
- * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$`
- * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
- * @param method Method for computing an essential matrix.
- * -   **RANSAC** for the RANSAC algorithm.
- * -   **LMEDS** for the LMedS algorithm.
- * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
- * confidence (probability) that the estimated matrix is correct.
- * @param threshold Parameter used for RANSAC. It is the maximum distance from a point to an epipolar
- * line in pixels, beyond which the point is considered an outlier and is not used for computing the
- * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
- * point localization, image resolution, and the image noise.
- * for the other points. The array is computed only in the RANSAC and LMedS methods.
- *
- * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
- * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
- *
- * `$$[p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0$$`
- *
- * where `$$E$$` is an essential matrix, `$$p_1$$` and `$$p_2$$` are corresponding points in the first and the
- * second images, respectively. The result of this function may be passed further to
- * decomposeEssentialMat or recoverPose to recover the relative pose between cameras.
- */
-+ (Mat*)findEssentialMat:(Mat*)points1 points2:(Mat*)points2 cameraMatrix1:(Mat*)cameraMatrix1 distCoeffs1:(Mat*)distCoeffs1 cameraMatrix2:(Mat*)cameraMatrix2 distCoeffs2:(Mat*)distCoeffs2 method:(int)method prob:(double)prob threshold:(double)threshold NS_SWIFT_NAME(findEssentialMat(points1:points2:cameraMatrix1:distCoeffs1:cameraMatrix2:distCoeffs2:method:prob:threshold:));
-
-/**
- * Calculates an essential matrix from the corresponding points in two images from potentially two different cameras.
- *
- * @param points1 Array of N (N \>= 5) 2D points from the first image. The point coordinates should
- * be floating-point (single or double precision).
- * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix1 Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
- * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera matrix. If this assumption does not hold for your use case, use
- * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera matrix. When
- * passing these coordinates, pass the identity matrix for this parameter.
- * @param cameraMatrix2 Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
- * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera matrix. If this assumption does not hold for your use case, use
- * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera matrix. When
- * passing these coordinates, pass the identity matrix for this parameter.
- * @param distCoeffs1 Input vector of distortion coefficients
- * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$`
- * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
- * @param distCoeffs2 Input vector of distortion coefficients
- * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$`
- * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
- * @param method Method for computing an essential matrix.
- * -   **RANSAC** for the RANSAC algorithm.
- * -   **LMEDS** for the LMedS algorithm.
- * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
- * confidence (probability) that the estimated matrix is correct.
- * line in pixels, beyond which the point is considered an outlier and is not used for computing the
- * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
- * point localization, image resolution, and the image noise.
- * for the other points. The array is computed only in the RANSAC and LMedS methods.
- *
- * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
- * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
- *
- * `$$[p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0$$`
- *
- * where `$$E$$` is an essential matrix, `$$p_1$$` and `$$p_2$$` are corresponding points in the first and the
- * second images, respectively. The result of this function may be passed further to
- * decomposeEssentialMat or recoverPose to recover the relative pose between cameras.
- */
-+ (Mat*)findEssentialMat:(Mat*)points1 points2:(Mat*)points2 cameraMatrix1:(Mat*)cameraMatrix1 distCoeffs1:(Mat*)distCoeffs1 cameraMatrix2:(Mat*)cameraMatrix2 distCoeffs2:(Mat*)distCoeffs2 method:(int)method prob:(double)prob NS_SWIFT_NAME(findEssentialMat(points1:points2:cameraMatrix1:distCoeffs1:cameraMatrix2:distCoeffs2:method:prob:));
-
-/**
- * Calculates an essential matrix from the corresponding points in two images from potentially two different cameras.
- *
- * @param points1 Array of N (N \>= 5) 2D points from the first image. The point coordinates should
- * be floating-point (single or double precision).
- * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix1 Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
- * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera matrix. If this assumption does not hold for your use case, use
- * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera matrix. When
- * passing these coordinates, pass the identity matrix for this parameter.
- * @param cameraMatrix2 Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
- * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera matrix. If this assumption does not hold for your use case, use
- * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera matrix. When
- * passing these coordinates, pass the identity matrix for this parameter.
- * @param distCoeffs1 Input vector of distortion coefficients
- * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$`
- * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
- * @param distCoeffs2 Input vector of distortion coefficients
- * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$`
- * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
- * @param method Method for computing an essential matrix.
- * -   **RANSAC** for the RANSAC algorithm.
- * -   **LMEDS** for the LMedS algorithm.
- * confidence (probability) that the estimated matrix is correct.
- * line in pixels, beyond which the point is considered an outlier and is not used for computing the
- * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
- * point localization, image resolution, and the image noise.
- * for the other points. The array is computed only in the RANSAC and LMedS methods.
- *
- * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
- * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
- *
- * `$$[p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0$$`
- *
- * where `$$E$$` is an essential matrix, `$$p_1$$` and `$$p_2$$` are corresponding points in the first and the
- * second images, respectively. The result of this function may be passed further to
- * decomposeEssentialMat or recoverPose to recover the relative pose between cameras.
- */
-+ (Mat*)findEssentialMat:(Mat*)points1 points2:(Mat*)points2 cameraMatrix1:(Mat*)cameraMatrix1 distCoeffs1:(Mat*)distCoeffs1 cameraMatrix2:(Mat*)cameraMatrix2 distCoeffs2:(Mat*)distCoeffs2 method:(int)method NS_SWIFT_NAME(findEssentialMat(points1:points2:cameraMatrix1:distCoeffs1:cameraMatrix2:distCoeffs2:method:));
-
-/**
- * Calculates an essential matrix from the corresponding points in two images from potentially two different cameras.
- *
- * @param points1 Array of N (N \>= 5) 2D points from the first image. The point coordinates should
- * be floating-point (single or double precision).
- * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix1 Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
- * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera matrix. If this assumption does not hold for your use case, use
- * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera matrix. When
- * passing these coordinates, pass the identity matrix for this parameter.
- * @param cameraMatrix2 Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
- * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera matrix. If this assumption does not hold for your use case, use
- * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera matrix. When
- * passing these coordinates, pass the identity matrix for this parameter.
- * @param distCoeffs1 Input vector of distortion coefficients
- * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$`
- * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
- * @param distCoeffs2 Input vector of distortion coefficients
- * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$`
- * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
- * -   **RANSAC** for the RANSAC algorithm.
- * -   **LMEDS** for the LMedS algorithm.
- * confidence (probability) that the estimated matrix is correct.
- * line in pixels, beyond which the point is considered an outlier and is not used for computing the
- * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
- * point localization, image resolution, and the image noise.
- * for the other points. The array is computed only in the RANSAC and LMedS methods.
- *
- * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
- * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
- *
- * `$$[p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0$$`
- *
- * where `$$E$$` is an essential matrix, `$$p_1$$` and `$$p_2$$` are corresponding points in the first and the
- * second images, respectively. The result of this function may be passed further to
- * decomposeEssentialMat or recoverPose to recover the relative pose between cameras.
- */
-+ (Mat*)findEssentialMat:(Mat*)points1 points2:(Mat*)points2 cameraMatrix1:(Mat*)cameraMatrix1 distCoeffs1:(Mat*)distCoeffs1 cameraMatrix2:(Mat*)cameraMatrix2 distCoeffs2:(Mat*)distCoeffs2 NS_SWIFT_NAME(findEssentialMat(points1:points2:cameraMatrix1:distCoeffs1:cameraMatrix2:distCoeffs2:));
 
 
 //
@@ -1170,11 +878,11 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points1 Array of N (N \>= 5) 2D points from the first image. The point coordinates should
  * be floating-point (single or double precision).
  * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera intrinsic matrix. If this assumption does not hold for your use case, use
+ * same camera matrix. If this assumption does not hold for your use case, use
  * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
+ * to normalized image coordinates, which are valid for the identity camera matrix. When
  * passing these coordinates, pass the identity matrix for this parameter.
  * @param method Method for computing an essential matrix.
  * -   **RANSAC** for the RANSAC algorithm.
@@ -1205,11 +913,11 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points1 Array of N (N \>= 5) 2D points from the first image. The point coordinates should
  * be floating-point (single or double precision).
  * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera intrinsic matrix. If this assumption does not hold for your use case, use
+ * same camera matrix. If this assumption does not hold for your use case, use
  * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
+ * to normalized image coordinates, which are valid for the identity camera matrix. When
  * passing these coordinates, pass the identity matrix for this parameter.
  * @param method Method for computing an essential matrix.
  * -   **RANSAC** for the RANSAC algorithm.
@@ -1239,11 +947,11 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points1 Array of N (N \>= 5) 2D points from the first image. The point coordinates should
  * be floating-point (single or double precision).
  * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera intrinsic matrix. If this assumption does not hold for your use case, use
+ * same camera matrix. If this assumption does not hold for your use case, use
  * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
+ * to normalized image coordinates, which are valid for the identity camera matrix. When
  * passing these coordinates, pass the identity matrix for this parameter.
  * @param method Method for computing an essential matrix.
  * -   **RANSAC** for the RANSAC algorithm.
@@ -1272,11 +980,11 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points1 Array of N (N \>= 5) 2D points from the first image. The point coordinates should
  * be floating-point (single or double precision).
  * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera intrinsic matrix. If this assumption does not hold for your use case, use
+ * same camera matrix. If this assumption does not hold for your use case, use
  * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
+ * to normalized image coordinates, which are valid for the identity camera matrix. When
  * passing these coordinates, pass the identity matrix for this parameter.
  * @param method Method for computing an essential matrix.
  * -   **RANSAC** for the RANSAC algorithm.
@@ -1304,11 +1012,11 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points1 Array of N (N \>= 5) 2D points from the first image. The point coordinates should
  * be floating-point (single or double precision).
  * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera intrinsic matrix. If this assumption does not hold for your use case, use
+ * same camera matrix. If this assumption does not hold for your use case, use
  * `undistortPoints()` with `P = cv::NoArray()` for both cameras to transform image points
- * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
+ * to normalized image coordinates, which are valid for the identity camera matrix. When
  * passing these coordinates, pass the identity matrix for this parameter.
  * -   **RANSAC** for the RANSAC algorithm.
  * -   **LMEDS** for the LMedS algorithm.
@@ -1353,10 +1061,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param mask Output array of N elements, every element of which is set to 0 for outliers and to 1
  * for the other points. The array is computed only in the RANSAC and LMedS methods.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
- * `$$A =
+ * `$$K =
  * \begin{bmatrix}
  * f & 0 & x_{pp}  \\
  * 0 & f & y_{pp}  \\
@@ -1384,10 +1092,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * confidence (probability) that the estimated matrix is correct.
  * for the other points. The array is computed only in the RANSAC and LMedS methods.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
- * `$$A =
+ * `$$K =
  * \begin{bmatrix}
  * f & 0 & x_{pp}  \\
  * 0 & f & y_{pp}  \\
@@ -1414,10 +1122,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * confidence (probability) that the estimated matrix is correct.
  * for the other points. The array is computed only in the RANSAC and LMedS methods.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
- * `$$A =
+ * `$$K =
  * \begin{bmatrix}
  * f & 0 & x_{pp}  \\
  * 0 & f & y_{pp}  \\
@@ -1443,10 +1151,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * confidence (probability) that the estimated matrix is correct.
  * for the other points. The array is computed only in the RANSAC and LMedS methods.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
- * `$$A =
+ * `$$K =
  * \begin{bmatrix}
  * f & 0 & x_{pp}  \\
  * 0 & f & y_{pp}  \\
@@ -1471,10 +1179,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * confidence (probability) that the estimated matrix is correct.
  * for the other points. The array is computed only in the RANSAC and LMedS methods.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
- * `$$A =
+ * `$$K =
  * \begin{bmatrix}
  * f & 0 & x_{pp}  \\
  * 0 & f & y_{pp}  \\
@@ -1498,10 +1206,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * confidence (probability) that the estimated matrix is correct.
  * for the other points. The array is computed only in the RANSAC and LMedS methods.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
- * `$$A =
+ * `$$K =
  * \begin{bmatrix}
  * f & 0 & x_{pp}  \\
  * 0 & f & y_{pp}  \\
@@ -1524,10 +1232,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * confidence (probability) that the estimated matrix is correct.
  * for the other points. The array is computed only in the RANSAC and LMedS methods.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
- * `$$A =
+ * `$$K =
  * \begin{bmatrix}
  * f & 0 & x_{pp}  \\
  * 0 & f & y_{pp}  \\
@@ -1535,12 +1243,6 @@ CV_EXPORTS @interface Calib3d : NSObject
  * \end{bmatrix}$$`
  */
 + (Mat*)findEssentialMat:(Mat*)points1 points2:(Mat*)points2 NS_SWIFT_NAME(findEssentialMat(points1:points2:));
-
-
-//
-//  Mat cv::findFundamentalMat(Mat points1, Mat points2, Mat& mask, UsacParams params)
-//
-+ (Mat*)findFundamentalMat:(Mat*)points1 points2:(Mat*)points2 mask:(Mat*)mask params:(UsacParams*)params NS_SWIFT_NAME(findFundamentalMat(points1:points2:mask:params:));
 
 
 //
@@ -1563,7 +1265,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * point localization, image resolution, and the image noise.
  * @param confidence Parameter used for the RANSAC and LMedS methods only. It specifies a desirable level
  * of confidence (probability) that the estimated matrix is correct.
- * @param mask optional output mask
+ * @param mask
  * @param maxIters The maximum number of robust method iterations.
  *
  * The epipolar geometry is described by the following equation:
@@ -1666,12 +1368,6 @@ CV_EXPORTS @interface Calib3d : NSObject
 + (Mat*)findFundamentalMat:(Mat*)points1 points2:(Mat*)points2 method:(int)method NS_SWIFT_NAME(findFundamentalMat(points1:points2:method:));
 
 + (Mat*)findFundamentalMat:(Mat*)points1 points2:(Mat*)points2 NS_SWIFT_NAME(findFundamentalMat(points1:points2:));
-
-
-//
-//  Mat cv::findHomography(Mat srcPoints, Mat dstPoints, Mat& mask, UsacParams params)
-//
-+ (Mat*)findHomography:(Mat*)srcPoints dstPoints:(Mat*)dstPoints mask:(Mat*)mask params:(UsacParams*)params NS_SWIFT_NAME(findHomography(srcPoints:dstPoints:mask:params:));
 
 
 //
@@ -2115,11 +1811,12 @@ CV_EXPORTS @interface Calib3d : NSObject
 //  Mat cv::getOptimalNewCameraMatrix(Mat cameraMatrix, Mat distCoeffs, Size imageSize, double alpha, Size newImgSize = Size(), Rect* validPixROI = 0, bool centerPrincipalPoint = false)
 //
 /**
- * Returns the new camera intrinsic matrix based on the free scaling parameter.
+ * Returns the new camera matrix based on the free scaling parameter.
  *
- * @param cameraMatrix Input camera intrinsic matrix.
+ * @param cameraMatrix Input camera matrix.
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param imageSize Original image size.
  * @param alpha Free scaling parameter between 0 (when all the pixels in the undistorted image are
@@ -2128,27 +1825,28 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param newImgSize Image size after rectification. By default, it is set to imageSize .
  * @param validPixROI Optional output rectangle that outlines all-good-pixels region in the
  * undistorted image. See roi1, roi2 description in stereoRectify .
- * @param centerPrincipalPoint Optional flag that indicates whether in the new camera intrinsic matrix the
+ * @param centerPrincipalPoint Optional flag that indicates whether in the new camera matrix the
  * principal point should be at the image center or not. By default, the principal point is chosen to
  * best fit a subset of the source image (determined by alpha) to the corrected image.
- * @return new_camera_matrix Output new camera intrinsic matrix.
+ * @return new_camera_matrix Output new camera matrix.
  *
- * The function computes and returns the optimal new camera intrinsic matrix based on the free scaling parameter.
+ * The function computes and returns the optimal new camera matrix based on the free scaling parameter.
  * By varying this parameter, you may retrieve only sensible pixels alpha=0 , keep all the original
  * image pixels if there is valuable information in the corners alpha=1 , or get something in between.
  * When alpha\>0 , the undistorted result is likely to have some black pixels corresponding to
- * "virtual" pixels outside of the captured distorted image. The original camera intrinsic matrix, distortion
- * coefficients, the computed new camera intrinsic matrix, and newImageSize should be passed to
+ * "virtual" pixels outside of the captured distorted image. The original camera matrix, distortion
+ * coefficients, the computed new camera matrix, and newImageSize should be passed to
  * initUndistortRectifyMap to produce the maps for remap .
  */
 + (Mat*)getOptimalNewCameraMatrix:(Mat*)cameraMatrix distCoeffs:(Mat*)distCoeffs imageSize:(Size2i*)imageSize alpha:(double)alpha newImgSize:(Size2i*)newImgSize validPixROI:(Rect2i*)validPixROI centerPrincipalPoint:(BOOL)centerPrincipalPoint NS_SWIFT_NAME(getOptimalNewCameraMatrix(cameraMatrix:distCoeffs:imageSize:alpha:newImgSize:validPixROI:centerPrincipalPoint:));
 
 /**
- * Returns the new camera intrinsic matrix based on the free scaling parameter.
+ * Returns the new camera matrix based on the free scaling parameter.
  *
- * @param cameraMatrix Input camera intrinsic matrix.
+ * @param cameraMatrix Input camera matrix.
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param imageSize Original image size.
  * @param alpha Free scaling parameter between 0 (when all the pixels in the undistorted image are
@@ -2159,24 +1857,25 @@ CV_EXPORTS @interface Calib3d : NSObject
  * undistorted image. See roi1, roi2 description in stereoRectify .
  * principal point should be at the image center or not. By default, the principal point is chosen to
  * best fit a subset of the source image (determined by alpha) to the corrected image.
- * @return new_camera_matrix Output new camera intrinsic matrix.
+ * @return new_camera_matrix Output new camera matrix.
  *
- * The function computes and returns the optimal new camera intrinsic matrix based on the free scaling parameter.
+ * The function computes and returns the optimal new camera matrix based on the free scaling parameter.
  * By varying this parameter, you may retrieve only sensible pixels alpha=0 , keep all the original
  * image pixels if there is valuable information in the corners alpha=1 , or get something in between.
  * When alpha\>0 , the undistorted result is likely to have some black pixels corresponding to
- * "virtual" pixels outside of the captured distorted image. The original camera intrinsic matrix, distortion
- * coefficients, the computed new camera intrinsic matrix, and newImageSize should be passed to
+ * "virtual" pixels outside of the captured distorted image. The original camera matrix, distortion
+ * coefficients, the computed new camera matrix, and newImageSize should be passed to
  * initUndistortRectifyMap to produce the maps for remap .
  */
 + (Mat*)getOptimalNewCameraMatrix:(Mat*)cameraMatrix distCoeffs:(Mat*)distCoeffs imageSize:(Size2i*)imageSize alpha:(double)alpha newImgSize:(Size2i*)newImgSize validPixROI:(Rect2i*)validPixROI NS_SWIFT_NAME(getOptimalNewCameraMatrix(cameraMatrix:distCoeffs:imageSize:alpha:newImgSize:validPixROI:));
 
 /**
- * Returns the new camera intrinsic matrix based on the free scaling parameter.
+ * Returns the new camera matrix based on the free scaling parameter.
  *
- * @param cameraMatrix Input camera intrinsic matrix.
+ * @param cameraMatrix Input camera matrix.
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param imageSize Original image size.
  * @param alpha Free scaling parameter between 0 (when all the pixels in the undistorted image are
@@ -2186,24 +1885,25 @@ CV_EXPORTS @interface Calib3d : NSObject
  * undistorted image. See roi1, roi2 description in stereoRectify .
  * principal point should be at the image center or not. By default, the principal point is chosen to
  * best fit a subset of the source image (determined by alpha) to the corrected image.
- * @return new_camera_matrix Output new camera intrinsic matrix.
+ * @return new_camera_matrix Output new camera matrix.
  *
- * The function computes and returns the optimal new camera intrinsic matrix based on the free scaling parameter.
+ * The function computes and returns the optimal new camera matrix based on the free scaling parameter.
  * By varying this parameter, you may retrieve only sensible pixels alpha=0 , keep all the original
  * image pixels if there is valuable information in the corners alpha=1 , or get something in between.
  * When alpha\>0 , the undistorted result is likely to have some black pixels corresponding to
- * "virtual" pixels outside of the captured distorted image. The original camera intrinsic matrix, distortion
- * coefficients, the computed new camera intrinsic matrix, and newImageSize should be passed to
+ * "virtual" pixels outside of the captured distorted image. The original camera matrix, distortion
+ * coefficients, the computed new camera matrix, and newImageSize should be passed to
  * initUndistortRectifyMap to produce the maps for remap .
  */
 + (Mat*)getOptimalNewCameraMatrix:(Mat*)cameraMatrix distCoeffs:(Mat*)distCoeffs imageSize:(Size2i*)imageSize alpha:(double)alpha newImgSize:(Size2i*)newImgSize NS_SWIFT_NAME(getOptimalNewCameraMatrix(cameraMatrix:distCoeffs:imageSize:alpha:newImgSize:));
 
 /**
- * Returns the new camera intrinsic matrix based on the free scaling parameter.
+ * Returns the new camera matrix based on the free scaling parameter.
  *
- * @param cameraMatrix Input camera intrinsic matrix.
+ * @param cameraMatrix Input camera matrix.
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param imageSize Original image size.
  * @param alpha Free scaling parameter between 0 (when all the pixels in the undistorted image are
@@ -2212,14 +1912,14 @@ CV_EXPORTS @interface Calib3d : NSObject
  * undistorted image. See roi1, roi2 description in stereoRectify .
  * principal point should be at the image center or not. By default, the principal point is chosen to
  * best fit a subset of the source image (determined by alpha) to the corrected image.
- * @return new_camera_matrix Output new camera intrinsic matrix.
+ * @return new_camera_matrix Output new camera matrix.
  *
- * The function computes and returns the optimal new camera intrinsic matrix based on the free scaling parameter.
+ * The function computes and returns the optimal new camera matrix based on the free scaling parameter.
  * By varying this parameter, you may retrieve only sensible pixels alpha=0 , keep all the original
  * image pixels if there is valuable information in the corners alpha=1 , or get something in between.
  * When alpha\>0 , the undistorted result is likely to have some black pixels corresponding to
- * "virtual" pixels outside of the captured distorted image. The original camera intrinsic matrix, distortion
- * coefficients, the computed new camera intrinsic matrix, and newImageSize should be passed to
+ * "virtual" pixels outside of the captured distorted image. The original camera matrix, distortion
+ * coefficients, the computed new camera matrix, and newImageSize should be passed to
  * initUndistortRectifyMap to produce the maps for remap .
  */
 + (Mat*)getOptimalNewCameraMatrix:(Mat*)cameraMatrix distCoeffs:(Mat*)distCoeffs imageSize:(Size2i*)imageSize alpha:(double)alpha NS_SWIFT_NAME(getOptimalNewCameraMatrix(cameraMatrix:distCoeffs:imageSize:alpha:));
@@ -2229,7 +1929,7 @@ CV_EXPORTS @interface Calib3d : NSObject
 //  Mat cv::initCameraMatrix2D(vector_Mat objectPoints, vector_Mat imagePoints, Size imageSize, double aspectRatio = 1.0)
 //
 /**
- * Finds an initial camera intrinsic matrix from 3D-2D point correspondences.
+ * Finds an initial camera matrix from 3D-2D point correspondences.
  *
  * @param objectPoints Vector of vectors of the calibration pattern points in the calibration pattern
  * coordinate space. In the old interface all the per-view vectors are concatenated. See
@@ -2240,14 +1940,14 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param aspectRatio If it is zero or negative, both `$$f_x$$` and `$$f_y$$` are estimated independently.
  * Otherwise, `$$f_x = f_y * \texttt{aspectRatio}$$` .
  *
- * The function estimates and returns an initial camera intrinsic matrix for the camera calibration process.
+ * The function estimates and returns an initial camera matrix for the camera calibration process.
  * Currently, the function only supports planar calibration patterns, which are patterns where each
  * object point has z-coordinate =0.
  */
 + (Mat*)initCameraMatrix2D:(NSArray<Mat*>*)objectPoints imagePoints:(NSArray<Mat*>*)imagePoints imageSize:(Size2i*)imageSize aspectRatio:(double)aspectRatio NS_SWIFT_NAME(initCameraMatrix2D(objectPoints:imagePoints:imageSize:aspectRatio:));
 
 /**
- * Finds an initial camera intrinsic matrix from 3D-2D point correspondences.
+ * Finds an initial camera matrix from 3D-2D point correspondences.
  *
  * @param objectPoints Vector of vectors of the calibration pattern points in the calibration pattern
  * coordinate space. In the old interface all the per-view vectors are concatenated. See
@@ -2257,7 +1957,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param imageSize Image size in pixels used to initialize the principal point.
  * Otherwise, `$$f_x = f_y * \texttt{aspectRatio}$$` .
  *
- * The function estimates and returns an initial camera intrinsic matrix for the camera calibration process.
+ * The function estimates and returns an initial camera matrix for the camera calibration process.
  * Currently, the function only supports planar calibration patterns, which are patterns where each
  * object point has z-coordinate =0.
  */
@@ -2534,7 +2234,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  *     drawChessboardCorners(img, patternsize, Mat(corners), patternfound);
  *
- * NOTE: The function requires white space (like a square-thick border, the wider the better) around
+ * @note The function requires white space (like a square-thick border, the wider the better) around
  * the board to make the detection more robust in various environments. Otherwise, if there is no
  * border and the background is dark, the outer black squares cannot be segmented properly and so the
  * square grouping and ordering algorithm fails.
@@ -2585,7 +2285,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  *     drawChessboardCorners(img, patternsize, Mat(corners), patternfound);
  *
- * NOTE: The function requires white space (like a square-thick border, the wider the better) around
+ * @note The function requires white space (like a square-thick border, the wider the better) around
  * the board to make the detection more robust in various environments. Otherwise, if there is no
  * border and the background is dark, the outer black squares cannot be segmented properly and so the
  * square grouping and ordering algorithm fails.
@@ -2636,7 +2336,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * below) can be used to move the origin of the board to the location where the
  * black circle is located.
  *
- * NOTE: The function requires a white boarder with roughly the same width as one
+ * @note The function requires a white boarder with roughly the same width as one
  * of the checkerboard fields around the whole board to improve the detection in
  * various environments. In addition, because of the localized radon
  * transformation it is beneficial to use round corners for the field corners
@@ -2689,7 +2389,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  *     drawChessboardCorners(img, patternsize, Mat(centers), patternfound);
  *
- * NOTE: The function requires white space (like a square-thick border, the wider the better) around
+ * @note The function requires white space (like a square-thick border, the wider the better) around
  * the board to make the detection more robust in various environments.
  */
 + (BOOL)findCirclesGrid:(Mat*)image patternSize:(Size2i*)patternSize centers:(Mat*)centers flags:(int)flags parameters:(CirclesGridFinderParameters*)parameters NS_SWIFT_NAME(findCirclesGrid(image:patternSize:centers:flags:parameters:));
@@ -2724,9 +2424,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -2738,7 +2439,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * -   **SOLVEPNP_ITERATIVE** Iterative method is based on a Levenberg-Marquardt optimization. In
  * this case the function finds such a pose that minimizes reprojection error, that is the sum
  * of squared distances between the observed projections imagePoints and the projected (using
- * REF: projectPoints ) objectPoints .
+ * projectPoints ) objectPoints .
  * -   **SOLVEPNP_P3P** Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
  * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
  * In this case the function requires exactly four object and image points.
@@ -2747,11 +2448,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * In this case the function requires exactly four object and image points.
  * -   **SOLVEPNP_EPNP** Method has been introduced by F. Moreno-Noguer, V. Lepetit and P. Fua in the
  * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
- * -   **SOLVEPNP_DLS** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of J. Hesch and S. Roumeliotis.
+ * -   **SOLVEPNP_DLS** Method is based on the paper of J. Hesch and S. Roumeliotis.
  * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
- * -   **SOLVEPNP_UPNP** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of A. Penate-Sanchez, J. Andrade-Cetto,
+ * -   **SOLVEPNP_UPNP** Method is based on the paper of A. Penate-Sanchez, J. Andrade-Cetto,
  * F. Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
  * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters `$$f_x$$` and `$$f_y$$`
  * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
@@ -2767,7 +2466,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   - point 3: [-squareLength / 2, -squareLength / 2, 0]
  *
  * The function estimates the object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
+ * projections, as well as the camera matrix and the distortion coefficients, see the figure below
  * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
  * and the Z-axis forward).
  *
@@ -2859,7 +2558,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   \end{align*}
  * $$`
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePnP for planar augmented reality can be found at
  *         opencv_source_code/samples/python/plane_ar.py
  *    -   If you are using Python:
@@ -2909,9 +2608,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -2922,7 +2622,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * -   **SOLVEPNP_ITERATIVE** Iterative method is based on a Levenberg-Marquardt optimization. In
  * this case the function finds such a pose that minimizes reprojection error, that is the sum
  * of squared distances between the observed projections imagePoints and the projected (using
- * REF: projectPoints ) objectPoints .
+ * projectPoints ) objectPoints .
  * -   **SOLVEPNP_P3P** Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
  * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
  * In this case the function requires exactly four object and image points.
@@ -2931,11 +2631,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * In this case the function requires exactly four object and image points.
  * -   **SOLVEPNP_EPNP** Method has been introduced by F. Moreno-Noguer, V. Lepetit and P. Fua in the
  * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
- * -   **SOLVEPNP_DLS** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of J. Hesch and S. Roumeliotis.
+ * -   **SOLVEPNP_DLS** Method is based on the paper of J. Hesch and S. Roumeliotis.
  * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
- * -   **SOLVEPNP_UPNP** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of A. Penate-Sanchez, J. Andrade-Cetto,
+ * -   **SOLVEPNP_UPNP** Method is based on the paper of A. Penate-Sanchez, J. Andrade-Cetto,
  * F. Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
  * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters `$$f_x$$` and `$$f_y$$`
  * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
@@ -2951,7 +2649,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   - point 3: [-squareLength / 2, -squareLength / 2, 0]
  *
  * The function estimates the object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
+ * projections, as well as the camera matrix and the distortion coefficients, see the figure below
  * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
  * and the Z-axis forward).
  *
@@ -3043,7 +2741,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   \end{align*}
  * $$`
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePnP for planar augmented reality can be found at
  *         opencv_source_code/samples/python/plane_ar.py
  *    -   If you are using Python:
@@ -3093,9 +2791,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -3105,7 +2804,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * -   **SOLVEPNP_ITERATIVE** Iterative method is based on a Levenberg-Marquardt optimization. In
  * this case the function finds such a pose that minimizes reprojection error, that is the sum
  * of squared distances between the observed projections imagePoints and the projected (using
- * REF: projectPoints ) objectPoints .
+ * projectPoints ) objectPoints .
  * -   **SOLVEPNP_P3P** Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
  * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
  * In this case the function requires exactly four object and image points.
@@ -3114,11 +2813,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * In this case the function requires exactly four object and image points.
  * -   **SOLVEPNP_EPNP** Method has been introduced by F. Moreno-Noguer, V. Lepetit and P. Fua in the
  * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
- * -   **SOLVEPNP_DLS** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of J. Hesch and S. Roumeliotis.
+ * -   **SOLVEPNP_DLS** Method is based on the paper of J. Hesch and S. Roumeliotis.
  * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
- * -   **SOLVEPNP_UPNP** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of A. Penate-Sanchez, J. Andrade-Cetto,
+ * -   **SOLVEPNP_UPNP** Method is based on the paper of A. Penate-Sanchez, J. Andrade-Cetto,
  * F. Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
  * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters `$$f_x$$` and `$$f_y$$`
  * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
@@ -3134,7 +2831,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   - point 3: [-squareLength / 2, -squareLength / 2, 0]
  *
  * The function estimates the object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
+ * projections, as well as the camera matrix and the distortion coefficients, see the figure below
  * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
  * and the Z-axis forward).
  *
@@ -3226,7 +2923,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   \end{align*}
  * $$`
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePnP for planar augmented reality can be found at
  *         opencv_source_code/samples/python/plane_ar.py
  *    -   If you are using Python:
@@ -3260,14 +2957,6 @@ CV_EXPORTS @interface Calib3d : NSObject
 
 
 //
-//  bool cv::solvePnPRansac(Mat objectPoints, Mat imagePoints, Mat& cameraMatrix, Mat distCoeffs, Mat& rvec, Mat& tvec, Mat& inliers, UsacParams params = UsacParams())
-//
-+ (BOOL)solvePnPRansac:(Mat*)objectPoints imagePoints:(Mat*)imagePoints cameraMatrix:(Mat*)cameraMatrix distCoeffs:(Mat*)distCoeffs rvec:(Mat*)rvec tvec:(Mat*)tvec inliers:(Mat*)inliers params:(UsacParams*)params NS_SWIFT_NAME(solvePnPRansac(objectPoints:imagePoints:cameraMatrix:distCoeffs:rvec:tvec:inliers:params:));
-
-+ (BOOL)solvePnPRansac:(Mat*)objectPoints imagePoints:(Mat*)imagePoints cameraMatrix:(Mat*)cameraMatrix distCoeffs:(Mat*)distCoeffs rvec:(Mat*)rvec tvec:(Mat*)tvec inliers:(Mat*)inliers NS_SWIFT_NAME(solvePnPRansac(objectPoints:imagePoints:cameraMatrix:distCoeffs:rvec:tvec:inliers:));
-
-
-//
 //  bool cv::solvePnPRansac(Mat objectPoints, Mat imagePoints, Mat cameraMatrix, Mat distCoeffs, Mat& rvec, Mat& tvec, bool useExtrinsicGuess = false, int iterationsCount = 100, float reprojectionError = 8.0, double confidence = 0.99, Mat& inliers = Mat(), int flags = SOLVEPNP_ITERATIVE)
 //
 /**
@@ -3277,9 +2966,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{fx}{0}{cx}{0}{fy}{cy}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -3296,12 +2986,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param flags Method for solving a PnP problem (see REF: solvePnP ).
  *
  * The function estimates an object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients. This function finds such
+ * projections, as well as the camera matrix and the distortion coefficients. This function finds such
  * a pose that minimizes reprojection error, that is, the sum of squared distances between the observed
  * projections imagePoints and the projected (using REF: projectPoints ) objectPoints. The use of RANSAC
  * makes the function resistant to outliers.
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePNPRansac for object detection can be found at
  *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
  *    -   The default method used to estimate the camera pose for the Minimal Sample Sets step
@@ -3321,9 +3011,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{fx}{0}{cx}{0}{fy}{cy}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -3339,12 +3030,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param inliers Output vector that contains indices of inliers in objectPoints and imagePoints .
  *
  * The function estimates an object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients. This function finds such
+ * projections, as well as the camera matrix and the distortion coefficients. This function finds such
  * a pose that minimizes reprojection error, that is, the sum of squared distances between the observed
  * projections imagePoints and the projected (using REF: projectPoints ) objectPoints. The use of RANSAC
  * makes the function resistant to outliers.
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePNPRansac for object detection can be found at
  *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
  *    -   The default method used to estimate the camera pose for the Minimal Sample Sets step
@@ -3364,9 +3055,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{fx}{0}{cx}{0}{fy}{cy}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -3381,12 +3073,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param confidence The probability that the algorithm produces a useful result.
  *
  * The function estimates an object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients. This function finds such
+ * projections, as well as the camera matrix and the distortion coefficients. This function finds such
  * a pose that minimizes reprojection error, that is, the sum of squared distances between the observed
  * projections imagePoints and the projected (using REF: projectPoints ) objectPoints. The use of RANSAC
  * makes the function resistant to outliers.
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePNPRansac for object detection can be found at
  *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
  *    -   The default method used to estimate the camera pose for the Minimal Sample Sets step
@@ -3406,9 +3098,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{fx}{0}{cx}{0}{fy}{cy}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -3422,12 +3115,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  * an inlier.
  *
  * The function estimates an object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients. This function finds such
+ * projections, as well as the camera matrix and the distortion coefficients. This function finds such
  * a pose that minimizes reprojection error, that is, the sum of squared distances between the observed
  * projections imagePoints and the projected (using REF: projectPoints ) objectPoints. The use of RANSAC
  * makes the function resistant to outliers.
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePNPRansac for object detection can be found at
  *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
  *    -   The default method used to estimate the camera pose for the Minimal Sample Sets step
@@ -3447,9 +3140,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{fx}{0}{cx}{0}{fy}{cy}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -3462,12 +3156,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  * an inlier.
  *
  * The function estimates an object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients. This function finds such
+ * projections, as well as the camera matrix and the distortion coefficients. This function finds such
  * a pose that minimizes reprojection error, that is, the sum of squared distances between the observed
  * projections imagePoints and the projected (using REF: projectPoints ) objectPoints. The use of RANSAC
  * makes the function resistant to outliers.
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePNPRansac for object detection can be found at
  *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
  *    -   The default method used to estimate the camera pose for the Minimal Sample Sets step
@@ -3487,9 +3181,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{fx}{0}{cx}{0}{fy}{cy}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -3501,12 +3196,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  * an inlier.
  *
  * The function estimates an object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients. This function finds such
+ * projections, as well as the camera matrix and the distortion coefficients. This function finds such
  * a pose that minimizes reprojection error, that is, the sum of squared distances between the observed
  * projections imagePoints and the projected (using REF: projectPoints ) objectPoints. The use of RANSAC
  * makes the function resistant to outliers.
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePNPRansac for object detection can be found at
  *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
  *    -   The default method used to estimate the camera pose for the Minimal Sample Sets step
@@ -3526,9 +3221,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{fx}{0}{cx}{0}{fy}{cy}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -3539,12 +3235,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  * an inlier.
  *
  * The function estimates an object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients. This function finds such
+ * projections, as well as the camera matrix and the distortion coefficients. This function finds such
  * a pose that minimizes reprojection error, that is, the sum of squared distances between the observed
  * projections imagePoints and the projected (using REF: projectPoints ) objectPoints. The use of RANSAC
  * makes the function resistant to outliers.
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePNPRansac for object detection can be found at
  *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
  *    -   The default method used to estimate the camera pose for the Minimal Sample Sets step
@@ -3583,7 +3279,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * transformations in the object (3D) space, but the planar perspective transformations encoded by the
  * homography matrices H1 and H2 . The function implements the algorithm CITE: Hartley99 .
  *
- * NOTE:
+ * @note
  *    While the algorithm does not need to know the intrinsic parameters of the cameras, it heavily
  *     depends on the epipolar geometry. Therefore, if the camera lenses have a significant distortion,
  *     it would be better to correct it before computing the fundamental matrix and calling this
@@ -3614,7 +3310,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * transformations in the object (3D) space, but the planar perspective transformations encoded by the
  * homography matrices H1 and H2 . The function implements the algorithm CITE: Hartley99 .
  *
- * NOTE:
+ * @note
  *    While the algorithm does not need to know the intrinsic parameters of the cameras, it heavily
  *     depends on the epipolar geometry. Therefore, if the camera lenses have a significant distortion,
  *     it would be better to correct it before computing the fundamental matrix and calling this
@@ -3646,13 +3342,14 @@ CV_EXPORTS @interface Calib3d : NSObject
  * objectPoints.size(), and imagePoints[i].size() and objectPoints[i].size() for each i, must be equal,
  * respectively. In the old interface all the vectors of object points from different views are
  * concatenated together.
- * @param imageSize Size of the image used only to initialize the camera intrinsic matrix.
- * @param cameraMatrix Input/output 3x3 floating-point camera intrinsic matrix
- * `$$\cameramatrix{A}$$` . If CV\_CALIB\_USE\_INTRINSIC\_GUESS
+ * @param imageSize Size of the image used only to initialize the intrinsic camera matrix.
+ * @param cameraMatrix Input/output 3x3 floating-point camera matrix
+ * `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` . If CV\_CALIB\_USE\_INTRINSIC\_GUESS
  * and/or CALIB_FIX_ASPECT_RATIO are specified, some or all of fx, fy, cx, cy must be
  * initialized before calling the function.
  * @param distCoeffs Input/output vector of distortion coefficients
- * `$$\distcoeffs$$`.
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements.
  * @param rvecs Output vector of rotation vectors (REF: Rodrigues ) estimated for each pattern view
  * (e.g. std::vector<cv::Mat>>). That is, each i-th rotation vector together with the corresponding
  * i-th translation vector (see the next output parameter description) brings the calibration pattern
@@ -3735,7 +3432,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *     the projected (using the current estimates for camera parameters and the poses) object points
  *     objectPoints. See projectPoints for details.
  *
- * NOTE:
+ * @note
  *     If you use a non-square (i.e. non-N-by-N) grid and REF: findChessboardCorners for calibration,
  *     and REF: calibrateCamera returns bad values (zero distortion coefficients, `$$c_x$$` and
  *     `$$c_y$$` very far from the image center, and/or large differences between `$$f_x$$` and
@@ -3766,13 +3463,14 @@ CV_EXPORTS @interface Calib3d : NSObject
  * objectPoints.size(), and imagePoints[i].size() and objectPoints[i].size() for each i, must be equal,
  * respectively. In the old interface all the vectors of object points from different views are
  * concatenated together.
- * @param imageSize Size of the image used only to initialize the camera intrinsic matrix.
- * @param cameraMatrix Input/output 3x3 floating-point camera intrinsic matrix
- * `$$\cameramatrix{A}$$` . If CV\_CALIB\_USE\_INTRINSIC\_GUESS
+ * @param imageSize Size of the image used only to initialize the intrinsic camera matrix.
+ * @param cameraMatrix Input/output 3x3 floating-point camera matrix
+ * `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` . If CV\_CALIB\_USE\_INTRINSIC\_GUESS
  * and/or CALIB_FIX_ASPECT_RATIO are specified, some or all of fx, fy, cx, cy must be
  * initialized before calling the function.
  * @param distCoeffs Input/output vector of distortion coefficients
- * `$$\distcoeffs$$`.
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements.
  * @param rvecs Output vector of rotation vectors (REF: Rodrigues ) estimated for each pattern view
  * (e.g. std::vector<cv::Mat>>). That is, each i-th rotation vector together with the corresponding
  * i-th translation vector (see the next output parameter description) brings the calibration pattern
@@ -3854,7 +3552,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *     the projected (using the current estimates for camera parameters and the poses) object points
  *     objectPoints. See projectPoints for details.
  *
- * NOTE:
+ * @note
  *     If you use a non-square (i.e. non-N-by-N) grid and REF: findChessboardCorners for calibration,
  *     and REF: calibrateCamera returns bad values (zero distortion coefficients, `$$c_x$$` and
  *     `$$c_y$$` very far from the image center, and/or large differences between `$$f_x$$` and
@@ -3885,13 +3583,14 @@ CV_EXPORTS @interface Calib3d : NSObject
  * objectPoints.size(), and imagePoints[i].size() and objectPoints[i].size() for each i, must be equal,
  * respectively. In the old interface all the vectors of object points from different views are
  * concatenated together.
- * @param imageSize Size of the image used only to initialize the camera intrinsic matrix.
- * @param cameraMatrix Input/output 3x3 floating-point camera intrinsic matrix
- * `$$\cameramatrix{A}$$` . If CV\_CALIB\_USE\_INTRINSIC\_GUESS
+ * @param imageSize Size of the image used only to initialize the intrinsic camera matrix.
+ * @param cameraMatrix Input/output 3x3 floating-point camera matrix
+ * `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` . If CV\_CALIB\_USE\_INTRINSIC\_GUESS
  * and/or CALIB_FIX_ASPECT_RATIO are specified, some or all of fx, fy, cx, cy must be
  * initialized before calling the function.
  * @param distCoeffs Input/output vector of distortion coefficients
- * `$$\distcoeffs$$`.
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements.
  * @param rvecs Output vector of rotation vectors (REF: Rodrigues ) estimated for each pattern view
  * (e.g. std::vector<cv::Mat>>). That is, each i-th rotation vector together with the corresponding
  * i-th translation vector (see the next output parameter description) brings the calibration pattern
@@ -3972,7 +3671,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *     the projected (using the current estimates for camera parameters and the poses) object points
  *     objectPoints. See projectPoints for details.
  *
- * NOTE:
+ * @note
  *     If you use a non-square (i.e. non-N-by-N) grid and REF: findChessboardCorners for calibration,
  *     and REF: calibrateCamera returns bad values (zero distortion coefficients, `$$c_x$$` and
  *     `$$c_y$$` very far from the image center, and/or large differences between `$$f_x$$` and
@@ -4227,15 +3926,15 @@ CV_EXPORTS @interface Calib3d : NSObject
  * observed by the first camera. The same structure as in REF: calibrateCamera.
  * @param imagePoints2 Vector of vectors of the projections of the calibration pattern points,
  * observed by the second camera. The same structure as in REF: calibrateCamera.
- * @param cameraMatrix1 Input/output camera intrinsic matrix for the first camera, the same as in
+ * @param cameraMatrix1 Input/output camera matrix for the first camera, the same as in
  * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
  * @param distCoeffs1 Input/output vector of distortion coefficients, the same as in
  * REF: calibrateCamera.
- * @param cameraMatrix2 Input/output second camera intrinsic matrix for the second camera. See description for
+ * @param cameraMatrix2 Input/output second camera matrix for the second camera. See description for
  * cameraMatrix1.
  * @param distCoeffs2 Input/output lens distortion coefficients for the second camera. See
  * description for distCoeffs1.
- * @param imageSize Size of the image used only to initialize the camera intrinsic matrices.
+ * @param imageSize Size of the image used only to initialize the intrinsic camera matrices.
  * @param R Output rotation matrix. Together with the translation vector T, this matrix brings
  * points given in the first camera's coordinate system to points in the second camera's
  * coordinate system. In more technical terms, the tuple of R and T performs a change of basis
@@ -4352,15 +4051,15 @@ CV_EXPORTS @interface Calib3d : NSObject
  * observed by the first camera. The same structure as in REF: calibrateCamera.
  * @param imagePoints2 Vector of vectors of the projections of the calibration pattern points,
  * observed by the second camera. The same structure as in REF: calibrateCamera.
- * @param cameraMatrix1 Input/output camera intrinsic matrix for the first camera, the same as in
+ * @param cameraMatrix1 Input/output camera matrix for the first camera, the same as in
  * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
  * @param distCoeffs1 Input/output vector of distortion coefficients, the same as in
  * REF: calibrateCamera.
- * @param cameraMatrix2 Input/output second camera intrinsic matrix for the second camera. See description for
+ * @param cameraMatrix2 Input/output second camera matrix for the second camera. See description for
  * cameraMatrix1.
  * @param distCoeffs2 Input/output lens distortion coefficients for the second camera. See
  * description for distCoeffs1.
- * @param imageSize Size of the image used only to initialize the camera intrinsic matrices.
+ * @param imageSize Size of the image used only to initialize the intrinsic camera matrices.
  * @param R Output rotation matrix. Together with the translation vector T, this matrix brings
  * points given in the first camera's coordinate system to points in the second camera's
  * coordinate system. In more technical terms, the tuple of R and T performs a change of basis
@@ -4476,15 +4175,15 @@ CV_EXPORTS @interface Calib3d : NSObject
  * observed by the first camera. The same structure as in REF: calibrateCamera.
  * @param imagePoints2 Vector of vectors of the projections of the calibration pattern points,
  * observed by the second camera. The same structure as in REF: calibrateCamera.
- * @param cameraMatrix1 Input/output camera intrinsic matrix for the first camera, the same as in
+ * @param cameraMatrix1 Input/output camera matrix for the first camera, the same as in
  * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
  * @param distCoeffs1 Input/output vector of distortion coefficients, the same as in
  * REF: calibrateCamera.
- * @param cameraMatrix2 Input/output second camera intrinsic matrix for the second camera. See description for
+ * @param cameraMatrix2 Input/output second camera matrix for the second camera. See description for
  * cameraMatrix1.
  * @param distCoeffs2 Input/output lens distortion coefficients for the second camera. See
  * description for distCoeffs1.
- * @param imageSize Size of the image used only to initialize the camera intrinsic matrices.
+ * @param imageSize Size of the image used only to initialize the intrinsic camera matrices.
  * @param R Output rotation matrix. Together with the translation vector T, this matrix brings
  * points given in the first camera's coordinate system to points in the second camera's
  * coordinate system. In more technical terms, the tuple of R and T performs a change of basis
@@ -4608,12 +4307,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param imagePoints vector of vectors of the projections of calibration pattern points.
  *     imagePoints.size() and objectPoints.size() and imagePoints[i].size() must be equal to
  *     objectPoints[i].size() for each i.
- * @param image_size Size of the image used only to initialize the camera intrinsic matrix.
- * @param K Output 3x3 floating-point camera intrinsic matrix
- *     `$$\cameramatrix{A}$$` . If
+ * @param image_size Size of the image used only to initialize the intrinsic camera matrix.
+ * @param K Output 3x3 floating-point camera matrix
+ *     `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` . If
  *     fisheye::CALIB_USE_INTRINSIC_GUESS/ is specified, some or all of fx, fy, cx, cy must be
  *     initialized before calling the function.
- * @param D Output vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param D Output vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param rvecs Output vector of rotation vectors (see Rodrigues ) estimated for each pattern view.
  *     That is, each k-th rotation vector together with the corresponding k-th translation vector (see
  *     the next output parameter description) brings the calibration pattern from the model coordinate
@@ -4644,12 +4343,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param imagePoints vector of vectors of the projections of calibration pattern points.
  *     imagePoints.size() and objectPoints.size() and imagePoints[i].size() must be equal to
  *     objectPoints[i].size() for each i.
- * @param image_size Size of the image used only to initialize the camera intrinsic matrix.
- * @param K Output 3x3 floating-point camera intrinsic matrix
- *     `$$\cameramatrix{A}$$` . If
+ * @param image_size Size of the image used only to initialize the intrinsic camera matrix.
+ * @param K Output 3x3 floating-point camera matrix
+ *     `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` . If
  *     fisheye::CALIB_USE_INTRINSIC_GUESS/ is specified, some or all of fx, fy, cx, cy must be
  *     initialized before calling the function.
- * @param D Output vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param D Output vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param rvecs Output vector of rotation vectors (see Rodrigues ) estimated for each pattern view.
  *     That is, each k-th rotation vector together with the corresponding k-th translation vector (see
  *     the next output parameter description) brings the calibration pattern from the model coordinate
@@ -4679,12 +4378,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param imagePoints vector of vectors of the projections of calibration pattern points.
  *     imagePoints.size() and objectPoints.size() and imagePoints[i].size() must be equal to
  *     objectPoints[i].size() for each i.
- * @param image_size Size of the image used only to initialize the camera intrinsic matrix.
- * @param K Output 3x3 floating-point camera intrinsic matrix
- *     `$$\cameramatrix{A}$$` . If
+ * @param image_size Size of the image used only to initialize the intrinsic camera matrix.
+ * @param K Output 3x3 floating-point camera matrix
+ *     `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` . If
  *     fisheye::CALIB_USE_INTRINSIC_GUESS/ is specified, some or all of fx, fy, cx, cy must be
  *     initialized before calling the function.
- * @param D Output vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param D Output vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param rvecs Output vector of rotation vectors (see Rodrigues ) estimated for each pattern view.
  *     That is, each k-th rotation vector together with the corresponding k-th translation vector (see
  *     the next output parameter description) brings the calibration pattern from the model coordinate
@@ -4717,15 +4416,15 @@ CV_EXPORTS @interface Calib3d : NSObject
  *     observed by the first camera.
  * @param imagePoints2 Vector of vectors of the projections of the calibration pattern points,
  *     observed by the second camera.
- * @param K1 Input/output first camera intrinsic matrix:
+ * @param K1 Input/output first camera matrix:
  *     `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } \vecthreethree{f_x^{(j)}}{0}{c_x^{(j)}}{0}{f_y^{(j)}}{c_y^{(j)}}{0}{0}{1}$$` , `$$j = 0,\, 1$$` . If
  *     any of fisheye::CALIB_USE_INTRINSIC_GUESS , fisheye::CALIB_FIX_INTRINSIC are specified,
  *     some or all of the matrix components must be initialized.
- * @param D1 Input/output vector of distortion coefficients `$$\distcoeffsfisheye$$` of 4 elements.
- * @param K2 Input/output second camera intrinsic matrix. The parameter is similar to K1 .
+ * @param D1 Input/output vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$` of 4 elements.
+ * @param K2 Input/output second camera matrix. The parameter is similar to K1 .
  * @param D2 Input/output lens distortion coefficients for the second camera. The parameter is
  *     similar to D1 .
- * @param imageSize Size of the image used only to initialize camera intrinsic matrix.
+ * @param imageSize Size of the image used only to initialize intrinsic camera matrix.
  * @param R Output rotation matrix between the 1st and the 2nd camera coordinate systems.
  * @param T Output translation vector between the coordinate systems of the cameras.
  * @param flags Different flags that may be zero or a combination of the following values:
@@ -4752,15 +4451,15 @@ CV_EXPORTS @interface Calib3d : NSObject
  *     observed by the first camera.
  * @param imagePoints2 Vector of vectors of the projections of the calibration pattern points,
  *     observed by the second camera.
- * @param K1 Input/output first camera intrinsic matrix:
+ * @param K1 Input/output first camera matrix:
  *     `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } \vecthreethree{f_x^{(j)}}{0}{c_x^{(j)}}{0}{f_y^{(j)}}{c_y^{(j)}}{0}{0}{1}$$` , `$$j = 0,\, 1$$` . If
  *     any of fisheye::CALIB_USE_INTRINSIC_GUESS , fisheye::CALIB_FIX_INTRINSIC are specified,
  *     some or all of the matrix components must be initialized.
- * @param D1 Input/output vector of distortion coefficients `$$\distcoeffsfisheye$$` of 4 elements.
- * @param K2 Input/output second camera intrinsic matrix. The parameter is similar to K1 .
+ * @param D1 Input/output vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$` of 4 elements.
+ * @param K2 Input/output second camera matrix. The parameter is similar to K1 .
  * @param D2 Input/output lens distortion coefficients for the second camera. The parameter is
  *     similar to D1 .
- * @param imageSize Size of the image used only to initialize camera intrinsic matrix.
+ * @param imageSize Size of the image used only to initialize intrinsic camera matrix.
  * @param R Output rotation matrix between the 1st and the 2nd camera coordinate systems.
  * @param T Output translation vector between the coordinate systems of the cameras.
  * @param flags Different flags that may be zero or a combination of the following values:
@@ -4786,15 +4485,15 @@ CV_EXPORTS @interface Calib3d : NSObject
  *     observed by the first camera.
  * @param imagePoints2 Vector of vectors of the projections of the calibration pattern points,
  *     observed by the second camera.
- * @param K1 Input/output first camera intrinsic matrix:
+ * @param K1 Input/output first camera matrix:
  *     `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } \vecthreethree{f_x^{(j)}}{0}{c_x^{(j)}}{0}{f_y^{(j)}}{c_y^{(j)}}{0}{0}{1}$$` , `$$j = 0,\, 1$$` . If
  *     any of fisheye::CALIB_USE_INTRINSIC_GUESS , fisheye::CALIB_FIX_INTRINSIC are specified,
  *     some or all of the matrix components must be initialized.
- * @param D1 Input/output vector of distortion coefficients `$$\distcoeffsfisheye$$` of 4 elements.
- * @param K2 Input/output second camera intrinsic matrix. The parameter is similar to K1 .
+ * @param D1 Input/output vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$` of 4 elements.
+ * @param K2 Input/output second camera matrix. The parameter is similar to K1 .
  * @param D2 Input/output lens distortion coefficients for the second camera. The parameter is
  *     similar to D1 .
- * @param imageSize Size of the image used only to initialize camera intrinsic matrix.
+ * @param imageSize Size of the image used only to initialize intrinsic camera matrix.
  * @param R Output rotation matrix between the 1st and the 2nd camera coordinate systems.
  * @param T Output translation vector between the coordinate systems of the cameras.
  *     -   **fisheye::CALIB_FIX_INTRINSIC** Fix K1, K2? and D1, D2? so that only R, T matrices
@@ -4825,7 +4524,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * Decompose a homography matrix to rotation(s), translation(s) and plane normal(s).
  *
  * @param H The input homography matrix between two images.
- * @param K The input camera intrinsic matrix.
+ * @param K The input intrinsic camera calibration matrix.
  * @param rotations Array of rotation matrices.
  * @param translations Array of translation matrices.
  * @param normals Array of plane normal matrices.
@@ -5166,7 +4865,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
  * recover pose. In the output mask only inliers which pass the cheirality check.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
  * `$$A =
@@ -5197,7 +4896,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
  * recover pose. In the output mask only inliers which pass the cheirality check.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
  * `$$A =
@@ -5227,7 +4926,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
  * recover pose. In the output mask only inliers which pass the cheirality check.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
  * `$$A =
@@ -5256,7 +4955,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
  * recover pose. In the output mask only inliers which pass the cheirality check.
  *
- * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+ * This function differs from the one above that it computes camera matrix from focal length and
  * principal point:
  *
  * `$$A =
@@ -5281,9 +4980,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points1 Array of N 2D points from the first image. The point coordinates should be
  * floating-point (single or double precision).
  * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera intrinsic matrix.
+ * same camera matrix.
  * @param R Output rotation matrix. Together with the translation vector, this matrix makes up a tuple
  * that performs a change of basis from the first camera's coordinate system to the second camera's
  * coordinate system. Note that, in general, t can not be used for this tuple, see the parameter
@@ -5334,9 +5033,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points1 Array of N 2D points from the first image. The point coordinates should be
  * floating-point (single or double precision).
  * @param points2 Array of the second image points of the same size and format as points1 .
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera intrinsic matrix.
+ * same camera matrix.
  * @param R Output rotation matrix. Together with the translation vector, this matrix makes up a tuple
  * that performs a change of basis from the first camera's coordinate system to the second camera's
  * coordinate system. Note that, in general, t can not be used for this tuple, see the parameter
@@ -5387,9 +5086,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points1 Array of N 2D points from the first image. The point coordinates should be
  * floating-point (single or double precision).
  * @param points2 Array of the second image points of the same size and format as points1.
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera intrinsic matrix.
+ * same camera matrix.
  * @param R Output rotation matrix. Together with the translation vector, this matrix makes up a tuple
  * that performs a change of basis from the first camera's coordinate system to the second camera's
  * coordinate system. Note that, in general, t can not be used for this tuple, see the parameter
@@ -5415,9 +5114,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points1 Array of N 2D points from the first image. The point coordinates should be
  * floating-point (single or double precision).
  * @param points2 Array of the second image points of the same size and format as points1.
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera intrinsic matrix.
+ * same camera matrix.
  * @param R Output rotation matrix. Together with the translation vector, this matrix makes up a tuple
  * that performs a change of basis from the first camera's coordinate system to the second camera's
  * coordinate system. Note that, in general, t can not be used for this tuple, see the parameter
@@ -5442,9 +5141,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points1 Array of N 2D points from the first image. The point coordinates should be
  * floating-point (single or double precision).
  * @param points2 Array of the second image points of the same size and format as points1.
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * Note that this function assumes that points1 and points2 are feature points from cameras with the
- * same camera intrinsic matrix.
+ * same camera matrix.
  * @param R Output rotation matrix. Together with the translation vector, this matrix makes up a tuple
  * that performs a change of basis from the first camera's coordinate system to the second camera's
  * coordinate system. Note that, in general, t can not be used for this tuple, see the parameter
@@ -5473,9 +5172,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1x3/3x1 3-channel. vector\<Point3f\> can be also passed here.
  * @param imagePoints Array of corresponding image points, 3x2 1-channel or 1x3/3x1 2-channel.
  *  vector\<Point2f\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvecs Output rotation vectors (see REF: Rodrigues ) that, together with tvecs, brings points from
  * the model coordinate system to the camera coordinate system. A P3P problem has up to 4 solutions.
@@ -5487,9 +5187,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * "An Efficient Algebraic Solution to the Perspective-Three-Point Problem" (CITE: Ke17).
  *
  * The function estimates the object pose given 3 object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients.
+ * projections, as well as the camera matrix and the distortion coefficients.
  *
- * NOTE:
+ * @note
  * The solutions are sorted by reprojection errors (lowest to highest).
  */
 + (int)solveP3P:(Mat*)objectPoints imagePoints:(Mat*)imagePoints cameraMatrix:(Mat*)cameraMatrix distCoeffs:(Mat*)distCoeffs rvecs:(NSMutableArray<Mat*>*)rvecs tvecs:(NSMutableArray<Mat*>*)tvecs flags:(int)flags NS_SWIFT_NAME(solveP3P(objectPoints:imagePoints:cameraMatrix:distCoeffs:rvecs:tvecs:flags:));
@@ -5517,9 +5217,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvecs Vector of output rotation vectors (see REF: Rodrigues ) that, together with tvecs, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -5540,11 +5241,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * In this case the function requires exactly four object and image points.
  * -   **SOLVEPNP_EPNP** Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
  * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
- * -   **SOLVEPNP_DLS** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
+ * -   **SOLVEPNP_DLS** Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
  * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
- * -   **SOLVEPNP_UPNP** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
+ * -   **SOLVEPNP_UPNP** Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
  * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
  * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters `$$f_x$$` and `$$f_y$$`
  * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
@@ -5567,7 +5266,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * and the 3D object points projected with the estimated pose.
  *
  * The function estimates the object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
+ * projections, as well as the camera matrix and the distortion coefficients, see the figure below
  * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
  * and the Z-axis forward).
  *
@@ -5659,7 +5358,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   \end{align*}
  * $$`
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePnP for planar augmented reality can be found at
  *         opencv_source_code/samples/python/plane_ar.py
  *    -   If you are using Python:
@@ -5710,9 +5409,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvecs Vector of output rotation vectors (see REF: Rodrigues ) that, together with tvecs, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -5733,11 +5433,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * In this case the function requires exactly four object and image points.
  * -   **SOLVEPNP_EPNP** Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
  * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
- * -   **SOLVEPNP_DLS** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
+ * -   **SOLVEPNP_DLS** Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
  * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
- * -   **SOLVEPNP_UPNP** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
+ * -   **SOLVEPNP_UPNP** Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
  * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
  * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters `$$f_x$$` and `$$f_y$$`
  * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
@@ -5759,7 +5457,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * and the 3D object points projected with the estimated pose.
  *
  * The function estimates the object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
+ * projections, as well as the camera matrix and the distortion coefficients, see the figure below
  * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
  * and the Z-axis forward).
  *
@@ -5851,7 +5549,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   \end{align*}
  * $$`
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePnP for planar augmented reality can be found at
  *         opencv_source_code/samples/python/plane_ar.py
  *    -   If you are using Python:
@@ -5902,9 +5600,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvecs Vector of output rotation vectors (see REF: Rodrigues ) that, together with tvecs, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -5925,11 +5624,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * In this case the function requires exactly four object and image points.
  * -   **SOLVEPNP_EPNP** Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
  * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
- * -   **SOLVEPNP_DLS** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
+ * -   **SOLVEPNP_DLS** Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
  * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
- * -   **SOLVEPNP_UPNP** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
+ * -   **SOLVEPNP_UPNP** Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
  * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
  * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters `$$f_x$$` and `$$f_y$$`
  * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
@@ -5950,7 +5647,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * and the 3D object points projected with the estimated pose.
  *
  * The function estimates the object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
+ * projections, as well as the camera matrix and the distortion coefficients, see the figure below
  * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
  * and the Z-axis forward).
  *
@@ -6042,7 +5739,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   \end{align*}
  * $$`
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePnP for planar augmented reality can be found at
  *         opencv_source_code/samples/python/plane_ar.py
  *    -   If you are using Python:
@@ -6093,9 +5790,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvecs Vector of output rotation vectors (see REF: Rodrigues ) that, together with tvecs, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -6116,11 +5814,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * In this case the function requires exactly four object and image points.
  * -   **SOLVEPNP_EPNP** Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
  * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
- * -   **SOLVEPNP_DLS** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
+ * -   **SOLVEPNP_DLS** Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
  * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
- * -   **SOLVEPNP_UPNP** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
+ * -   **SOLVEPNP_UPNP** Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
  * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
  * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters `$$f_x$$` and `$$f_y$$`
  * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
@@ -6140,7 +5836,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * and the 3D object points projected with the estimated pose.
  *
  * The function estimates the object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
+ * projections, as well as the camera matrix and the distortion coefficients, see the figure below
  * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
  * and the Z-axis forward).
  *
@@ -6232,7 +5928,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   \end{align*}
  * $$`
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePnP for planar augmented reality can be found at
  *         opencv_source_code/samples/python/plane_ar.py
  *    -   If you are using Python:
@@ -6283,9 +5979,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvecs Vector of output rotation vectors (see REF: Rodrigues ) that, together with tvecs, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -6305,11 +6002,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * In this case the function requires exactly four object and image points.
  * -   **SOLVEPNP_EPNP** Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
  * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
- * -   **SOLVEPNP_DLS** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
+ * -   **SOLVEPNP_DLS** Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
  * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
- * -   **SOLVEPNP_UPNP** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
+ * -   **SOLVEPNP_UPNP** Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
  * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
  * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters `$$f_x$$` and `$$f_y$$`
  * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
@@ -6329,7 +6024,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * and the 3D object points projected with the estimated pose.
  *
  * The function estimates the object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
+ * projections, as well as the camera matrix and the distortion coefficients, see the figure below
  * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
  * and the Z-axis forward).
  *
@@ -6421,7 +6116,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   \end{align*}
  * $$`
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePnP for planar augmented reality can be found at
  *         opencv_source_code/samples/python/plane_ar.py
  *    -   If you are using Python:
@@ -6472,9 +6167,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * 1xN/Nx1 3-channel, where N is the number of points. vector\<Point3d\> can be also passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can be also passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvecs Vector of output rotation vectors (see REF: Rodrigues ) that, together with tvecs, brings points from
  * the model coordinate system to the camera coordinate system.
@@ -6493,11 +6189,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  * In this case the function requires exactly four object and image points.
  * -   **SOLVEPNP_EPNP** Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
  * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
- * -   **SOLVEPNP_DLS** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
+ * -   **SOLVEPNP_DLS** Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
  * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
- * -   **SOLVEPNP_UPNP** **Broken implementation. Using this flag will fallback to EPnP.** \n
- * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
+ * -   **SOLVEPNP_UPNP** Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
  * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
  * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters `$$f_x$$` and `$$f_y$$`
  * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
@@ -6517,7 +6211,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * and the 3D object points projected with the estimated pose.
  *
  * The function estimates the object pose given a set of object points, their corresponding image
- * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
+ * projections, as well as the camera matrix and the distortion coefficients, see the figure below
  * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
  * and the Z-axis forward).
  *
@@ -6609,7 +6303,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   \end{align*}
  * $$`
  *
- * NOTE:
+ * @note
  *    -   An example of how to use solvePnP for planar augmented reality can be found at
  *         opencv_source_code/samples/python/plane_ar.py
  *    -   If you are using Python:
@@ -6663,11 +6357,11 @@ CV_EXPORTS @interface Calib3d : NSObject
  * rotation matrix has just 3 degrees of freedom). The representation is used in the global 3D geometry
  * optimization procedures like REF: calibrateCamera, REF: stereoCalibrate, or REF: solvePnP .
  *
- * NOTE: More information about the computation of the derivative of a 3D rotation matrix with respect to its exponential coordinate
+ * @note More information about the computation of the derivative of a 3D rotation matrix with respect to its exponential coordinate
  * can be found in:
  *     - A Compact Formula for the Derivative of a 3-D Rotation in Exponential Coordinates, Guillermo Gallego, Anthony J. Yezzi CITE: Gallego2014ACF
  *
- * NOTE: Useful information on SE(3) and Lie Groups can be found in:
+ * @note Useful information on SE(3) and Lie Groups can be found in:
  *     - A tutorial on SE(3) transformation parameterizations and on-manifold optimization, Jose-Luis Blanco CITE: blanco2010tutorial
  *     - Lie Groups for 2D and 3D Transformation, Ethan Eade CITE: Eade17
  *     - A micro Lie theory for state estimation in robotics, Joan Solà, Jérémie Deray, Dinesh Atchuthan CITE: Sol2018AML
@@ -6691,11 +6385,11 @@ CV_EXPORTS @interface Calib3d : NSObject
  * rotation matrix has just 3 degrees of freedom). The representation is used in the global 3D geometry
  * optimization procedures like REF: calibrateCamera, REF: stereoCalibrate, or REF: solvePnP .
  *
- * NOTE: More information about the computation of the derivative of a 3D rotation matrix with respect to its exponential coordinate
+ * @note More information about the computation of the derivative of a 3D rotation matrix with respect to its exponential coordinate
  * can be found in:
  *     - A Compact Formula for the Derivative of a 3-D Rotation in Exponential Coordinates, Guillermo Gallego, Anthony J. Yezzi CITE: Gallego2014ACF
  *
- * NOTE: Useful information on SE(3) and Lie Groups can be found in:
+ * @note Useful information on SE(3) and Lie Groups can be found in:
  *     - A tutorial on SE(3) transformation parameterizations and on-manifold optimization, Jose-Luis Blanco CITE: blanco2010tutorial
  *     - Lie Groups for 2D and 3D Transformation, Ethan Eade CITE: Eade17
  *     - A micro Lie theory for state estimation in robotics, Joan Solà, Jérémie Deray, Dinesh Atchuthan CITE: Sol2018AML
@@ -6711,23 +6405,23 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param R_gripper2base Rotation part extracted from the homogeneous matrix that transforms a point
  * expressed in the gripper frame to the robot base frame (`$$_{}^{b}\textrm{T}_g$$`).
- * This is a vector (`vector<Mat>`) that contains the rotation, `(3x3)` rotation matrices or `(3x1)` rotation vectors,
- * for all the transformations from gripper frame to robot base frame.
+ * This is a vector (`vector<Mat>`) that contains the rotation matrices for all the transformations
+ * from gripper frame to robot base frame.
  * @param t_gripper2base Translation part extracted from the homogeneous matrix that transforms a point
  * expressed in the gripper frame to the robot base frame (`$$_{}^{b}\textrm{T}_g$$`).
- * This is a vector (`vector<Mat>`) that contains the `(3x1)` translation vectors for all the transformations
+ * This is a vector (`vector<Mat>`) that contains the translation vectors for all the transformations
  * from gripper frame to robot base frame.
  * @param R_target2cam Rotation part extracted from the homogeneous matrix that transforms a point
  * expressed in the target frame to the camera frame (`$$_{}^{c}\textrm{T}_t$$`).
- * This is a vector (`vector<Mat>`) that contains the rotation, `(3x3)` rotation matrices or `(3x1)` rotation vectors,
- * for all the transformations from calibration target frame to camera frame.
+ * This is a vector (`vector<Mat>`) that contains the rotation matrices for all the transformations
+ * from calibration target frame to camera frame.
  * @param t_target2cam Rotation part extracted from the homogeneous matrix that transforms a point
  * expressed in the target frame to the camera frame (`$$_{}^{c}\textrm{T}_t$$`).
- * This is a vector (`vector<Mat>`) that contains the `(3x1)` translation vectors for all the transformations
+ * This is a vector (`vector<Mat>`) that contains the translation vectors for all the transformations
  * from calibration target frame to camera frame.
- * @param R_cam2gripper Estimated `(3x3)` rotation part extracted from the homogeneous matrix that transforms a point
+ * @param R_cam2gripper Estimated rotation part extracted from the homogeneous matrix that transforms a point
  * expressed in the camera frame to the gripper frame (`$$_{}^{g}\textrm{T}_c$$`).
- * @param t_cam2gripper Estimated `(3x1)` translation part extracted from the homogeneous matrix that transforms a point
+ * @param t_cam2gripper Estimated translation part extracted from the homogeneous matrix that transforms a point
  * expressed in the camera frame to the gripper frame (`$$_{}^{g}\textrm{T}_c$$`).
  * @param method One of the implemented Hand-Eye calibration method, see cv::HandEyeCalibrationMethod
  *
@@ -6738,16 +6432,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   - R. Horaud, F. Dornaika Hand-Eye Calibration \cite Horaud95
  *
  * Another approach consists in estimating simultaneously the rotation and the translation (simultaneous solutions),
- * with the following implemented methods:
+ * with the following implemented method:
  *   - N. Andreff, R. Horaud, B. Espiau On-line Hand-Eye Calibration \cite Andreff99
  *   - K. Daniilidis Hand-Eye Calibration Using Dual Quaternions \cite Daniilidis98
  *
  * The following picture describes the Hand-Eye calibration problem where the transformation between a camera ("eye")
- * mounted on a robot gripper ("hand") has to be estimated. This configuration is called eye-in-hand.
- *
- * The eye-to-hand configuration consists in a static camera observing a calibration pattern mounted on the robot
- * end-effector. The transformation from the camera to the robot base frame can then be estimated by inputting
- * the suitable transformations to the function, see below.
+ * mounted on a robot gripper ("hand") has to be estimated.
  *
  * ![](pics/hand-eye_figure.png)
  *
@@ -6820,7 +6510,6 @@ CV_EXPORTS @interface Calib3d : NSObject
  * $$`
  *
  * This problem is also known as solving the `$$\mathbf{A}\mathbf{X}=\mathbf{X}\mathbf{B}$$` equation:
- *   - for an eye-in-hand configuration
  * `$$
  *     \begin{align*}
  *     ^{b}{\textrm{T}_g}^{(1)} \hspace{0.2em} ^{g}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(1)} &=
@@ -6828,19 +6517,6 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  *     (^{b}{\textrm{T}_g}^{(2)})^{-1} \hspace{0.2em} ^{b}{\textrm{T}_g}^{(1)} \hspace{0.2em} ^{g}\textrm{T}_c &=
  *     \hspace{0.1em} ^{g}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} (^{c}{\textrm{T}_t}^{(1)})^{-1} \\
- *
- *     \textrm{A}_i \textrm{X} &= \textrm{X} \textrm{B}_i \\
- *     \end{align*}
- * $$`
- *
- *   - for an eye-to-hand configuration
- * `$$
- *     \begin{align*}
- *     ^{g}{\textrm{T}_b}^{(1)} \hspace{0.2em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(1)} &=
- *     \hspace{0.1em} ^{g}{\textrm{T}_b}^{(2)} \hspace{0.2em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} \\
- *
- *     (^{g}{\textrm{T}_b}^{(2)})^{-1} \hspace{0.2em} ^{g}{\textrm{T}_b}^{(1)} \hspace{0.2em} ^{b}\textrm{T}_c &=
- *     \hspace{0.1em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} (^{c}{\textrm{T}_t}^{(1)})^{-1} \\
  *
  *     \textrm{A}_i \textrm{X} &= \textrm{X} \textrm{B}_i \\
  *     \end{align*}
@@ -6859,23 +6535,23 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param R_gripper2base Rotation part extracted from the homogeneous matrix that transforms a point
  * expressed in the gripper frame to the robot base frame (`$$_{}^{b}\textrm{T}_g$$`).
- * This is a vector (`vector<Mat>`) that contains the rotation, `(3x3)` rotation matrices or `(3x1)` rotation vectors,
- * for all the transformations from gripper frame to robot base frame.
+ * This is a vector (`vector<Mat>`) that contains the rotation matrices for all the transformations
+ * from gripper frame to robot base frame.
  * @param t_gripper2base Translation part extracted from the homogeneous matrix that transforms a point
  * expressed in the gripper frame to the robot base frame (`$$_{}^{b}\textrm{T}_g$$`).
- * This is a vector (`vector<Mat>`) that contains the `(3x1)` translation vectors for all the transformations
+ * This is a vector (`vector<Mat>`) that contains the translation vectors for all the transformations
  * from gripper frame to robot base frame.
  * @param R_target2cam Rotation part extracted from the homogeneous matrix that transforms a point
  * expressed in the target frame to the camera frame (`$$_{}^{c}\textrm{T}_t$$`).
- * This is a vector (`vector<Mat>`) that contains the rotation, `(3x3)` rotation matrices or `(3x1)` rotation vectors,
- * for all the transformations from calibration target frame to camera frame.
+ * This is a vector (`vector<Mat>`) that contains the rotation matrices for all the transformations
+ * from calibration target frame to camera frame.
  * @param t_target2cam Rotation part extracted from the homogeneous matrix that transforms a point
  * expressed in the target frame to the camera frame (`$$_{}^{c}\textrm{T}_t$$`).
- * This is a vector (`vector<Mat>`) that contains the `(3x1)` translation vectors for all the transformations
+ * This is a vector (`vector<Mat>`) that contains the translation vectors for all the transformations
  * from calibration target frame to camera frame.
- * @param R_cam2gripper Estimated `(3x3)` rotation part extracted from the homogeneous matrix that transforms a point
+ * @param R_cam2gripper Estimated rotation part extracted from the homogeneous matrix that transforms a point
  * expressed in the camera frame to the gripper frame (`$$_{}^{g}\textrm{T}_c$$`).
- * @param t_cam2gripper Estimated `(3x1)` translation part extracted from the homogeneous matrix that transforms a point
+ * @param t_cam2gripper Estimated translation part extracted from the homogeneous matrix that transforms a point
  * expressed in the camera frame to the gripper frame (`$$_{}^{g}\textrm{T}_c$$`).
  *
  * The function performs the Hand-Eye calibration using various methods. One approach consists in estimating the
@@ -6885,16 +6561,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  *   - R. Horaud, F. Dornaika Hand-Eye Calibration \cite Horaud95
  *
  * Another approach consists in estimating simultaneously the rotation and the translation (simultaneous solutions),
- * with the following implemented methods:
+ * with the following implemented method:
  *   - N. Andreff, R. Horaud, B. Espiau On-line Hand-Eye Calibration \cite Andreff99
  *   - K. Daniilidis Hand-Eye Calibration Using Dual Quaternions \cite Daniilidis98
  *
  * The following picture describes the Hand-Eye calibration problem where the transformation between a camera ("eye")
- * mounted on a robot gripper ("hand") has to be estimated. This configuration is called eye-in-hand.
- *
- * The eye-to-hand configuration consists in a static camera observing a calibration pattern mounted on the robot
- * end-effector. The transformation from the camera to the robot base frame can then be estimated by inputting
- * the suitable transformations to the function, see below.
+ * mounted on a robot gripper ("hand") has to be estimated.
  *
  * ![](pics/hand-eye_figure.png)
  *
@@ -6967,7 +6639,6 @@ CV_EXPORTS @interface Calib3d : NSObject
  * $$`
  *
  * This problem is also known as solving the `$$\mathbf{A}\mathbf{X}=\mathbf{X}\mathbf{B}$$` equation:
- *   - for an eye-in-hand configuration
  * `$$
  *     \begin{align*}
  *     ^{b}{\textrm{T}_g}^{(1)} \hspace{0.2em} ^{g}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(1)} &=
@@ -6975,19 +6646,6 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  *     (^{b}{\textrm{T}_g}^{(2)})^{-1} \hspace{0.2em} ^{b}{\textrm{T}_g}^{(1)} \hspace{0.2em} ^{g}\textrm{T}_c &=
  *     \hspace{0.1em} ^{g}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} (^{c}{\textrm{T}_t}^{(1)})^{-1} \\
- *
- *     \textrm{A}_i \textrm{X} &= \textrm{X} \textrm{B}_i \\
- *     \end{align*}
- * $$`
- *
- *   - for an eye-to-hand configuration
- * `$$
- *     \begin{align*}
- *     ^{g}{\textrm{T}_b}^{(1)} \hspace{0.2em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(1)} &=
- *     \hspace{0.1em} ^{g}{\textrm{T}_b}^{(2)} \hspace{0.2em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} \\
- *
- *     (^{g}{\textrm{T}_b}^{(2)})^{-1} \hspace{0.2em} ^{g}{\textrm{T}_b}^{(1)} \hspace{0.2em} ^{b}\textrm{T}_c &=
- *     \hspace{0.1em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} (^{c}{\textrm{T}_t}^{(1)})^{-1} \\
  *
  *     \textrm{A}_i \textrm{X} &= \textrm{X} \textrm{B}_i \\
  *     \end{align*}
@@ -7003,295 +6661,12 @@ CV_EXPORTS @interface Calib3d : NSObject
 
 
 //
-//  void cv::calibrateRobotWorldHandEye(vector_Mat R_world2cam, vector_Mat t_world2cam, vector_Mat R_base2gripper, vector_Mat t_base2gripper, Mat& R_base2world, Mat& t_base2world, Mat& R_gripper2cam, Mat& t_gripper2cam, RobotWorldHandEyeCalibrationMethod method = CALIB_ROBOT_WORLD_HAND_EYE_SHAH)
-//
-/**
- * Computes Robot-World/Hand-Eye calibration: `$$_{}^{w}\textrm{T}_b$$` and `$$_{}^{c}\textrm{T}_g$$`
- *
- * @param R_world2cam Rotation part extracted from the homogeneous matrix that transforms a point
- * expressed in the world frame to the camera frame (`$$_{}^{c}\textrm{T}_w$$`).
- * This is a vector (`vector<Mat>`) that contains the rotation, `(3x3)` rotation matrices or `(3x1)` rotation vectors,
- * for all the transformations from world frame to the camera frame.
- * @param t_world2cam Translation part extracted from the homogeneous matrix that transforms a point
- * expressed in the world frame to the camera frame (`$$_{}^{c}\textrm{T}_w$$`).
- * This is a vector (`vector<Mat>`) that contains the `(3x1)` translation vectors for all the transformations
- * from world frame to the camera frame.
- * @param R_base2gripper Rotation part extracted from the homogeneous matrix that transforms a point
- * expressed in the robot base frame to the gripper frame (`$$_{}^{g}\textrm{T}_b$$`).
- * This is a vector (`vector<Mat>`) that contains the rotation, `(3x3)` rotation matrices or `(3x1)` rotation vectors,
- * for all the transformations from robot base frame to the gripper frame.
- * @param t_base2gripper Rotation part extracted from the homogeneous matrix that transforms a point
- * expressed in the robot base frame to the gripper frame (`$$_{}^{g}\textrm{T}_b$$`).
- * This is a vector (`vector<Mat>`) that contains the `(3x1)` translation vectors for all the transformations
- * from robot base frame to the gripper frame.
- * @param R_base2world Estimated `(3x3)` rotation part extracted from the homogeneous matrix that transforms a point
- * expressed in the robot base frame to the world frame (`$$_{}^{w}\textrm{T}_b$$`).
- * @param t_base2world Estimated `(3x1)` translation part extracted from the homogeneous matrix that transforms a point
- * expressed in the robot base frame to the world frame (`$$_{}^{w}\textrm{T}_b$$`).
- * @param R_gripper2cam Estimated `(3x3)` rotation part extracted from the homogeneous matrix that transforms a point
- * expressed in the gripper frame to the camera frame (`$$_{}^{c}\textrm{T}_g$$`).
- * @param t_gripper2cam Estimated `(3x1)` translation part extracted from the homogeneous matrix that transforms a point
- * expressed in the gripper frame to the camera frame (`$$_{}^{c}\textrm{T}_g$$`).
- * @param method One of the implemented Robot-World/Hand-Eye calibration method, see cv::RobotWorldHandEyeCalibrationMethod
- *
- * The function performs the Robot-World/Hand-Eye calibration using various methods. One approach consists in estimating the
- * rotation then the translation (separable solutions):
- *   - M. Shah, Solving the robot-world/hand-eye calibration problem using the kronecker product \cite Shah2013SolvingTR
- *
- * Another approach consists in estimating simultaneously the rotation and the translation (simultaneous solutions),
- * with the following implemented method:
- *   - A. Li, L. Wang, and D. Wu, Simultaneous robot-world and hand-eye calibration using dual-quaternions and kronecker product \cite Li2010SimultaneousRA
- *
- * The following picture describes the Robot-World/Hand-Eye calibration problem where the transformations between a robot and a world frame
- * and between a robot gripper ("hand") and a camera ("eye") mounted at the robot end-effector have to be estimated.
- *
- * ![](pics/robot-world_hand-eye_figure.png)
- *
- * The calibration procedure is the following:
- *   - a static calibration pattern is used to estimate the transformation between the target frame
- *   and the camera frame
- *   - the robot gripper is moved in order to acquire several poses
- *   - for each pose, the homogeneous transformation between the gripper frame and the robot base frame is recorded using for
- *   instance the robot kinematics
- * `$$
- *     \begin{bmatrix}
- *     X_g\\
- *     Y_g\\
- *     Z_g\\
- *     1
- *     \end{bmatrix}
- *     =
- *     \begin{bmatrix}
- *     _{}^{g}\textrm{R}_b & _{}^{g}\textrm{t}_b \\
- *     0_{1 \times 3} & 1
- *     \end{bmatrix}
- *     \begin{bmatrix}
- *     X_b\\
- *     Y_b\\
- *     Z_b\\
- *     1
- *     \end{bmatrix}
- * $$`
- *   - for each pose, the homogeneous transformation between the calibration target frame (the world frame) and the camera frame is recorded using
- *   for instance a pose estimation method (PnP) from 2D-3D point correspondences
- * `$$
- *     \begin{bmatrix}
- *     X_c\\
- *     Y_c\\
- *     Z_c\\
- *     1
- *     \end{bmatrix}
- *     =
- *     \begin{bmatrix}
- *     _{}^{c}\textrm{R}_w & _{}^{c}\textrm{t}_w \\
- *     0_{1 \times 3} & 1
- *     \end{bmatrix}
- *     \begin{bmatrix}
- *     X_w\\
- *     Y_w\\
- *     Z_w\\
- *     1
- *     \end{bmatrix}
- * $$`
- *
- * The Robot-World/Hand-Eye calibration procedure returns the following homogeneous transformations
- * `$$
- *     \begin{bmatrix}
- *     X_w\\
- *     Y_w\\
- *     Z_w\\
- *     1
- *     \end{bmatrix}
- *     =
- *     \begin{bmatrix}
- *     _{}^{w}\textrm{R}_b & _{}^{w}\textrm{t}_b \\
- *     0_{1 \times 3} & 1
- *     \end{bmatrix}
- *     \begin{bmatrix}
- *     X_b\\
- *     Y_b\\
- *     Z_b\\
- *     1
- *     \end{bmatrix}
- * $$`
- * `$$
- *     \begin{bmatrix}
- *     X_c\\
- *     Y_c\\
- *     Z_c\\
- *     1
- *     \end{bmatrix}
- *     =
- *     \begin{bmatrix}
- *     _{}^{c}\textrm{R}_g & _{}^{c}\textrm{t}_g \\
- *     0_{1 \times 3} & 1
- *     \end{bmatrix}
- *     \begin{bmatrix}
- *     X_g\\
- *     Y_g\\
- *     Z_g\\
- *     1
- *     \end{bmatrix}
- * $$`
- *
- * This problem is also known as solving the `$$\mathbf{A}\mathbf{X}=\mathbf{Z}\mathbf{B}$$` equation, with:
- *   - `$$\mathbf{A} \Leftrightarrow \hspace{0.1em} _{}^{c}\textrm{T}_w$$`
- *   - `$$\mathbf{X} \Leftrightarrow \hspace{0.1em} _{}^{w}\textrm{T}_b$$`
- *   - `$$\mathbf{Z} \Leftrightarrow \hspace{0.1em} _{}^{c}\textrm{T}_g$$`
- *   - `$$\mathbf{B} \Leftrightarrow \hspace{0.1em} _{}^{g}\textrm{T}_b$$`
- *
- * \note
- * At least 3 measurements are required (input vectors size must be greater or equal to 3).
- */
-+ (void)calibrateRobotWorldHandEye:(NSArray<Mat*>*)R_world2cam t_world2cam:(NSArray<Mat*>*)t_world2cam R_base2gripper:(NSArray<Mat*>*)R_base2gripper t_base2gripper:(NSArray<Mat*>*)t_base2gripper R_base2world:(Mat*)R_base2world t_base2world:(Mat*)t_base2world R_gripper2cam:(Mat*)R_gripper2cam t_gripper2cam:(Mat*)t_gripper2cam method:(RobotWorldHandEyeCalibrationMethod)method NS_SWIFT_NAME(calibrateRobotWorldHandEye(R_world2cam:t_world2cam:R_base2gripper:t_base2gripper:R_base2world:t_base2world:R_gripper2cam:t_gripper2cam:method:));
-
-/**
- * Computes Robot-World/Hand-Eye calibration: `$$_{}^{w}\textrm{T}_b$$` and `$$_{}^{c}\textrm{T}_g$$`
- *
- * @param R_world2cam Rotation part extracted from the homogeneous matrix that transforms a point
- * expressed in the world frame to the camera frame (`$$_{}^{c}\textrm{T}_w$$`).
- * This is a vector (`vector<Mat>`) that contains the rotation, `(3x3)` rotation matrices or `(3x1)` rotation vectors,
- * for all the transformations from world frame to the camera frame.
- * @param t_world2cam Translation part extracted from the homogeneous matrix that transforms a point
- * expressed in the world frame to the camera frame (`$$_{}^{c}\textrm{T}_w$$`).
- * This is a vector (`vector<Mat>`) that contains the `(3x1)` translation vectors for all the transformations
- * from world frame to the camera frame.
- * @param R_base2gripper Rotation part extracted from the homogeneous matrix that transforms a point
- * expressed in the robot base frame to the gripper frame (`$$_{}^{g}\textrm{T}_b$$`).
- * This is a vector (`vector<Mat>`) that contains the rotation, `(3x3)` rotation matrices or `(3x1)` rotation vectors,
- * for all the transformations from robot base frame to the gripper frame.
- * @param t_base2gripper Rotation part extracted from the homogeneous matrix that transforms a point
- * expressed in the robot base frame to the gripper frame (`$$_{}^{g}\textrm{T}_b$$`).
- * This is a vector (`vector<Mat>`) that contains the `(3x1)` translation vectors for all the transformations
- * from robot base frame to the gripper frame.
- * @param R_base2world Estimated `(3x3)` rotation part extracted from the homogeneous matrix that transforms a point
- * expressed in the robot base frame to the world frame (`$$_{}^{w}\textrm{T}_b$$`).
- * @param t_base2world Estimated `(3x1)` translation part extracted from the homogeneous matrix that transforms a point
- * expressed in the robot base frame to the world frame (`$$_{}^{w}\textrm{T}_b$$`).
- * @param R_gripper2cam Estimated `(3x3)` rotation part extracted from the homogeneous matrix that transforms a point
- * expressed in the gripper frame to the camera frame (`$$_{}^{c}\textrm{T}_g$$`).
- * @param t_gripper2cam Estimated `(3x1)` translation part extracted from the homogeneous matrix that transforms a point
- * expressed in the gripper frame to the camera frame (`$$_{}^{c}\textrm{T}_g$$`).
- *
- * The function performs the Robot-World/Hand-Eye calibration using various methods. One approach consists in estimating the
- * rotation then the translation (separable solutions):
- *   - M. Shah, Solving the robot-world/hand-eye calibration problem using the kronecker product \cite Shah2013SolvingTR
- *
- * Another approach consists in estimating simultaneously the rotation and the translation (simultaneous solutions),
- * with the following implemented method:
- *   - A. Li, L. Wang, and D. Wu, Simultaneous robot-world and hand-eye calibration using dual-quaternions and kronecker product \cite Li2010SimultaneousRA
- *
- * The following picture describes the Robot-World/Hand-Eye calibration problem where the transformations between a robot and a world frame
- * and between a robot gripper ("hand") and a camera ("eye") mounted at the robot end-effector have to be estimated.
- *
- * ![](pics/robot-world_hand-eye_figure.png)
- *
- * The calibration procedure is the following:
- *   - a static calibration pattern is used to estimate the transformation between the target frame
- *   and the camera frame
- *   - the robot gripper is moved in order to acquire several poses
- *   - for each pose, the homogeneous transformation between the gripper frame and the robot base frame is recorded using for
- *   instance the robot kinematics
- * `$$
- *     \begin{bmatrix}
- *     X_g\\
- *     Y_g\\
- *     Z_g\\
- *     1
- *     \end{bmatrix}
- *     =
- *     \begin{bmatrix}
- *     _{}^{g}\textrm{R}_b & _{}^{g}\textrm{t}_b \\
- *     0_{1 \times 3} & 1
- *     \end{bmatrix}
- *     \begin{bmatrix}
- *     X_b\\
- *     Y_b\\
- *     Z_b\\
- *     1
- *     \end{bmatrix}
- * $$`
- *   - for each pose, the homogeneous transformation between the calibration target frame (the world frame) and the camera frame is recorded using
- *   for instance a pose estimation method (PnP) from 2D-3D point correspondences
- * `$$
- *     \begin{bmatrix}
- *     X_c\\
- *     Y_c\\
- *     Z_c\\
- *     1
- *     \end{bmatrix}
- *     =
- *     \begin{bmatrix}
- *     _{}^{c}\textrm{R}_w & _{}^{c}\textrm{t}_w \\
- *     0_{1 \times 3} & 1
- *     \end{bmatrix}
- *     \begin{bmatrix}
- *     X_w\\
- *     Y_w\\
- *     Z_w\\
- *     1
- *     \end{bmatrix}
- * $$`
- *
- * The Robot-World/Hand-Eye calibration procedure returns the following homogeneous transformations
- * `$$
- *     \begin{bmatrix}
- *     X_w\\
- *     Y_w\\
- *     Z_w\\
- *     1
- *     \end{bmatrix}
- *     =
- *     \begin{bmatrix}
- *     _{}^{w}\textrm{R}_b & _{}^{w}\textrm{t}_b \\
- *     0_{1 \times 3} & 1
- *     \end{bmatrix}
- *     \begin{bmatrix}
- *     X_b\\
- *     Y_b\\
- *     Z_b\\
- *     1
- *     \end{bmatrix}
- * $$`
- * `$$
- *     \begin{bmatrix}
- *     X_c\\
- *     Y_c\\
- *     Z_c\\
- *     1
- *     \end{bmatrix}
- *     =
- *     \begin{bmatrix}
- *     _{}^{c}\textrm{R}_g & _{}^{c}\textrm{t}_g \\
- *     0_{1 \times 3} & 1
- *     \end{bmatrix}
- *     \begin{bmatrix}
- *     X_g\\
- *     Y_g\\
- *     Z_g\\
- *     1
- *     \end{bmatrix}
- * $$`
- *
- * This problem is also known as solving the `$$\mathbf{A}\mathbf{X}=\mathbf{Z}\mathbf{B}$$` equation, with:
- *   - `$$\mathbf{A} \Leftrightarrow \hspace{0.1em} _{}^{c}\textrm{T}_w$$`
- *   - `$$\mathbf{X} \Leftrightarrow \hspace{0.1em} _{}^{w}\textrm{T}_b$$`
- *   - `$$\mathbf{Z} \Leftrightarrow \hspace{0.1em} _{}^{c}\textrm{T}_g$$`
- *   - `$$\mathbf{B} \Leftrightarrow \hspace{0.1em} _{}^{g}\textrm{T}_b$$`
- *
- * \note
- * At least 3 measurements are required (input vectors size must be greater or equal to 3).
- */
-+ (void)calibrateRobotWorldHandEye:(NSArray<Mat*>*)R_world2cam t_world2cam:(NSArray<Mat*>*)t_world2cam R_base2gripper:(NSArray<Mat*>*)R_base2gripper t_base2gripper:(NSArray<Mat*>*)t_base2gripper R_base2world:(Mat*)R_base2world t_base2world:(Mat*)t_base2world R_gripper2cam:(Mat*)R_gripper2cam t_gripper2cam:(Mat*)t_gripper2cam NS_SWIFT_NAME(calibrateRobotWorldHandEye(R_world2cam:t_world2cam:R_base2gripper:t_base2gripper:R_base2world:t_base2world:R_gripper2cam:t_gripper2cam:));
-
-
-//
 //  void cv::calibrationMatrixValues(Mat cameraMatrix, Size imageSize, double apertureWidth, double apertureHeight, double& fovx, double& fovy, double& focalLength, Point2d& principalPoint, double& aspectRatio)
 //
 /**
- * Computes useful camera characteristics from the camera intrinsic matrix.
+ * Computes useful camera characteristics from the camera matrix.
  *
- * @param cameraMatrix Input camera intrinsic matrix that can be estimated by calibrateCamera or
+ * @param cameraMatrix Input camera matrix that can be estimated by calibrateCamera or
  * stereoCalibrate .
  * @param imageSize Input image size in pixels.
  * @param apertureWidth Physical width in mm of the sensor.
@@ -7305,7 +6680,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * The function computes various useful camera characteristics from the previously estimated camera
  * matrix.
  *
- * NOTE:
+ * @note
  *    Do keep in mind that the unity measure 'mm' stands for whatever unit of measure one chooses for
  *     the chessboard pitch (it can thus be any value).
  */
@@ -7680,10 +7055,10 @@ CV_EXPORTS @interface Calib3d : NSObject
 //  void cv::decomposeProjectionMatrix(Mat projMatrix, Mat& cameraMatrix, Mat& rotMatrix, Mat& transVect, Mat& rotMatrixX = Mat(), Mat& rotMatrixY = Mat(), Mat& rotMatrixZ = Mat(), Mat& eulerAngles = Mat())
 //
 /**
- * Decomposes a projection matrix into a rotation matrix and a camera intrinsic matrix.
+ * Decomposes a projection matrix into a rotation matrix and a camera matrix.
  *
  * @param projMatrix 3x4 input projection matrix P.
- * @param cameraMatrix Output 3x3 camera intrinsic matrix `$$\cameramatrix{A}$$`.
+ * @param cameraMatrix Output 3x3 camera matrix K.
  * @param rotMatrix Output 3x3 external rotation matrix R.
  * @param transVect Output 4x1 translation vector T.
  * @param rotMatrixX Optional 3x3 rotation matrix around x-axis.
@@ -7705,10 +7080,10 @@ CV_EXPORTS @interface Calib3d : NSObject
 + (void)decomposeProjectionMatrix:(Mat*)projMatrix cameraMatrix:(Mat*)cameraMatrix rotMatrix:(Mat*)rotMatrix transVect:(Mat*)transVect rotMatrixX:(Mat*)rotMatrixX rotMatrixY:(Mat*)rotMatrixY rotMatrixZ:(Mat*)rotMatrixZ eulerAngles:(Mat*)eulerAngles NS_SWIFT_NAME(decomposeProjectionMatrix(projMatrix:cameraMatrix:rotMatrix:transVect:rotMatrixX:rotMatrixY:rotMatrixZ:eulerAngles:));
 
 /**
- * Decomposes a projection matrix into a rotation matrix and a camera intrinsic matrix.
+ * Decomposes a projection matrix into a rotation matrix and a camera matrix.
  *
  * @param projMatrix 3x4 input projection matrix P.
- * @param cameraMatrix Output 3x3 camera intrinsic matrix `$$\cameramatrix{A}$$`.
+ * @param cameraMatrix Output 3x3 camera matrix K.
  * @param rotMatrix Output 3x3 external rotation matrix R.
  * @param transVect Output 4x1 translation vector T.
  * @param rotMatrixX Optional 3x3 rotation matrix around x-axis.
@@ -7729,10 +7104,10 @@ CV_EXPORTS @interface Calib3d : NSObject
 + (void)decomposeProjectionMatrix:(Mat*)projMatrix cameraMatrix:(Mat*)cameraMatrix rotMatrix:(Mat*)rotMatrix transVect:(Mat*)transVect rotMatrixX:(Mat*)rotMatrixX rotMatrixY:(Mat*)rotMatrixY rotMatrixZ:(Mat*)rotMatrixZ NS_SWIFT_NAME(decomposeProjectionMatrix(projMatrix:cameraMatrix:rotMatrix:transVect:rotMatrixX:rotMatrixY:rotMatrixZ:));
 
 /**
- * Decomposes a projection matrix into a rotation matrix and a camera intrinsic matrix.
+ * Decomposes a projection matrix into a rotation matrix and a camera matrix.
  *
  * @param projMatrix 3x4 input projection matrix P.
- * @param cameraMatrix Output 3x3 camera intrinsic matrix `$$\cameramatrix{A}$$`.
+ * @param cameraMatrix Output 3x3 camera matrix K.
  * @param rotMatrix Output 3x3 external rotation matrix R.
  * @param transVect Output 4x1 translation vector T.
  * @param rotMatrixX Optional 3x3 rotation matrix around x-axis.
@@ -7752,10 +7127,10 @@ CV_EXPORTS @interface Calib3d : NSObject
 + (void)decomposeProjectionMatrix:(Mat*)projMatrix cameraMatrix:(Mat*)cameraMatrix rotMatrix:(Mat*)rotMatrix transVect:(Mat*)transVect rotMatrixX:(Mat*)rotMatrixX rotMatrixY:(Mat*)rotMatrixY NS_SWIFT_NAME(decomposeProjectionMatrix(projMatrix:cameraMatrix:rotMatrix:transVect:rotMatrixX:rotMatrixY:));
 
 /**
- * Decomposes a projection matrix into a rotation matrix and a camera intrinsic matrix.
+ * Decomposes a projection matrix into a rotation matrix and a camera matrix.
  *
  * @param projMatrix 3x4 input projection matrix P.
- * @param cameraMatrix Output 3x3 camera intrinsic matrix `$$\cameramatrix{A}$$`.
+ * @param cameraMatrix Output 3x3 camera matrix K.
  * @param rotMatrix Output 3x3 external rotation matrix R.
  * @param transVect Output 4x1 translation vector T.
  * @param rotMatrixX Optional 3x3 rotation matrix around x-axis.
@@ -7774,10 +7149,10 @@ CV_EXPORTS @interface Calib3d : NSObject
 + (void)decomposeProjectionMatrix:(Mat*)projMatrix cameraMatrix:(Mat*)cameraMatrix rotMatrix:(Mat*)rotMatrix transVect:(Mat*)transVect rotMatrixX:(Mat*)rotMatrixX NS_SWIFT_NAME(decomposeProjectionMatrix(projMatrix:cameraMatrix:rotMatrix:transVect:rotMatrixX:));
 
 /**
- * Decomposes a projection matrix into a rotation matrix and a camera intrinsic matrix.
+ * Decomposes a projection matrix into a rotation matrix and a camera matrix.
  *
  * @param projMatrix 3x4 input projection matrix P.
- * @param cameraMatrix Output 3x3 camera intrinsic matrix `$$\cameramatrix{A}$$`.
+ * @param cameraMatrix Output 3x3 camera matrix K.
  * @param rotMatrix Output 3x3 external rotation matrix R.
  * @param transVect Output 4x1 translation vector T.
  * degrees.
@@ -7822,9 +7197,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param image Input/output image. It must have 1 or 3 channels. The number of channels is not altered.
  * @param cameraMatrix Input 3x3 floating-point matrix of camera intrinsic parameters.
- * `$$\cameramatrix{A}$$`
+ * `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$`
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is empty, the zero distortion coefficients are assumed.
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is empty, the zero distortion coefficients are assumed.
  * @param rvec Rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
  * @param tvec Translation vector.
@@ -7841,9 +7217,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param image Input/output image. It must have 1 or 3 channels. The number of channels is not altered.
  * @param cameraMatrix Input 3x3 floating-point matrix of camera intrinsic parameters.
- * `$$\cameramatrix{A}$$`
+ * `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$`
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is empty, the zero distortion coefficients are assumed.
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is empty, the zero distortion coefficients are assumed.
  * @param rvec Rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system.
  * @param tvec Translation vector.
@@ -8031,9 +7408,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param rvec The rotation vector (REF: Rodrigues) that, together with tvec, performs a change of
  * basis from world to camera coordinate system, see REF: calibrateCamera for details.
  * @param tvec The translation vector, see parameter description above.
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$` . If the vector is empty, the zero distortion coefficients are assumed.
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is empty, the zero distortion coefficients are assumed.
  * @param imagePoints Output array of image points, 1xN/Nx1 2-channel, or
  * vector\<Point2f\> .
  * @param jacobian Optional output 2Nx(10+\<numDistCoeffs\>) jacobian matrix of derivatives of image
@@ -8052,7 +7430,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * can also be used to compute a re-projection error, given the current intrinsic and extrinsic
  * parameters.
  *
- * NOTE: By setting rvec = tvec = `$$[0, 0, 0]$$`, or by setting cameraMatrix to a 3x3 identity matrix,
+ * @note By setting rvec = tvec = `$$[0, 0, 0]$$`, or by setting cameraMatrix to a 3x3 identity matrix,
  * or by passing zero distortion coefficients, one can get various useful partial cases of the
  * function. This means, one can compute the distorted coordinates for a sparse set of points or apply
  * a perspective transformation (and also compute the derivatives) in the ideal zero-distortion setup.
@@ -8067,9 +7445,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param rvec The rotation vector (REF: Rodrigues) that, together with tvec, performs a change of
  * basis from world to camera coordinate system, see REF: calibrateCamera for details.
  * @param tvec The translation vector, see parameter description above.
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$` . If the vector is empty, the zero distortion coefficients are assumed.
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is empty, the zero distortion coefficients are assumed.
  * @param imagePoints Output array of image points, 1xN/Nx1 2-channel, or
  * vector\<Point2f\> .
  * @param jacobian Optional output 2Nx(10+\<numDistCoeffs\>) jacobian matrix of derivatives of image
@@ -8087,7 +7466,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * can also be used to compute a re-projection error, given the current intrinsic and extrinsic
  * parameters.
  *
- * NOTE: By setting rvec = tvec = `$$[0, 0, 0]$$`, or by setting cameraMatrix to a 3x3 identity matrix,
+ * @note By setting rvec = tvec = `$$[0, 0, 0]$$`, or by setting cameraMatrix to a 3x3 identity matrix,
  * or by passing zero distortion coefficients, one can get various useful partial cases of the
  * function. This means, one can compute the distorted coordinates for a sparse set of points or apply
  * a perspective transformation (and also compute the derivatives) in the ideal zero-distortion setup.
@@ -8102,9 +7481,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param rvec The rotation vector (REF: Rodrigues) that, together with tvec, performs a change of
  * basis from world to camera coordinate system, see REF: calibrateCamera for details.
  * @param tvec The translation vector, see parameter description above.
- * @param cameraMatrix Camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$` . If the vector is empty, the zero distortion coefficients are assumed.
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is empty, the zero distortion coefficients are assumed.
  * @param imagePoints Output array of image points, 1xN/Nx1 2-channel, or
  * vector\<Point2f\> .
  * points with respect to components of the rotation vector, translation vector, focal lengths,
@@ -8121,7 +7501,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  * can also be used to compute a re-projection error, given the current intrinsic and extrinsic
  * parameters.
  *
- * NOTE: By setting rvec = tvec = `$$[0, 0, 0]$$`, or by setting cameraMatrix to a 3x3 identity matrix,
+ * @note By setting rvec = tvec = `$$[0, 0, 0]$$`, or by setting cameraMatrix to a 3x3 identity matrix,
  * or by passing zero distortion coefficients, one can get various useful partial cases of the
  * function. This means, one can compute the distorted coordinates for a sparse set of points or apply
  * a perspective transformation (and also compute the derivatives) in the ideal zero-distortion setup.
@@ -8267,9 +7647,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * where N is the number of points. vector\<Point3d\> can also be passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can also be passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Input/Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system. Input values are used as an initial solution.
@@ -8278,7 +7659,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * The function refines the object pose given at least 3 object points, their corresponding image
  * projections, an initial solution for the rotation and translation vector,
- * as well as the camera intrinsic matrix and the distortion coefficients.
+ * as well as the camera matrix and the distortion coefficients.
  * The function minimizes the projection error with respect to the rotation and the translation vectors, according
  * to a Levenberg-Marquardt iterative minimization CITE: Madsen04 CITE: Eade13 process.
  */
@@ -8292,9 +7673,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * where N is the number of points. vector\<Point3d\> can also be passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can also be passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Input/Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system. Input values are used as an initial solution.
@@ -8302,7 +7684,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * The function refines the object pose given at least 3 object points, their corresponding image
  * projections, an initial solution for the rotation and translation vector,
- * as well as the camera intrinsic matrix and the distortion coefficients.
+ * as well as the camera matrix and the distortion coefficients.
  * The function minimizes the projection error with respect to the rotation and the translation vectors, according
  * to a Levenberg-Marquardt iterative minimization CITE: Madsen04 CITE: Eade13 process.
  */
@@ -8320,9 +7702,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * where N is the number of points. vector\<Point3d\> can also be passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can also be passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Input/Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system. Input values are used as an initial solution.
@@ -8333,7 +7716,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * The function refines the object pose given at least 3 object points, their corresponding image
  * projections, an initial solution for the rotation and translation vector,
- * as well as the camera intrinsic matrix and the distortion coefficients.
+ * as well as the camera matrix and the distortion coefficients.
  * The function minimizes the projection error with respect to the rotation and the translation vectors, using a
  * virtual visual servoing (VVS) CITE: Chaumette06 CITE: Marchand16 scheme.
  */
@@ -8347,9 +7730,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * where N is the number of points. vector\<Point3d\> can also be passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can also be passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Input/Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system. Input values are used as an initial solution.
@@ -8359,7 +7743,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * The function refines the object pose given at least 3 object points, their corresponding image
  * projections, an initial solution for the rotation and translation vector,
- * as well as the camera intrinsic matrix and the distortion coefficients.
+ * as well as the camera matrix and the distortion coefficients.
  * The function minimizes the projection error with respect to the rotation and the translation vectors, using a
  * virtual visual servoing (VVS) CITE: Chaumette06 CITE: Marchand16 scheme.
  */
@@ -8373,9 +7757,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * where N is the number of points. vector\<Point3d\> can also be passed here.
  * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
  * where N is the number of points. vector\<Point2d\> can also be passed here.
- * @param cameraMatrix Input camera intrinsic matrix `$$\cameramatrix{A}$$` .
+ * @param cameraMatrix Input camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}$$` .
  * @param distCoeffs Input vector of distortion coefficients
- * `$$\distcoeffs$$`. If the vector is NULL/empty, the zero distortion coefficients are
+ * `$$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])$$` of
+ * 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are
  * assumed.
  * @param rvec Input/Output rotation vector (see REF: Rodrigues ) that, together with tvec, brings points from
  * the model coordinate system to the camera coordinate system. Input values are used as an initial solution.
@@ -8384,7 +7769,7 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * The function refines the object pose given at least 3 object points, their corresponding image
  * projections, an initial solution for the rotation and translation vector,
- * as well as the camera intrinsic matrix and the distortion coefficients.
+ * as well as the camera matrix and the distortion coefficients.
  * The function minimizes the projection error with respect to the rotation and the translation vectors, using a
  * virtual visual servoing (VVS) CITE: Chaumette06 CITE: Marchand16 scheme.
  */
@@ -8397,9 +7782,9 @@ CV_EXPORTS @interface Calib3d : NSObject
 /**
  * Computes rectification transforms for each head of a calibrated stereo camera.
  *
- * @param cameraMatrix1 First camera intrinsic matrix.
+ * @param cameraMatrix1 First camera matrix.
  * @param distCoeffs1 First camera distortion parameters.
- * @param cameraMatrix2 Second camera intrinsic matrix.
+ * @param cameraMatrix2 Second camera matrix.
  * @param distCoeffs2 Second camera distortion parameters.
  * @param imageSize Size of the image used for stereo calibration.
  * @param R Rotation matrix from the coordinate system of the first camera to the second camera,
@@ -8505,9 +7890,9 @@ CV_EXPORTS @interface Calib3d : NSObject
 /**
  * Computes rectification transforms for each head of a calibrated stereo camera.
  *
- * @param cameraMatrix1 First camera intrinsic matrix.
+ * @param cameraMatrix1 First camera matrix.
  * @param distCoeffs1 First camera distortion parameters.
- * @param cameraMatrix2 Second camera intrinsic matrix.
+ * @param cameraMatrix2 Second camera matrix.
  * @param distCoeffs2 Second camera distortion parameters.
  * @param imageSize Size of the image used for stereo calibration.
  * @param R Rotation matrix from the coordinate system of the first camera to the second camera,
@@ -8612,9 +7997,9 @@ CV_EXPORTS @interface Calib3d : NSObject
 /**
  * Computes rectification transforms for each head of a calibrated stereo camera.
  *
- * @param cameraMatrix1 First camera intrinsic matrix.
+ * @param cameraMatrix1 First camera matrix.
  * @param distCoeffs1 First camera distortion parameters.
- * @param cameraMatrix2 Second camera intrinsic matrix.
+ * @param cameraMatrix2 Second camera matrix.
  * @param distCoeffs2 Second camera distortion parameters.
  * @param imageSize Size of the image used for stereo calibration.
  * @param R Rotation matrix from the coordinate system of the first camera to the second camera,
@@ -8718,9 +8103,9 @@ CV_EXPORTS @interface Calib3d : NSObject
 /**
  * Computes rectification transforms for each head of a calibrated stereo camera.
  *
- * @param cameraMatrix1 First camera intrinsic matrix.
+ * @param cameraMatrix1 First camera matrix.
  * @param distCoeffs1 First camera distortion parameters.
- * @param cameraMatrix2 Second camera intrinsic matrix.
+ * @param cameraMatrix2 Second camera matrix.
  * @param distCoeffs2 Second camera distortion parameters.
  * @param imageSize Size of the image used for stereo calibration.
  * @param R Rotation matrix from the coordinate system of the first camera to the second camera,
@@ -8823,9 +8208,9 @@ CV_EXPORTS @interface Calib3d : NSObject
 /**
  * Computes rectification transforms for each head of a calibrated stereo camera.
  *
- * @param cameraMatrix1 First camera intrinsic matrix.
+ * @param cameraMatrix1 First camera matrix.
  * @param distCoeffs1 First camera distortion parameters.
- * @param cameraMatrix2 Second camera intrinsic matrix.
+ * @param cameraMatrix2 Second camera matrix.
  * @param distCoeffs2 Second camera distortion parameters.
  * @param imageSize Size of the image used for stereo calibration.
  * @param R Rotation matrix from the coordinate system of the first camera to the second camera,
@@ -8927,9 +8312,9 @@ CV_EXPORTS @interface Calib3d : NSObject
 /**
  * Computes rectification transforms for each head of a calibrated stereo camera.
  *
- * @param cameraMatrix1 First camera intrinsic matrix.
+ * @param cameraMatrix1 First camera matrix.
  * @param distCoeffs1 First camera distortion parameters.
- * @param cameraMatrix2 Second camera intrinsic matrix.
+ * @param cameraMatrix2 Second camera matrix.
  * @param distCoeffs2 Second camera distortion parameters.
  * @param imageSize Size of the image used for stereo calibration.
  * @param R Rotation matrix from the coordinate system of the first camera to the second camera,
@@ -9046,10 +8431,10 @@ CV_EXPORTS @interface Calib3d : NSObject
  * @param points4D 4xN array of reconstructed points in homogeneous coordinates. These points are
  * returned in the world's coordinate system.
  *
- * NOTE:
+ * @note
  *    Keep in mind that all input data should be of float type in order for this function to work.
  *
- * NOTE:
+ * @note
  *    If the projection matrices from REF: stereoRectify are used, then the returned points are
  *    represented in the first camera's rectified coordinate system.
  *
@@ -9131,7 +8516,7 @@ CV_EXPORTS @interface Calib3d : NSObject
 //
 /**
  *
- *     NOTE: Default version of #undistortPoints does 5 iterations to compute undistorted points.
+ *     @note Default version of #undistortPoints does 5 iterations to compute undistorted points.
  */
 + (void)undistortPointsIter:(Mat*)src dst:(Mat*)dst cameraMatrix:(Mat*)cameraMatrix distCoeffs:(Mat*)distCoeffs R:(Mat*)R P:(Mat*)P criteria:(TermCriteria*)criteria NS_SWIFT_NAME(undistortPoints(src:dst:cameraMatrix:distCoeffs:R:P:criteria:));
 
@@ -9282,12 +8667,12 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param undistorted Array of object points, 1xN/Nx1 2-channel (or vector\<Point2f\> ), where N is
  *     the number of points in the view.
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param alpha The skew coefficient.
  * @param distorted Output array of image points, 1xN/Nx1 2-channel, or vector\<Point2f\> .
  *
- *     Note that the function assumes the camera intrinsic matrix of the undistorted points to be identity.
+ *     Note that the function assumes the camera matrix of the undistorted points to be identity.
  *     This means if you want to transform back points undistorted with undistortPoints() you have to
  *     multiply them with `$$P^{-1}$$`.
  */
@@ -9298,11 +8683,11 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param undistorted Array of object points, 1xN/Nx1 2-channel (or vector\<Point2f\> ), where N is
  *     the number of points in the view.
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param distorted Output array of image points, 1xN/Nx1 2-channel, or vector\<Point2f\> .
  *
- *     Note that the function assumes the camera intrinsic matrix of the undistorted points to be identity.
+ *     Note that the function assumes the camera matrix of the undistorted points to be identity.
  *     This means if you want to transform back points undistorted with undistortPoints() you have to
  *     multiply them with `$$P^{-1}$$`.
  */
@@ -9313,14 +8698,14 @@ CV_EXPORTS @interface Calib3d : NSObject
 //  void cv::fisheye::estimateNewCameraMatrixForUndistortRectify(Mat K, Mat D, Size image_size, Mat R, Mat& P, double balance = 0.0, Size new_size = Size(), double fov_scale = 1.0)
 //
 /**
- * Estimates new camera intrinsic matrix for undistortion or rectification.
+ * Estimates new camera matrix for undistortion or rectification.
  *
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
  * @param image_size Size of the image
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param R Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3
  *     1-channel or 1x1 3-channel
- * @param P New camera intrinsic matrix (3x3) or new projection matrix (3x4)
+ * @param P New camera matrix (3x3) or new projection matrix (3x4)
  * @param balance Sets the new focal length in range between the min focal length and the max focal
  *     length. Balance is in range of [0, 1].
  * @param new_size the new size
@@ -9329,14 +8714,14 @@ CV_EXPORTS @interface Calib3d : NSObject
 + (void)estimateNewCameraMatrixForUndistortRectify:(Mat*)K D:(Mat*)D image_size:(Size2i*)image_size R:(Mat*)R P:(Mat*)P balance:(double)balance new_size:(Size2i*)new_size fov_scale:(double)fov_scale NS_SWIFT_NAME(estimateNewCameraMatrixForUndistortRectify(K:D:image_size:R:P:balance:new_size:fov_scale:));
 
 /**
- * Estimates new camera intrinsic matrix for undistortion or rectification.
+ * Estimates new camera matrix for undistortion or rectification.
  *
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
  * @param image_size Size of the image
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param R Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3
  *     1-channel or 1x1 3-channel
- * @param P New camera intrinsic matrix (3x3) or new projection matrix (3x4)
+ * @param P New camera matrix (3x3) or new projection matrix (3x4)
  * @param balance Sets the new focal length in range between the min focal length and the max focal
  *     length. Balance is in range of [0, 1].
  * @param new_size the new size
@@ -9344,28 +8729,28 @@ CV_EXPORTS @interface Calib3d : NSObject
 + (void)estimateNewCameraMatrixForUndistortRectify:(Mat*)K D:(Mat*)D image_size:(Size2i*)image_size R:(Mat*)R P:(Mat*)P balance:(double)balance new_size:(Size2i*)new_size NS_SWIFT_NAME(estimateNewCameraMatrixForUndistortRectify(K:D:image_size:R:P:balance:new_size:));
 
 /**
- * Estimates new camera intrinsic matrix for undistortion or rectification.
+ * Estimates new camera matrix for undistortion or rectification.
  *
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
  * @param image_size Size of the image
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param R Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3
  *     1-channel or 1x1 3-channel
- * @param P New camera intrinsic matrix (3x3) or new projection matrix (3x4)
+ * @param P New camera matrix (3x3) or new projection matrix (3x4)
  * @param balance Sets the new focal length in range between the min focal length and the max focal
  *     length. Balance is in range of [0, 1].
  */
 + (void)estimateNewCameraMatrixForUndistortRectify:(Mat*)K D:(Mat*)D image_size:(Size2i*)image_size R:(Mat*)R P:(Mat*)P balance:(double)balance NS_SWIFT_NAME(estimateNewCameraMatrixForUndistortRectify(K:D:image_size:R:P:balance:));
 
 /**
- * Estimates new camera intrinsic matrix for undistortion or rectification.
+ * Estimates new camera matrix for undistortion or rectification.
  *
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
  * @param image_size Size of the image
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param R Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3
  *     1-channel or 1x1 3-channel
- * @param P New camera intrinsic matrix (3x3) or new projection matrix (3x4)
+ * @param P New camera matrix (3x3) or new projection matrix (3x4)
  *     length. Balance is in range of [0, 1].
  */
 + (void)estimateNewCameraMatrixForUndistortRectify:(Mat*)K D:(Mat*)D image_size:(Size2i*)image_size R:(Mat*)R P:(Mat*)P NS_SWIFT_NAME(estimateNewCameraMatrixForUndistortRectify(K:D:image_size:R:P:));
@@ -9378,11 +8763,11 @@ CV_EXPORTS @interface Calib3d : NSObject
  * Computes undistortion and rectification maps for image transform by cv::remap(). If D is empty zero
  *     distortion is used, if R or P is empty identity matrixes are used.
  *
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param R Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3
  *     1-channel or 1x1 3-channel
- * @param P New camera intrinsic matrix (3x3) or new projection matrix (3x4)
+ * @param P New camera matrix (3x3) or new projection matrix (3x4)
  * @param size Undistorted image size.
  * @param m1type Type of the first output map that can be CV_32FC1 or CV_16SC2 . See convertMaps()
  *     for details.
@@ -9408,9 +8793,9 @@ CV_EXPORTS @interface Calib3d : NSObject
 /**
  * Stereo rectification for fisheye camera model
  *
- * @param K1 First camera intrinsic matrix.
+ * @param K1 First camera matrix.
  * @param D1 First camera distortion parameters.
- * @param K2 Second camera intrinsic matrix.
+ * @param K2 Second camera matrix.
  * @param D2 Second camera distortion parameters.
  * @param imageSize Size of the image used for stereo calibration.
  * @param R Rotation matrix between the coordinate systems of the first and the second
@@ -9441,9 +8826,9 @@ CV_EXPORTS @interface Calib3d : NSObject
 /**
  * Stereo rectification for fisheye camera model
  *
- * @param K1 First camera intrinsic matrix.
+ * @param K1 First camera matrix.
  * @param D1 First camera distortion parameters.
- * @param K2 Second camera intrinsic matrix.
+ * @param K2 Second camera matrix.
  * @param D2 Second camera distortion parameters.
  * @param imageSize Size of the image used for stereo calibration.
  * @param R Rotation matrix between the coordinate systems of the first and the second
@@ -9473,9 +8858,9 @@ CV_EXPORTS @interface Calib3d : NSObject
 /**
  * Stereo rectification for fisheye camera model
  *
- * @param K1 First camera intrinsic matrix.
+ * @param K1 First camera matrix.
  * @param D1 First camera distortion parameters.
- * @param K2 Second camera intrinsic matrix.
+ * @param K2 Second camera matrix.
  * @param D2 Second camera distortion parameters.
  * @param imageSize Size of the image used for stereo calibration.
  * @param R Rotation matrix between the coordinate systems of the first and the second
@@ -9504,9 +8889,9 @@ CV_EXPORTS @interface Calib3d : NSObject
 /**
  * Stereo rectification for fisheye camera model
  *
- * @param K1 First camera intrinsic matrix.
+ * @param K1 First camera matrix.
  * @param D1 First camera distortion parameters.
- * @param K2 Second camera intrinsic matrix.
+ * @param K2 Second camera matrix.
  * @param D2 Second camera distortion parameters.
  * @param imageSize Size of the image used for stereo calibration.
  * @param R Rotation matrix between the coordinate systems of the first and the second
@@ -9540,9 +8925,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param distorted image with fisheye lens distortion.
  * @param undistorted Output image with compensated fisheye lens distortion.
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
- * @param Knew Camera intrinsic matrix of the distorted image. By default, it is the identity matrix but you
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
+ * @param Knew Camera matrix of the distorted image. By default, it is the identity matrix but you
  *     may additionally scale and shift the result by using a different matrix.
  * @param new_size the new size
  *
@@ -9571,9 +8956,9 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param distorted image with fisheye lens distortion.
  * @param undistorted Output image with compensated fisheye lens distortion.
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
- * @param Knew Camera intrinsic matrix of the distorted image. By default, it is the identity matrix but you
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
+ * @param Knew Camera matrix of the distorted image. By default, it is the identity matrix but you
  *     may additionally scale and shift the result by using a different matrix.
  *
  *     The function transforms an image to compensate radial and tangential lens distortion.
@@ -9601,8 +8986,8 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param distorted image with fisheye lens distortion.
  * @param undistorted Output image with compensated fisheye lens distortion.
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  *     may additionally scale and shift the result by using a different matrix.
  *
  *     The function transforms an image to compensate radial and tangential lens distortion.
@@ -9634,11 +9019,11 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param distorted Array of object points, 1xN/Nx1 2-channel (or vector\<Point2f\> ), where N is the
  *     number of points in the view.
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param R Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3
  *     1-channel or 1x1 3-channel
- * @param P New camera intrinsic matrix (3x3) or new projection matrix (3x4)
+ * @param P New camera matrix (3x3) or new projection matrix (3x4)
  * @param undistorted Output array of image points, 1xN/Nx1 2-channel, or vector\<Point2f\> .
  */
 + (void)undistortPoints:(Mat*)distorted undistorted:(Mat*)undistorted K:(Mat*)K D:(Mat*)D R:(Mat*)R P:(Mat*)P NS_SWIFT_NAME(undistortPoints(distorted:undistorted:K:D:R:P:));
@@ -9648,8 +9033,8 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param distorted Array of object points, 1xN/Nx1 2-channel (or vector\<Point2f\> ), where N is the
  *     number of points in the view.
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  * @param R Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3
  *     1-channel or 1x1 3-channel
  * @param undistorted Output array of image points, 1xN/Nx1 2-channel, or vector\<Point2f\> .
@@ -9661,8 +9046,8 @@ CV_EXPORTS @interface Calib3d : NSObject
  *
  * @param distorted Array of object points, 1xN/Nx1 2-channel (or vector\<Point2f\> ), where N is the
  *     number of points in the view.
- * @param K Camera intrinsic matrix `$$cameramatrix{K}$$`.
- * @param D Input vector of distortion coefficients `$$\distcoeffsfisheye$$`.
+ * @param K Camera matrix `$$\newcommand{\vecthreethree}[9]{ \begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \end{bmatrix} } K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{_1}$$`.
+ * @param D Input vector of distortion coefficients `$$(k_1, k_2, k_3, k_4)$$`.
  *     1-channel or 1x1 3-channel
  * @param undistorted Output array of image points, 1xN/Nx1 2-channel, or vector\<Point2f\> .
  */

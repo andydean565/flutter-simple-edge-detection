@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Class implementing the KAZE keypoint detector and descriptor extractor, described in CITE: ABD12 .
  *
- * NOTE: AKAZE descriptor can only be used with KAZE or AKAZE keypoints .. [ABD12] KAZE Features. Pablo
+ * @note AKAZE descriptor can only be used with KAZE or AKAZE keypoints .. [ABD12] KAZE Features. Pablo
  * F. Alcantarilla, Adrien Bartoli and Andrew J. Davison. In European Conference on Computer Vision
  * (ECCV), Fiorenze, Italy, October 2012.
  *

@@ -28,8 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Here is how the class can be used:
  * INCLUDE: samples/cpp/videocapture_basic.cpp
  *
- * NOTE: In REF: videoio_c "C API" the black-box structure `CvCapture` is used instead of %VideoCapture.
- * NOTE:
+ * @note In REF: videoio_c "C API" the black-box structure `CvCapture` is used instead of %VideoCapture.
+ * @note
  * -   (C++) A basic sample on using the %VideoCapture interface can be found at
  *     `OPENCV_SOURCE_CODE/samples/cpp/videocapture_starter.cpp`
  * -   (Python) A basic sample on using the %VideoCapture interface can be found at
@@ -130,7 +130,7 @@ CV_EXPORTS @interface VideoCapture : NSObject
 //
 /**
  * Default constructor
- *     NOTE: In REF: videoio_c "C API", when you finished working with video, release CvCapture structure with
+ *     @note In REF: videoio_c "C API", when you finished working with video, release CvCapture structure with
  *     cvReleaseCapture(), or use Ptr\<CvCapture\> that calls cvReleaseCapture() automatically in the
  *     destructor.
  */
@@ -143,7 +143,7 @@ CV_EXPORTS @interface VideoCapture : NSObject
 /**
  * Returns used backend API name
  *
- *      NOTE: Stream should be opened.
+ *      @note Stream should be opened.
  */
 - (NSString*)getBackendName NS_SWIFT_NAME(getBackendName());
 
@@ -261,7 +261,7 @@ CV_EXPORTS @interface VideoCapture : NSObject
  *     grabbed frame. If no frames has been grabbed (camera has been disconnected, or there are no more
  *     frames in video file), the method returns false and the function returns empty image (with %cv::Mat, test it with Mat::empty()).
  *
- *     NOTE: In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
+ *     @note In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
  *     capturing structure. It is not allowed to modify or release the image! You can copy the frame using
  *     cvCloneImage and then do whatever you want with the copy.
  */
@@ -283,7 +283,7 @@ CV_EXPORTS @interface VideoCapture : NSObject
  *
  *     @see `read()`
  *
- *     NOTE: In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
+ *     @note In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
  *     capturing structure. It is not allowed to modify or release the image! You can copy the frame using
  *     cvCloneImage and then do whatever you want with the copy.
  */
@@ -300,7 +300,7 @@ CV_EXPORTS @interface VideoCapture : NSObject
  *
  *     @see `read()`
  *
- *     NOTE: In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
+ *     @note In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
  *     capturing structure. It is not allowed to modify or release the image! You can copy the frame using
  *     cvCloneImage and then do whatever you want with the copy.
  */
@@ -317,7 +317,7 @@ CV_EXPORTS @interface VideoCapture : NSObject
  *     or one from REF: videoio_flags_others
  * @param value Value of the property.
  *     @return `true` if the property is supported by backend used by the VideoCapture instance.
- *     NOTE: Even if it returns `true` this doesn't ensure that the property
+ *     @note Even if it returns `true` this doesn't ensure that the property
  *     value has been accepted by the capture device. See note in VideoCapture::get()
  */
 - (BOOL)set:(int)propId value:(double)value NS_SWIFT_NAME(set(propId:value:));
@@ -334,7 +334,7 @@ CV_EXPORTS @interface VideoCapture : NSObject
  *     @return Value for the specified property. Value 0 is returned when querying a property that is
  *     not supported by the backend used by the VideoCapture instance.
  *
- *     NOTE: Reading / writing properties involves many layers. Some unexpected result might happens
+ *     @note Reading / writing properties involves many layers. Some unexpected result might happens
  *     along this chain.
  *     
  *     VideoCapture -> API Backend -> Operating System -> Device Driver -> Device Hardware

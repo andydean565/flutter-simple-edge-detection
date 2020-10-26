@@ -151,7 +151,7 @@ CV_EXPORTS @interface VideoWriter : NSObject
 /**
  * Returns used backend API name
  *
- *      NOTE: Stream should be opened.
+ *      @note Stream should be opened.
  */
 - (NSString*)getBackendName NS_SWIFT_NAME(getBackendName());
 

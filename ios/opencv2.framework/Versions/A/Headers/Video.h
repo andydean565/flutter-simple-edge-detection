@@ -168,7 +168,7 @@ CV_EXPORTS @interface Video : NSObject
  *
  * See the OpenCV sample camshiftdemo.c that tracks colored objects.
  *
- * NOTE:
+ * @note
  * -   (Python) A sample explaining the camshift tracking algorithm can be found at
  *     opencv_source_code/samples/python/camshift.py
  */
@@ -422,7 +422,7 @@ CV_EXPORTS @interface Video : NSObject
  *
  * `$$\texttt{prev} (y,x)  \sim \texttt{next} ( y + \texttt{flow} (y,x)[1],  x + \texttt{flow} (y,x)[0])$$`
  *
- * NOTE:
+ * @note
  *
  * -   An example using the optical flow algorithm described by Gunnar Farneback can be found at
  *     opencv_source_code/samples/cpp/fback.cpp
@@ -474,7 +474,7 @@ CV_EXPORTS @interface Video : NSObject
  * The function implements a sparse iterative version of the Lucas-Kanade optical flow in pyramids. See
  * CITE: Bouguet00 . The function is parallelized with the TBB library.
  *
- * NOTE:
+ * @note
  *
  * -   An example using the Lucas-Kanade optical flow algorithm can be found at
  *     opencv_source_code/samples/cpp/lkdemo.cpp
@@ -523,7 +523,7 @@ CV_EXPORTS @interface Video : NSObject
  * The function implements a sparse iterative version of the Lucas-Kanade optical flow in pyramids. See
  * CITE: Bouguet00 . The function is parallelized with the TBB library.
  *
- * NOTE:
+ * @note
  *
  * -   An example using the Lucas-Kanade optical flow algorithm can be found at
  *     opencv_source_code/samples/cpp/lkdemo.cpp
@@ -571,7 +571,7 @@ CV_EXPORTS @interface Video : NSObject
  * The function implements a sparse iterative version of the Lucas-Kanade optical flow in pyramids. See
  * CITE: Bouguet00 . The function is parallelized with the TBB library.
  *
- * NOTE:
+ * @note
  *
  * -   An example using the Lucas-Kanade optical flow algorithm can be found at
  *     opencv_source_code/samples/cpp/lkdemo.cpp
@@ -618,7 +618,7 @@ CV_EXPORTS @interface Video : NSObject
  * The function implements a sparse iterative version of the Lucas-Kanade optical flow in pyramids. See
  * CITE: Bouguet00 . The function is parallelized with the TBB library.
  *
- * NOTE:
+ * @note
  *
  * -   An example using the Lucas-Kanade optical flow algorithm can be found at
  *     opencv_source_code/samples/cpp/lkdemo.cpp
@@ -664,7 +664,7 @@ CV_EXPORTS @interface Video : NSObject
  * The function implements a sparse iterative version of the Lucas-Kanade optical flow in pyramids. See
  * CITE: Bouguet00 . The function is parallelized with the TBB library.
  *
- * NOTE:
+ * @note
  *
  * -   An example using the Lucas-Kanade optical flow algorithm can be found at
  *     opencv_source_code/samples/cpp/lkdemo.cpp
@@ -709,7 +709,7 @@ CV_EXPORTS @interface Video : NSObject
  * The function implements a sparse iterative version of the Lucas-Kanade optical flow in pyramids. See
  * CITE: Bouguet00 . The function is parallelized with the TBB library.
  *
- * NOTE:
+ * @note
  *
  * -   An example using the Lucas-Kanade optical flow algorithm can be found at
  *     opencv_source_code/samples/cpp/lkdemo.cpp

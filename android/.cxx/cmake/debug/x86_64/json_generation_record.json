@@ -1,7 +1,7 @@
 [
   {
     "level": "INFO",
-    "message": "Start JSON generation. Platform version: 16 min SDK version: x86_64"
+    "message": "Start JSON generation. Platform version: 21 min SDK version: x86_64"
   },
   {
     "level": "INFO",
@@ -9,15 +9,15 @@
   },
   {
     "level": "INFO",
-    "message": "- expected json /home/dev/app/android/.cxx/cmake/debug/x86_64/android_gradle_build.json file is not present, will remove stale json folder"
-  },
-  {
-    "level": "INFO",
-    "message": "- missing previous command file /home/dev/app/android/.cxx/cmake/debug/x86_64/build_command.txt, will remove stale json folder"
-  },
-  {
-    "level": "INFO",
     "message": "- command changed from previous, will remove stale json folder"
+  },
+  {
+    "level": "INFO",
+    "message": "- a dependent build file changed"
+  },
+  {
+    "level": "INFO",
+    "message": "  - /home/dev/app/android/CMakeLists.txt"
   },
   {
     "level": "INFO",
@@ -29,11 +29,11 @@
   },
   {
     "level": "INFO",
-    "message": "executing cmake Executable : /home/dev/Android/sdk/cmake/3.6.4111459/bin/cmake\narguments : \n-H/home/dev/app/android\n-B/home/dev/app/android/.cxx/cmake/debug/x86_64\n-DANDROID_ABI\u003dx86_64\n-DANDROID_PLATFORM\u003dandroid-16\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003d/home/dev/app/example/build/simple_edge_detection/intermediates/cmake/debug/obj/x86_64\n-DCMAKE_BUILD_TYPE\u003dDebug\n-DANDROID_NDK\u003d/home/dev/Android/sdk/ndk/21.3.6528147\n-DCMAKE_CXX_FLAGS\u003d-frtti -fexceptions -std\u003dc++11\n-DCMAKE_TOOLCHAIN_FILE\u003d/home/dev/Android/sdk/ndk/21.3.6528147/build/cmake/android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003d/home/dev/Android/sdk/cmake/3.6.4111459/bin/ninja\n-GAndroid Gradle - Ninja\n-DANDROID_STL\u003dc++_shared\njvmArgs : \n\n"
+    "message": "executing cmake Executable : /home/dev/Android/sdk/cmake/3.6.4111459/bin/cmake\narguments : \n-H/home/dev/app/android\n-B/home/dev/app/android/.cxx/cmake/debug/x86_64\n-DANDROID_ABI\u003dx86_64\n-DANDROID_PLATFORM\u003dandroid-21\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003d/home/dev/app/example/build/simple_edge_detection/intermediates/cmake/debug/obj/x86_64\n-DCMAKE_BUILD_TYPE\u003dDebug\n-DANDROID_NDK\u003d/home/dev/Android/sdk/ndk/21.3.6528147\n-DCMAKE_CXX_FLAGS\u003d-frtti -fexceptions -std\u003dc++11\n-DCMAKE_TOOLCHAIN_FILE\u003d/home/dev/Android/sdk/ndk/21.3.6528147/build/cmake/android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003d/home/dev/Android/sdk/cmake/3.6.4111459/bin/ninja\n-GAndroid Gradle - Ninja\n-DANDROID_STL\u003dc++_shared\njvmArgs : \n\n"
   },
   {
     "level": "INFO",
-    "message": "Executable : /home/dev/Android/sdk/cmake/3.6.4111459/bin/cmake\narguments : \n-H/home/dev/app/android\n-B/home/dev/app/android/.cxx/cmake/debug/x86_64\n-DANDROID_ABI\u003dx86_64\n-DANDROID_PLATFORM\u003dandroid-16\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003d/home/dev/app/example/build/simple_edge_detection/intermediates/cmake/debug/obj/x86_64\n-DCMAKE_BUILD_TYPE\u003dDebug\n-DANDROID_NDK\u003d/home/dev/Android/sdk/ndk/21.3.6528147\n-DCMAKE_CXX_FLAGS\u003d-frtti -fexceptions -std\u003dc++11\n-DCMAKE_TOOLCHAIN_FILE\u003d/home/dev/Android/sdk/ndk/21.3.6528147/build/cmake/android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003d/home/dev/Android/sdk/cmake/3.6.4111459/bin/ninja\n-GAndroid Gradle - Ninja\n-DANDROID_STL\u003dc++_shared\njvmArgs : \n\n"
+    "message": "Executable : /home/dev/Android/sdk/cmake/3.6.4111459/bin/cmake\narguments : \n-H/home/dev/app/android\n-B/home/dev/app/android/.cxx/cmake/debug/x86_64\n-DANDROID_ABI\u003dx86_64\n-DANDROID_PLATFORM\u003dandroid-21\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003d/home/dev/app/example/build/simple_edge_detection/intermediates/cmake/debug/obj/x86_64\n-DCMAKE_BUILD_TYPE\u003dDebug\n-DANDROID_NDK\u003d/home/dev/Android/sdk/ndk/21.3.6528147\n-DCMAKE_CXX_FLAGS\u003d-frtti -fexceptions -std\u003dc++11\n-DCMAKE_TOOLCHAIN_FILE\u003d/home/dev/Android/sdk/ndk/21.3.6528147/build/cmake/android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003d/home/dev/Android/sdk/cmake/3.6.4111459/bin/ninja\n-GAndroid Gradle - Ninja\n-DANDROID_STL\u003dc++_shared\njvmArgs : \n\n"
   },
   {
     "level": "INFO",

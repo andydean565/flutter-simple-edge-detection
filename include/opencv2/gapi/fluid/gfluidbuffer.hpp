@@ -56,6 +56,8 @@ public:
         }
     };
 
+    View() = default;
+
     const inline uint8_t* InLineB(int index) const // -(w-1)/2...0...+(w-1)/2 for Filters
     {
         return m_cache->linePtr(index);
@@ -78,7 +80,6 @@ public:
     Priv& priv();               // internal use only
     const Priv& priv() const;   // internal use only
 
-    View();
     View(std::unique_ptr<Priv>&& p);
     View(View&& v);
     View& operator=(View&& v);

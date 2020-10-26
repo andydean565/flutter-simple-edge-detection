@@ -1327,7 +1327,7 @@ CV_EXPORTS @interface Photo : NSObject
  * function may be used to remove dust and scratches from a scanned photo, or to remove undesirable
  * objects from still images or video. See <http://en.wikipedia.org/wiki/Inpainting> for more details.
  *
- * NOTE:
+ * @note
  *    -   An example using the inpainting technique can be found at
  *         opencv_source_code/samples/cpp/inpaint.cpp
  *    -   (Python) An example using the inpainting technique can be found at
@@ -1453,7 +1453,7 @@ CV_EXPORTS @interface Photo : NSObject
  * @param high_threshold Value \> 100.
  * @param kernel_size The size of the Sobel kernel to be used.
  *
- * NOTE:
+ * @note
  * The algorithm assumes that the color of the source image is close to that of the destination. This
  * assumption means that when the colors don't match, the source image color gets tinted toward the
  * color of the destination image.
@@ -1470,7 +1470,7 @@ CV_EXPORTS @interface Photo : NSObject
  * @param low_threshold %Range from 0 to 100.
  * @param high_threshold Value \> 100.
  *
- * NOTE:
+ * @note
  * The algorithm assumes that the color of the source image is close to that of the destination. This
  * assumption means that when the colors don't match, the source image color gets tinted toward the
  * color of the destination image.
@@ -1486,7 +1486,7 @@ CV_EXPORTS @interface Photo : NSObject
  * @param dst Output image with the same size and type as src.
  * @param low_threshold %Range from 0 to 100.
  *
- * NOTE:
+ * @note
  * The algorithm assumes that the color of the source image is close to that of the destination. This
  * assumption means that when the colors don't match, the source image color gets tinted toward the
  * color of the destination image.
@@ -1501,7 +1501,7 @@ CV_EXPORTS @interface Photo : NSObject
  * @param mask Input 8-bit 1 or 3-channel image.
  * @param dst Output image with the same size and type as src.
  *
- * NOTE:
+ * @note
  * The algorithm assumes that the color of the source image is close to that of the destination. This
  * assumption means that when the colors don't match, the source image color gets tinted toward the
  * color of the destination image.

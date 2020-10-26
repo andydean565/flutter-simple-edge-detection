@@ -113,7 +113,7 @@ CV_EXPORTS @interface Model : Net
 /**
  * Set input size for frame.
  * @param size New input size.
- * NOTE: If shape of the new blob less than 0, then frame size not change.
+ * @note If shape of the new blob less than 0, then frame size not change.
  */
 - (Model*)setInputSize:(Size2i*)size NS_SWIFT_NAME(setInputSize(size:));
 
@@ -125,7 +125,7 @@ CV_EXPORTS @interface Model : Net
  * Set input size for frame.
  * @param width New input width.
  * @param height New input height.
- * NOTE: If shape of the new blob less than 0,
+ * @note If shape of the new blob less than 0,
  * then frame size not change.
  */
 - (Model*)setInputSize:(int)width height:(int)height NS_SWIFT_NAME(setInputSize(width:height:));

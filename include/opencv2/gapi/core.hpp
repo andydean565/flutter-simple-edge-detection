@@ -2,7 +2,7 @@
 // It is subject to the license terms in the LICENSE file found in the top-level directory
 // of this distribution and at http://opencv.org/license.html.
 //
-// Copyright (C) 2018-2020 Intel Corporation
+// Copyright (C) 2018 Intel Corporation
 
 
 #ifndef OPENCV_GAPI_CORE_HPP
@@ -31,7 +31,7 @@ namespace core {
     using GMat2 = std::tuple<GMat,GMat>;
     using GMat3 = std::tuple<GMat,GMat,GMat>; // FIXME: how to avoid this?
     using GMat4 = std::tuple<GMat,GMat,GMat,GMat>;
-    using GMatScalar  = std::tuple<GMat, GScalar>;
+    using GMatScalar = std::tuple<GMat, GScalar>;
 
     G_TYPED_KERNEL(GAdd, <GMat(GMat, GMat, int)>, "org.opencv.core.math.add") {
         static GMatDesc outMeta(GMatDesc a, GMatDesc b, int ddepth) {
@@ -308,13 +308,6 @@ namespace core {
         }
     };
 
-    G_TYPED_KERNEL(GCountNonZero, <GOpaque<int>(GMat)>, "org.opencv.core.matrixop.countNonZero") {
-        static GOpaqueDesc outMeta(GMatDesc in) {
-            GAPI_Assert(in.chan == 1);
-            return empty_gopaque_desc();
-        }
-    };
-
     G_TYPED_KERNEL(GAddW, <GMat(GMat, double, GMat, double, double, int)>, "org.opencv.core.matrixop.addweighted") {
         static GMatDesc outMeta(GMatDesc a, double, GMatDesc b, double, double, int ddepth) {
             if (ddepth == -1)
@@ -508,18 +501,6 @@ namespace core {
             return in.withType(in.depth, in.chan).withSize(dsize);
         }
     };
-
-    G_TYPED_KERNEL(GSize, <GOpaque<Size>(GMat)>, "org.opencv.core.size") {
-        static GOpaqueDesc outMeta(const GMatDesc&) {
-            return empty_gopaque_desc();
-        }
-    };
-
-    G_TYPED_KERNEL(GSizeR, <GOpaque<Size>(GOpaque<Rect>)>, "org.opencv.core.sizeR") {
-        static GOpaqueDesc outMeta(const GOpaqueDesc&) {
-            return empty_gopaque_desc();
-        }
-    };
 }
 
 //! @addtogroup gapi_math
@@ -547,7 +528,7 @@ Supported matrix data types are @ref CV_8UC1, @ref CV_8UC3, @ref CV_16UC1, @ref 
 @param ddepth optional depth of the output matrix.
 @sa sub, addWeighted
 */
-GAPI_EXPORTS_W GMat add(const GMat& src1, const GMat& src2, int ddepth = -1);
+GAPI_EXPORTS GMat add(const GMat& src1, const GMat& src2, int ddepth = -1);
 
 /** @brief Calculates the per-element sum of matrix and given scalar.
 
@@ -762,9 +743,8 @@ Supported matrix data types are @ref CV_8UC1, @ref CV_8UC3, @ref CV_16UC1, @ref 
 
 @note Function textual ID is "org.opencv.core.math.mean"
 @param src input matrix.
-@sa  countNonZero, min, max
 */
-GAPI_EXPORTS_W GScalar mean(const GMat& src);
+GAPI_EXPORTS GScalar mean(const GMat& src);
 
 /** @brief Calculates x and y coordinates of 2D vectors from their magnitude and angle.
 
@@ -864,7 +844,7 @@ Supported input matrix data types are @ref CV_8UC1, @ref CV_16UC1, @ref CV_16SC1
 @note Function textual ID is "org.opencv.core.pixelwise.compare.cmpGT"
 @param src1 first input matrix.
 @param src2 second input matrix/scalar of the same depth as first input matrix.
-@sa min, max, threshold, cmpLE, cmpGE, cmpLT
+@sa min, max, threshold, cmpLE, cmpGE, cmpLS
 */
 GAPI_EXPORTS GMat cmpGT(const GMat& src1, const GMat& src2);
 /** @overload
@@ -916,7 +896,7 @@ Supported input matrix data types are @ref CV_8UC1, @ref CV_8UC3, @ref CV_16UC1,
 @note Function textual ID is "org.opencv.core.pixelwise.compare.cmpGE"
 @param src1 first input matrix.
 @param src2 second input matrix/scalar of the same depth as first input matrix.
-@sa min, max, threshold, cmpLE, cmpGT, cmpLT
+@sa min, max, threshold, cmpLE, cmpGT, cmpLS
 */
 GAPI_EXPORTS GMat cmpGE(const GMat& src1, const GMat& src2);
 /** @overload
@@ -942,7 +922,7 @@ Supported input matrix data types are @ref CV_8UC1, @ref CV_8UC3, @ref CV_16UC1,
 @note Function textual ID is "org.opencv.core.pixelwise.compare.cmpLE"
 @param src1 first input matrix.
 @param src2 second input matrix/scalar of the same depth as first input matrix.
-@sa min, max, threshold, cmpGT, cmpGE, cmpLT
+@sa min, max, threshold, cmpGT, cmpGE, cmpLS
 */
 GAPI_EXPORTS GMat cmpLE(const GMat& src1, const GMat& src2);
 /** @overload
@@ -1020,7 +1000,7 @@ Supported matrix data types are @ref CV_8UC1, @ref CV_8UC3, @ref CV_16UC1, @ref 
 */
 GAPI_EXPORTS GMat bitwise_and(const GMat& src1, const GMat& src2);
 /** @overload
-@note Function textual ID is "org.opencv.core.pixelwise.bitwise_andS"
+@note Function textual ID is "org.opencv.core.pixelwise.compare.bitwise_andS"
 @param src1 first input matrix.
 @param src2 scalar, which will be per-lemenetly conjuncted with elements of src1.
 */
@@ -1044,7 +1024,7 @@ Supported matrix data types are @ref CV_8UC1, @ref CV_8UC3, @ref CV_16UC1, @ref 
 */
 GAPI_EXPORTS GMat bitwise_or(const GMat& src1, const GMat& src2);
 /** @overload
-@note Function textual ID is "org.opencv.core.pixelwise.bitwise_orS"
+@note Function textual ID is "org.opencv.core.pixelwise.compare.bitwise_orS"
 @param src1 first input matrix.
 @param src2 scalar, which will be per-lemenetly disjuncted with elements of src1.
 */
@@ -1069,7 +1049,7 @@ Supported matrix data types are @ref CV_8UC1, @ref CV_8UC3, @ref CV_16UC1, @ref 
 */
 GAPI_EXPORTS GMat bitwise_xor(const GMat& src1, const GMat& src2);
 /** @overload
-@note Function textual ID is "org.opencv.core.pixelwise.bitwise_xorS"
+@note Function textual ID is "org.opencv.core.pixelwise.compare.bitwise_xorS"
 @param src1 first input matrix.
 @param src2 scalar, for which per-lemenet "logical or" operation on elements of src1 will be performed.
 */
@@ -1129,7 +1109,7 @@ Supported input matrix data types are @ref CV_8UC1, @ref CV_8UC3, @ref CV_16UC1,
 @note Function textual ID is "org.opencv.core.matrixop.min"
 @param src1 first input matrix.
 @param src2 second input matrix of the same size and depth as src1.
-@sa max, cmpEQ, cmpLT, cmpLE
+@sa max, compareEqual, compareLess, compareLessEqual
 */
 GAPI_EXPORTS GMat min(const GMat& src1, const GMat& src2);
 
@@ -1146,7 +1126,7 @@ Supported matrix data types are @ref CV_8UC1, @ref CV_8UC3, @ref CV_16UC1, @ref 
 @note Function textual ID is "org.opencv.core.matrixop.max"
 @param src1 first input matrix.
 @param src2 second input matrix of the same size and depth as src1.
-@sa min, compare, cmpEQ, cmpGT, cmpGE
+@sa min, compare, compareEqual, compareGreater, compareGreaterEqual
 */
 GAPI_EXPORTS GMat max(const GMat& src1, const GMat& src2);
 
@@ -1192,22 +1172,9 @@ Supported matrix data types are @ref CV_8UC1, @ref CV_8UC3, @ref CV_16UC1, @ref 
 
 @note Function textual ID is "org.opencv.core.matrixop.sum"
 @param src input matrix.
-@sa countNonZero, mean, min, max
+@sa min, max
 */
 GAPI_EXPORTS GScalar sum(const GMat& src);
-
-/** @brief Counts non-zero array elements.
-
-The function returns the number of non-zero elements in src :
-\f[\sum _{I: \; \texttt{src} (I) \ne0 } 1\f]
-
-Supported matrix data types are @ref CV_8UC1, @ref CV_16UC1, @ref CV_16SC1, @ref CV_32FC1.
-
-@note Function textual ID is "org.opencv.core.matrixop.countNonZero"
-@param src input single-channel matrix.
-@sa  mean, min, max
-*/
-GAPI_EXPORTS GOpaque<int> countNonZero(const GMat& src);
 
 /** @brief Calculates the weighted sum of two matrices.
 
@@ -1345,14 +1312,14 @@ Output matrix must be of the same size and depth as src.
 types.
 @param type thresholding type (see the cv::ThresholdTypes).
 
-@sa min, max, cmpGT, cmpLE, cmpGE, cmpLT
+@sa min, max, cmpGT, cmpLE, cmpGE, cmpLS
  */
 GAPI_EXPORTS GMat threshold(const GMat& src, const GScalar& thresh, const GScalar& maxval, int type);
 /** @overload
 This function applicable for all threshold types except CV_THRESH_OTSU and CV_THRESH_TRIANGLE
 @note Function textual ID is "org.opencv.core.matrixop.thresholdOT"
 */
-GAPI_EXPORTS_W std::tuple<GMat, GScalar> threshold(const GMat& src, const GScalar& maxval, int type);
+GAPI_EXPORTS std::tuple<GMat, GScalar> threshold(const GMat& src, const GScalar& maxval, int type);
 
 /** @brief Applies a range-level threshold to each matrix element.
 
@@ -1467,7 +1434,7 @@ All output matrices must be in @ref CV_8UC1.
 @sa merge3, merge4
 */
 GAPI_EXPORTS std::tuple<GMat, GMat, GMat,GMat> split4(const GMat& src);
-GAPI_EXPORTS_W std::tuple<GMat, GMat, GMat> split3(const GMat& src);
+GAPI_EXPORTS std::tuple<GMat, GMat, GMat> split3(const GMat& src);
 
 /** @brief Applies a generic geometrical transformation to an image.
 
@@ -1753,24 +1720,6 @@ GAPI_EXPORTS GMat warpAffine(const GMat& src, const Mat& M, const Size& dsize, i
                              int borderMode = cv::BORDER_CONSTANT, const Scalar& borderValue = Scalar());
 //! @} gapi_transform
 
-/** @brief Gets dimensions from Mat.
-
-@note Function textual ID is "org.opencv.core.size"
-
-@param src Input tensor
-@return Size (tensor dimensions).
-*/
-GAPI_EXPORTS GOpaque<Size> size(const GMat& src);
-
-/** @overload
-Gets dimensions from rectangle.
-
-@note Function textual ID is "org.opencv.core.sizeR"
-
-@param r Input rectangle.
-@return Size (rectangle dimensions).
-*/
-GAPI_EXPORTS GOpaque<Size> size(const GOpaque<Rect>& r);
 } //namespace gapi
 } //namespace cv
 

@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Member of `Features2d`
  */
-CV_EXPORTS @interface SimpleBlobDetectorParams : NSObject
+CV_EXPORTS @interface Params : NSObject
 
 
 #ifdef __cplusplus

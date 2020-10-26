@@ -2,7 +2,7 @@
 // It is subject to the license terms in the LICENSE file found in the top-level directory
 // of this distribution and at http://opencv.org/license.html.
 //
-// Copyright (C) 2018-2020 Intel Corporation
+// Copyright (C) 2018 Intel Corporation
 
 
 #ifndef OPENCV_GAPI_GARG_HPP
@@ -13,7 +13,6 @@
 
 #include <opencv2/gapi/opencv_includes.hpp>
 #include <opencv2/gapi/own/mat.hpp>
-#include <opencv2/gapi/media.hpp>
 
 #include <opencv2/gapi/util/any.hpp>
 #include <opencv2/gapi/util/variant.hpp>
@@ -22,11 +21,9 @@
 #include <opencv2/gapi/gscalar.hpp>
 #include <opencv2/gapi/garray.hpp>
 #include <opencv2/gapi/gopaque.hpp>
-#include <opencv2/gapi/gframe.hpp>
 #include <opencv2/gapi/gtype_traits.hpp>
 #include <opencv2/gapi/gmetaarg.hpp>
 #include <opencv2/gapi/streaming/source.hpp>
-#include <opencv2/gapi/rmat.hpp>
 
 namespace cv {
 
@@ -97,13 +94,11 @@ using GRunArg  = util::variant<
 #if !defined(GAPI_STANDALONE)
     cv::UMat,
 #endif // !defined(GAPI_STANDALONE)
-    cv::RMat,
     cv::gapi::wip::IStreamSource::Ptr,
     cv::Mat,
     cv::Scalar,
     cv::detail::VectorRef,
-    cv::detail::OpaqueRef,
-    cv::MediaFrame
+    cv::detail::OpaqueRef
     >;
 using GRunArgs = std::vector<GRunArg>;
 
@@ -149,7 +144,6 @@ using GRunArgP = util::variant<
     cv::UMat*,
 #endif // !defined(GAPI_STANDALONE)
     cv::Mat*,
-    cv::RMat*,
     cv::Scalar*,
     cv::detail::VectorRef,
     cv::detail::OpaqueRef
@@ -176,8 +170,7 @@ inline GRunArgsP& operator += (GRunArgsP &lhs, const GRunArgsP &rhs)
 namespace gapi
 {
     GAPI_EXPORTS cv::GRunArgsP bind(cv::GRunArgs &results);
-    GAPI_EXPORTS cv::GRunArg   bind(cv::GRunArgP &out);     // FIXME: think more about it
-}
+} // namespace gapi
 
 template<typename... Ts> inline GRunArgs gin(const Ts&... args)
 {

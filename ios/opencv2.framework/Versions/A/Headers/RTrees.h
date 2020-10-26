@@ -113,16 +113,6 @@ CV_EXPORTS @interface RTrees : DTrees
 
 
 //
-//  double cv::ml::RTrees::getOOBError()
-//
-/**
- * Returns the OOB error value, computed at the training stage when calcOOBError is set to true.
- * If this flag was set to false, 0 is returned. The OOB error is also scaled by sample weighting.
- */
-- (double)getOOBError NS_SWIFT_NAME(getOOBError());
-
-
-//
 //  int cv::ml::RTrees::getActiveVarCount()
 //
 /**

@@ -34,14 +34,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * AKAZE descriptors can only be used with KAZE or AKAZE keypoints. This class is thread-safe.
  *
- * NOTE: When you need descriptors use Feature2D::detectAndCompute, which
+ * @note When you need descriptors use Feature2D::detectAndCompute, which
  * provides better performance. When using Feature2D::detect followed by
  * Feature2D::compute scale space pyramid is computed twice.
  *
- * NOTE: AKAZE implements T-API. When image is passed as UMat some parts of the algorithm
+ * @note AKAZE implements T-API. When image is passed as UMat some parts of the algorithm
  * will use OpenCL.
  *
- * NOTE: [ANB13] Fast Explicit Diffusion for Accelerated Features in Nonlinear
+ * @note [ANB13] Fast Explicit Diffusion for Accelerated Features in Nonlinear
  * Scale Spaces. Pablo F. Alcantarilla, Jesús Nuevo and Adrien Bartoli. In
  * British Machine Vision Conference (BMVC), Bristol, UK, September 2013.
  *

@@ -224,7 +224,7 @@ CV_EXPORTS @interface Subdiv2D : NSObject
  *     appropriately. If a point with the same coordinates exists already, no new point is added.
  *     @return the ID of the point.
  *
- *     NOTE: If the point is outside of the triangulation specified rect a runtime error is raised.
+ *     @note If the point is outside of the triangulation specified rect a runtime error is raised.
  */
 - (int)insert:(Point2f*)pt NS_SWIFT_NAME(insert(pt:));
 

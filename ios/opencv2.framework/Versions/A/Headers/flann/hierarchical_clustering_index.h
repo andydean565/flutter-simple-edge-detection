@@ -404,15 +404,33 @@ public:
      */
     virtual ~HierarchicalClusteringIndex()
     {
+        free_elements();
+
         if (root!=NULL) {
             delete[] root;
         }
 
         if (indices!=NULL) {
-            free_indices();
             delete[] indices;
         }
     }
+
+
+    /**
+     * Release the inner elements of indices[]
+     */
+    void free_elements()
+    {
+        if (indices!=NULL) {
+            for(int i=0; i<trees_; ++i) {
+                if (indices[i]!=NULL) {
+                    delete[] indices[i];
+                    indices[i] = NULL;
+                }
+            }
+        }
+    }
+
 
     /**
      *  Returns size of index.
@@ -449,7 +467,7 @@ public:
             throw FLANNException("Branching factor must be at least 2");
         }
 
-        free_indices();
+        free_elements();
 
         for (int i=0; i<trees_; ++i) {
             indices[i] = new int[size_];
@@ -485,12 +503,13 @@ public:
 
     void loadIndex(FILE* stream) CV_OVERRIDE
     {
+        free_elements();
+
         if (root!=NULL) {
             delete[] root;
         }
 
         if (indices!=NULL) {
-            free_indices();
             delete[] indices;
         }
 
@@ -529,7 +548,6 @@ public:
     {
 
         const int maxChecks = get_param(searchParams,"checks",32);
-        const bool explore_all_trees = get_param(searchParams,"explore_all_trees",false);
 
         // Priority queue storing intermediate branches in the best-bin-first search
         Heap<BranchSt>* heap = new Heap<BranchSt>((int)size_);
@@ -537,15 +555,15 @@ public:
         std::vector<bool> checked(size_,false);
         int checks = 0;
         for (int i=0; i<trees_; ++i) {
-            findNN(root[i], result, vec, checks, maxChecks, heap, checked, explore_all_trees);
-            if (!explore_all_trees && (checks >= maxChecks) && result.full())
+            findNN(root[i], result, vec, checks, maxChecks, heap, checked);
+            if ((checks >= maxChecks) && result.full())
                 break;
         }
 
         BranchSt branch;
         while (heap->popMin(branch) && (checks<maxChecks || !result.full())) {
             NodePtr node = branch.node;
-            findNN(node, result, vec, checks, maxChecks, heap, checked, false);
+            findNN(node, result, vec, checks, maxChecks, heap, checked);
         }
 
         delete heap;
@@ -631,20 +649,6 @@ private:
     }
 
 
-    /**
-     * Release the inner elements of indices[]
-     */
-    void free_indices()
-    {
-        if (indices!=NULL) {
-            for(int i=0; i<trees_; ++i) {
-                if (indices[i]!=NULL) {
-                    delete[] indices[i];
-                    indices[i] = NULL;
-                }
-            }
-        }
-    }
 
 
     void computeLabels(int* dsindices, int indices_length,  int* centers, int centers_length, int* labels, DistanceType& cost)
@@ -742,10 +746,10 @@ private:
 
 
     void findNN(NodePtr node, ResultSet<DistanceType>& result, const ElementType* vec, int& checks, int maxChecks,
-                Heap<BranchSt>* heap, std::vector<bool>& checked, bool explore_all_trees = false)
+                Heap<BranchSt>* heap, std::vector<bool>& checked)
     {
         if (node->childs==NULL) {
-            if (!explore_all_trees && (checks>=maxChecks) && result.full()) {
+            if ((checks>=maxChecks) && result.full()) {
                 return;
             }
             for (int i=0; i<node->size; ++i) {
@@ -774,7 +778,7 @@ private:
                 }
             }
             delete[] domain_distances;
-            findNN(node->childs[best_index],result,vec, checks, maxChecks, heap, checked, explore_all_trees);
+            findNN(node->childs[best_index],result,vec, checks, maxChecks, heap, checked);
         }
     }
 

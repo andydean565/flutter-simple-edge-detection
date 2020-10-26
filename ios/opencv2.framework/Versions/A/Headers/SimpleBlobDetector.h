@@ -13,7 +13,7 @@
 #import <Foundation/Foundation.h>
 #import "Feature2D.h"
 
-@class SimpleBlobDetectorParams;
+
 
 
 
@@ -71,10 +71,8 @@ CV_EXPORTS @interface SimpleBlobDetector : Feature2D
 
 
 //
-// static Ptr_SimpleBlobDetector cv::SimpleBlobDetector::create(SimpleBlobDetector_Params parameters = SimpleBlobDetector::Params())
+// static Ptr_SimpleBlobDetector cv::SimpleBlobDetector::create( _hidden_  parameters = cv::SimpleBlobDetector::Params())
 //
-+ (SimpleBlobDetector*)create:(SimpleBlobDetectorParams*)parameters NS_SWIFT_NAME(create(parameters:));
-
 + (SimpleBlobDetector*)create NS_SWIFT_NAME(create());
 
 

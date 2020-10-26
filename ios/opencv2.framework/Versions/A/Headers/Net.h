@@ -325,7 +325,7 @@ CV_EXPORTS @interface Net : NSObject
  * @param outputBlobs contains all output blobs for each layer specified in @p outBlobNames.
  * @param outBlobNames names for layers which outputs are needed to get
  */
-- (void)forwardAndRetrieve:(NSMutableArray<NSMutableArray<Mat*>*>*)outputBlobs outBlobNames:(NSArray<NSString*>*)outBlobNames NS_SWIFT_NAME(forwardAndRetrieve(outputBlobs:outBlobNames:));
+- (void)forwardAndRetrieve:(NSMutableArray<NSMutableArray<Mat*>*>*)outputBlobs outBlobNames:(NSArray<NSString*>*)outBlobNames NS_SWIFT_NAME(forward(outputBlobs:outBlobNames:));
 
 
 //
@@ -479,7 +479,7 @@ CV_EXPORTS @interface Net : NSObject
  * @param numParam index of the layer parameter in the Layer::blobs array.
  * @param blob the new value.
  * @see `Layer::blobs`
- * NOTE: If shape of the new blob differs from the previous shape,
+ * @note If shape of the new blob differs from the previous shape,
  * then the following forward pass may fail.
  */
 - (void)setParam:(DictValue*)layer numParam:(int)numParam blob:(Mat*)blob NS_SWIFT_NAME(setParam(layer:numParam:blob:));

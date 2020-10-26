@@ -2,7 +2,7 @@
 // It is subject to the license terms in the LICENSE file found in the top-level directory
 // of this distribution and at http://opencv.org/license.html.
 //
-// Copyright (C) 2018-2020 Intel Corporation
+// Copyright (C) 2018 Intel Corporation
 
 
 #ifndef OPENCV_GAPI_GMAT_HPP
@@ -46,10 +46,10 @@ struct GOrigin;
  *    `cv::GArray<T>`    | std::vector<T>
  *    `cv::GOpaque<T>`   | T
  */
-class GAPI_EXPORTS_W_SIMPLE GMat
+class GAPI_EXPORTS GMat
 {
 public:
-    GAPI_WRAP GMat();                       // Empty constructor
+    GMat();                                 // Empty constructor
     GMat(const GNode &n, std::size_t out);  // Operation result constructor
 
     GOrigin& priv();                        // Internal use only
@@ -65,7 +65,11 @@ public:
     using GMat::GMat;
 };
 
-class RMat;
+class GAPI_EXPORTS GFrame : public GMat
+{
+public:
+    using GMat::GMat;
+};
 
 /** @} */
 
@@ -114,8 +118,6 @@ struct GAPI_EXPORTS GMatDesc
     // 1-channel mat can be reinterpreted as is (1-channel mat)
     // and as a 3-channel planar mat with height divided by 3)
     bool canDescribe(const cv::Mat& mat) const;
-
-    bool canDescribe(const cv::RMat& mat) const;
 
     // Meta combinator: return a new GMatDesc which differs in size by delta
     // (all other fields are taken unchanged from this GMatDesc)
@@ -212,8 +214,6 @@ namespace gapi { namespace own {
     class Mat;
     GAPI_EXPORTS GMatDesc descr_of(const Mat &mat);
 }}//gapi::own
-
-GAPI_EXPORTS GMatDesc descr_of(const RMat &mat);
 
 #if !defined(GAPI_STANDALONE)
 GAPI_EXPORTS GMatDesc descr_of(const cv::Mat &mat);

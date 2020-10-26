@@ -134,7 +134,7 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  *
  *     The function is parallelized with the TBB library.
  *
- *     NOTE:
+ *     @note
  *        -   (Python) A face detection example using cascade classifiers can be found at
  *             opencv_source_code/samples/python/facedetect.py
  */
@@ -156,7 +156,7 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  *
  *     The function is parallelized with the TBB library.
  *
- *     NOTE:
+ *     @note
  *        -   (Python) A face detection example using cascade classifiers can be found at
  *             opencv_source_code/samples/python/facedetect.py
  */
@@ -177,7 +177,7 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  *
  *     The function is parallelized with the TBB library.
  *
- *     NOTE:
+ *     @note
  *        -   (Python) A face detection example using cascade classifiers can be found at
  *             opencv_source_code/samples/python/facedetect.py
  */
@@ -197,7 +197,7 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  *
  *     The function is parallelized with the TBB library.
  *
- *     NOTE:
+ *     @note
  *        -   (Python) A face detection example using cascade classifiers can be found at
  *             opencv_source_code/samples/python/facedetect.py
  */
@@ -216,7 +216,7 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  *
  *     The function is parallelized with the TBB library.
  *
- *     NOTE:
+ *     @note
  *        -   (Python) A face detection example using cascade classifiers can be found at
  *             opencv_source_code/samples/python/facedetect.py
  */
@@ -234,7 +234,7 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  *
  *     The function is parallelized with the TBB library.
  *
- *     NOTE:
+ *     @note
  *        -   (Python) A face detection example using cascade classifiers can be found at
  *             opencv_source_code/samples/python/facedetect.py
  */

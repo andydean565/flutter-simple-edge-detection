@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  * The class implements a standard Kalman filter <http://en.wikipedia.org/wiki/Kalman_filter>,
  * CITE: Welch95 . However, you can modify transitionMatrix, controlMatrix, and measurementMatrix to get
  * an extended Kalman filter functionality.
- * NOTE: In C API when CvKalman\* kalmanFilter structure is not needed anymore, it should be released
+ * @note In C API when CvKalman\* kalmanFilter structure is not needed anymore, it should be released
  * with cvReleaseKalman(&kalmanFilter)
  *
  * Member of `Video`

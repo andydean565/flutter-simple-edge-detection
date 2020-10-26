@@ -26,10 +26,10 @@ struct GOrigin;
  * @{
  */
 
-class GAPI_EXPORTS_W_SIMPLE GScalar
+class GAPI_EXPORTS GScalar
 {
 public:
-    GAPI_WRAP GScalar();                    // Empty constructor
+    GScalar();                                         // Empty constructor
     explicit GScalar(const cv::Scalar& s);  // Constant value constructor from cv::Scalar
     explicit GScalar(cv::Scalar&& s);       // Constant value move-constructor from cv::Scalar
 

@@ -1,1 +1,4 @@
-ninja: no work to do.
+[1/4] Building CXX object CMakeFiles/native_edge_detection.dir/home/dev/app/ios/Classes/edge_detector.cpp.o
+[2/4] Building CXX object CMakeFiles/native_edge_detection.dir/home/dev/app/ios/Classes/native_edge_detection.cpp.o
+[3/4] Building CXX object CMakeFiles/native_edge_detection.dir/home/dev/app/ios/Classes/image_processor.cpp.o
+[4/4] Linking CXX shared library /home/dev/app/example/build/simple_edge_detection/intermediates/cmake/debug/obj/x86_64/libnative_edge_detection.so

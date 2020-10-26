@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  * example: pre-filtering (StereoBM::PREFILTER_XSOBEL type) and post-filtering (uniqueness
  * check, quadratic interpolation and speckle filtering).
  *
- * NOTE:
+ * @note
  *    -   (Python) An example illustrating the use of the StereoSGBM matching algorithm can be found
  *         at opencv_source_code/samples/python/stereo_match.py
  *

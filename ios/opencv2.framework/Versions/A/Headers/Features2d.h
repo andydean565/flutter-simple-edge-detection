@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The Features2d module
  *
- * Member classes: `Feature2D`, `AffineFeature`, `SIFT`, `BRISK`, `ORB`, `MSER`, `FastFeatureDetector`, `AgastFeatureDetector`, `GFTTDetector`, `SimpleBlobDetector`, `SimpleBlobDetectorParams`, `KAZE`, `AKAZE`, `DescriptorMatcher`, `BFMatcher`, `FlannBasedMatcher`, `BOWTrainer`, `BOWKMeansTrainer`, `BOWImgDescriptorExtractor`
+ * Member classes: `Feature2D`, `SIFT`, `BRISK`, `ORB`, `MSER`, `FastFeatureDetector`, `AgastFeatureDetector`, `GFTTDetector`, `SimpleBlobDetector`, `Params`, `KAZE`, `AKAZE`, `DescriptorMatcher`, `BFMatcher`, `FlannBasedMatcher`, `BOWTrainer`, `BOWKMeansTrainer`, `BOWImgDescriptorExtractor`
  *
  * Member enums: `ScoreType`, `FastDetectorType`, `AgastDetectorType`, `DiffusivityType`, `DescriptorType`, `MatcherType`, `DrawMatchesFlags`
  */
@@ -58,7 +58,7 @@ CV_EXPORTS @interface Features2d : NSObject
  * @param flags Flags setting drawing features. Possible flags bit values are defined by
  * DrawMatchesFlags. See details above in drawMatches .
  *
- * NOTE:
+ * @note
  * For Python API, flags are modified as cv.DRAW_MATCHES_FLAGS_DEFAULT,
  * cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS, cv.DRAW_MATCHES_FLAGS_DRAW_OVER_OUTIMG,
  * cv.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS
@@ -75,7 +75,7 @@ CV_EXPORTS @interface Features2d : NSObject
  * @param color Color of keypoints.
  * DrawMatchesFlags. See details above in drawMatches .
  *
- * NOTE:
+ * @note
  * For Python API, flags are modified as cv.DRAW_MATCHES_FLAGS_DEFAULT,
  * cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS, cv.DRAW_MATCHES_FLAGS_DRAW_OVER_OUTIMG,
  * cv.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS
@@ -91,7 +91,7 @@ CV_EXPORTS @interface Features2d : NSObject
  * output image. See possible flags bit values below.
  * DrawMatchesFlags. See details above in drawMatches .
  *
- * NOTE:
+ * @note
  * For Python API, flags are modified as cv.DRAW_MATCHES_FLAGS_DEFAULT,
  * cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS, cv.DRAW_MATCHES_FLAGS_DRAW_OVER_OUTIMG,
  * cv.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS

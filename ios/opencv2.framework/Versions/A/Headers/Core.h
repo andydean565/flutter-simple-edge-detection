@@ -54,14 +54,6 @@ typedef NS_ENUM(int, GemmFlags) {
 };
 
 
-// C++: enum KmeansFlags
-typedef NS_ENUM(int, KmeansFlags) {
-    KMEANS_RANDOM_CENTERS = 0,
-    KMEANS_PP_CENTERS = 2,
-    KMEANS_USE_INITIAL_LABELS = 1
-};
-
-
 // C++: enum CmpTypes
 typedef NS_ENUM(int, CmpTypes) {
     CMP_EQ = 0,
@@ -102,6 +94,14 @@ typedef NS_ENUM(int, CovarFlags) {
     COVAR_SCALE = 4,
     COVAR_ROWS = 8,
     COVAR_COLS = 16
+};
+
+
+// C++: enum KmeansFlags
+typedef NS_ENUM(int, KmeansFlags) {
+    KMEANS_RANDOM_CENTERS = 0,
+    KMEANS_PP_CENTERS = 2,
+    KMEANS_USE_INITIAL_LABELS = 1
 };
 
 
@@ -231,7 +231,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The Core module
  *
- * Member classes: `Algorithm`, `TickMeter`, `ByteVector`, `DMatch`, `DoubleVector`, `FloatVector`, `IntVector`, `KeyPoint`, `Mat`, `Point2d`, `Point2f`, `Point2i`, `Point3d`, `Point3f`, `Range`, `Rect2d`, `Rect2f`, `Rect2i`, `RotatedRect`, `Scalar`, `Size2d`, `Size2f`, `Size2i`, `TermCriteria`
+ * Member classes: `Algorithm`, `TickMeter`
  *
  * Member enums: `Code`, `DecompTypes`, `NormTypes`, `CmpTypes`, `GemmFlags`, `DftFlags`, `BorderTypes`, `SortFlags`, `CovarFlags`, `KmeansFlags`, `ReduceTypes`, `RotateFlags`, `Flags`, `Flags`, `FormatType`, `Param`
  */
@@ -524,7 +524,7 @@ CV_EXPORTS @interface Core : NSObject
  *     src*eigenvectors.row(i).t() = eigenvalues.at<srcType>(i)*eigenvectors.row(i).t()
  *
  *
- * NOTE: Use cv::eigenNonSymmetric for calculation of real eigenvalues and eigenvectors of non-symmetric matrix.
+ * @note Use cv::eigenNonSymmetric for calculation of real eigenvalues and eigenvectors of non-symmetric matrix.
  *
  * @param src input matrix that must have CV_32FC1 or CV_64FC1 type, square size and be symmetrical
  * (src ^T^ == src).
@@ -546,7 +546,7 @@ CV_EXPORTS @interface Core : NSObject
  *     src*eigenvectors.row(i).t() = eigenvalues.at<srcType>(i)*eigenvectors.row(i).t()
  *
  *
- * NOTE: Use cv::eigenNonSymmetric for calculation of real eigenvalues and eigenvectors of non-symmetric matrix.
+ * @note Use cv::eigenNonSymmetric for calculation of real eigenvalues and eigenvectors of non-symmetric matrix.
  *
  * @param src input matrix that must have CV_32FC1 or CV_64FC1 type, square size and be symmetrical
  * (src ^T^ == src).
@@ -575,7 +575,7 @@ CV_EXPORTS @interface Core : NSObject
  * it returns 0. In the latter case, dst is not valid. Other methods find a
  * pseudo-solution in case of a singular left-hand side part.
  *
- * NOTE: If you want to find a unity-norm solution of an under-defined
+ * @note If you want to find a unity-norm solution of an under-defined
  * singular system `$$\texttt{src1}\cdot\texttt{dst}=0$$` , the function solve
  * will not do the work. Use SVD::solveZ instead.
  *
@@ -600,7 +600,7 @@ CV_EXPORTS @interface Core : NSObject
  * it returns 0. In the latter case, dst is not valid. Other methods find a
  * pseudo-solution in case of a singular left-hand side part.
  *
- * NOTE: If you want to find a unity-norm solution of an under-defined
+ * @note If you want to find a unity-norm solution of an under-defined
  * singular system `$$\texttt{src1}\cdot\texttt{dst}=0$$` , the function solve
  * will not do the work. Use SVD::solveZ instead.
  *
@@ -796,7 +796,7 @@ CV_EXPORTS @interface Core : NSObject
  * and groups the input samples around the clusters. As an output, `$$\texttt{bestLabels}_i$$` contains a
  * 0-based cluster index for the sample stored in the `$$i^{th}$$` row of the samples matrix.
  *
- * NOTE:
+ * @note
  * -   (Python) An example on K-means clustering can be found at
  *     opencv_source_code/samples/python/kmeans.py
  * @param data Data for clustering. An array of N-Dimensional points with float coordinates is needed.
@@ -832,7 +832,7 @@ CV_EXPORTS @interface Core : NSObject
  * and groups the input samples around the clusters. As an output, `$$\texttt{bestLabels}_i$$` contains a
  * 0-based cluster index for the sample stored in the `$$i^{th}$$` row of the samples matrix.
  *
- * NOTE:
+ * @note
  * -   (Python) An example on K-means clustering can be found at
  *     opencv_source_code/samples/python/kmeans.py
  * @param data Data for clustering. An array of N-Dimensional points with float coordinates is needed.
@@ -1423,7 +1423,7 @@ CV_EXPORTS @interface Core : NSObject
  *     `$$\texttt{dst}(I) =  \texttt{saturate} (| \texttt{src1} -  \texttt{src2}(I) |)$$`
  *     where I is a multi-dimensional index of array elements. In case of
  *     multi-channel arrays, each channel is processed independently.
- * NOTE: Saturation is not applied when the arrays have the depth CV_32S.
+ * @note Saturation is not applied when the arrays have the depth CV_32S.
  * You may even get a negative value in the case of overflow.
  * @param src1 first input array or a scalar.
  * @param src2 second input array or a scalar.
@@ -1468,7 +1468,7 @@ CV_EXPORTS @interface Core : NSObject
  * and third cases above, as well as in the first case, when src1.depth() == src2.depth(), dtype can
  * be set to the default -1. In this case, the output array will have the same depth as the input
  * array, be it src1, src2 or both.
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array or a scalar.
  * @param src2 second input array or a scalar.
@@ -1507,7 +1507,7 @@ CV_EXPORTS @interface Core : NSObject
  * and third cases above, as well as in the first case, when src1.depth() == src2.depth(), dtype can
  * be set to the default -1. In this case, the output array will have the same depth as the input
  * array, be it src1, src2 or both.
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array or a scalar.
  * @param src2 second input array or a scalar.
@@ -1545,7 +1545,7 @@ CV_EXPORTS @interface Core : NSObject
  * and third cases above, as well as in the first case, when src1.depth() == src2.depth(), dtype can
  * be set to the default -1. In this case, the output array will have the same depth as the input
  * array, be it src1, src2 or both.
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array or a scalar.
  * @param src2 second input array or a scalar.
@@ -1581,7 +1581,7 @@ CV_EXPORTS @interface Core : NSObject
  *
  *     dst = src1*alpha + src2*beta + gamma;
  *
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array.
  * @param alpha weight of the first array elements.
@@ -1606,7 +1606,7 @@ CV_EXPORTS @interface Core : NSObject
  *
  *     dst = src1*alpha + src2*beta + gamma;
  *
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array.
  * @param alpha weight of the first array elements.
@@ -1889,7 +1889,7 @@ CV_EXPORTS @interface Core : NSObject
 //
 /**
  *
- * NOTE: use #COVAR_ROWS or #COVAR_COLS flag
+ * @note use #COVAR_ROWS or #COVAR_COLS flag
  * @param samples samples stored as rows/columns of a single matrix.
  * @param covar output covariance matrix of the type ctype and square size.
  * @param mean input or output (depending on the flags) array as the average value of the input vectors.
@@ -1900,7 +1900,7 @@ CV_EXPORTS @interface Core : NSObject
 
 /**
  *
- * NOTE: use #COVAR_ROWS or #COVAR_COLS flag
+ * @note use #COVAR_ROWS or #COVAR_COLS flag
  * @param samples samples stored as rows/columns of a single matrix.
  * @param covar output covariance matrix of the type ctype and square size.
  * @param mean input or output (depending on the flags) array as the average value of the input vectors.
@@ -2161,7 +2161,7 @@ CV_EXPORTS @interface Core : NSObject
  *     // now do some custom filtering ...
  *     ...
  *
- * NOTE: When the source image is a part (ROI) of a bigger image, the function will try to use the
+ * @note When the source image is a part (ROI) of a bigger image, the function will try to use the
  * pixels outside of the ROI to form a border. To disable this feature and always do extrapolation, as
  * if src was not a ROI, use borderType | #BORDER_ISOLATED.
  *
@@ -2207,7 +2207,7 @@ CV_EXPORTS @interface Core : NSObject
  *     // now do some custom filtering ...
  *     ...
  *
- * NOTE: When the source image is a part (ROI) of a bigger image, the function will try to use the
+ * @note When the source image is a part (ROI) of a bigger image, the function will try to use the
  * pixels outside of the ROI to form a border. To disable this feature and always do extrapolation, as
  * if src was not a ROI, use borderType | #BORDER_ISOLATED.
  *
@@ -2272,7 +2272,7 @@ CV_EXPORTS @interface Core : NSObject
  * -   If the array is a single column or a single row, the function performs a 1D transform.
  * -   If none of the above is true, the function performs a 2D transform.
  *
- * NOTE: Currently dct supports even-size arrays (2, 4, 6 ...). For data analysis and approximation, you
+ * @note Currently dct supports even-size arrays (2, 4, 6 ...). For data analysis and approximation, you
  * can pad the array when necessary.
  * Also, the function performance depends very much, and not monotonically, on the array size (see
  * getOptimalDFTSize ). In the current implementation DCT of a vector of size N is calculated via DFT
@@ -2314,7 +2314,7 @@ CV_EXPORTS @interface Core : NSObject
  * -   If the array is a single column or a single row, the function performs a 1D transform.
  * -   If none of the above is true, the function performs a 2D transform.
  *
- * NOTE: Currently dct supports even-size arrays (2, 4, 6 ...). For data analysis and approximation, you
+ * @note Currently dct supports even-size arrays (2, 4, 6 ...). For data analysis and approximation, you
  * can pad the array when necessary.
  * Also, the function performance depends very much, and not monotonically, on the array size (see
  * getOptimalDFTSize ). In the current implementation DCT of a vector of size N is calculated via DFT
@@ -2448,7 +2448,7 @@ CV_EXPORTS @interface Core : NSObject
  * using them, you can get the performance even better than with the above theoretically optimal
  * implementation. Though, those two functions actually calculate cross-correlation, not convolution,
  * so you need to "flip" the second convolution operand B vertically and horizontally using flip .
- * NOTE:
+ * @note
  * -   An example using the discrete fourier transform can be found at
  *     opencv_source_code/samples/cpp/dft.cpp
  * -   (Python) An example using the dft functionality to perform Wiener deconvolution can be found
@@ -2583,7 +2583,7 @@ CV_EXPORTS @interface Core : NSObject
  * using them, you can get the performance even better than with the above theoretically optimal
  * implementation. Though, those two functions actually calculate cross-correlation, not convolution,
  * so you need to "flip" the second convolution operand B vertically and horizontally using flip .
- * NOTE:
+ * @note
  * -   An example using the discrete fourier transform can be found at
  *     opencv_source_code/samples/cpp/dft.cpp
  * -   (Python) An example using the dft functionality to perform Wiener deconvolution can be found
@@ -2717,7 +2717,7 @@ CV_EXPORTS @interface Core : NSObject
  * using them, you can get the performance even better than with the above theoretically optimal
  * implementation. Though, those two functions actually calculate cross-correlation, not convolution,
  * so you need to "flip" the second convolution operand B vertically and horizontally using flip .
- * NOTE:
+ * @note
  * -   An example using the discrete fourier transform can be found at
  *     opencv_source_code/samples/cpp/dft.cpp
  * -   (Python) An example using the dft functionality to perform Wiener deconvolution can be found
@@ -2751,11 +2751,11 @@ CV_EXPORTS @interface Core : NSObject
  *
  * For integer types when src2(I) is zero, dst(I) will also be zero.
  *
- * NOTE: In case of floating point data there is no special defined behavior for zero src2(I) values.
+ * @note In case of floating point data there is no special defined behavior for zero src2(I) values.
  * Regular floating-point division is used.
  * Expect correct IEEE-754 behaviour for floating-point data (with NaN, Inf result values).
  *
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array.
  * @param src2 second input array of the same size and type as src1.
@@ -2779,11 +2779,11 @@ CV_EXPORTS @interface Core : NSObject
  *
  * For integer types when src2(I) is zero, dst(I) will also be zero.
  *
- * NOTE: In case of floating point data there is no special defined behavior for zero src2(I) values.
+ * @note In case of floating point data there is no special defined behavior for zero src2(I) values.
  * Regular floating-point division is used.
  * Expect correct IEEE-754 behaviour for floating-point data (with NaN, Inf result values).
  *
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array.
  * @param src2 second input array of the same size and type as src1.
@@ -2806,11 +2806,11 @@ CV_EXPORTS @interface Core : NSObject
  *
  * For integer types when src2(I) is zero, dst(I) will also be zero.
  *
- * NOTE: In case of floating point data there is no special defined behavior for zero src2(I) values.
+ * @note In case of floating point data there is no special defined behavior for zero src2(I) values.
  * Regular floating-point division is used.
  * Expect correct IEEE-754 behaviour for floating-point data (with NaN, Inf result values).
  *
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array.
  * @param src2 second input array of the same size and type as src1.
@@ -2845,7 +2845,7 @@ CV_EXPORTS @interface Core : NSObject
 /**
  * Calculates eigenvalues and eigenvectors of a non-symmetric matrix (real eigenvalues only).
  *
- * NOTE: Assumes real eigenvalues.
+ * @note Assumes real eigenvalues.
  *
  * The function calculates eigenvalues and eigenvectors (optional) of the square matrix src:
  *
@@ -3088,7 +3088,7 @@ CV_EXPORTS @interface Core : NSObject
  * Calculates the inverse Discrete Fourier Transform of a 1D or 2D array.
  *
  * idft(src, dst, flags) is equivalent to dft(src, dst, flags | #DFT_INVERSE) .
- * NOTE: None of dft and idft scales the result by default. So, you should pass #DFT_SCALE to one of
+ * @note None of dft and idft scales the result by default. So, you should pass #DFT_SCALE to one of
  * dft or idft explicitly to make these transforms mutually inverse.
  * @see `+dft:dst:flags:nonzeroRows:`, `+dct:dst:flags:`, `+idct:dst:flags:`, `+mulSpectrums:b:c:flags:conjB:`, `+getOptimalDFTSize:`
  * @param src input floating-point real or complex array.
@@ -3103,7 +3103,7 @@ CV_EXPORTS @interface Core : NSObject
  * Calculates the inverse Discrete Fourier Transform of a 1D or 2D array.
  *
  * idft(src, dst, flags) is equivalent to dft(src, dst, flags | #DFT_INVERSE) .
- * NOTE: None of dft and idft scales the result by default. So, you should pass #DFT_SCALE to one of
+ * @note None of dft and idft scales the result by default. So, you should pass #DFT_SCALE to one of
  * dft or idft explicitly to make these transforms mutually inverse.
  * @see `+dft:dst:flags:nonzeroRows:`, `+dct:dst:flags:`, `+idct:dst:flags:`, `+mulSpectrums:b:c:flags:conjB:`, `+getOptimalDFTSize:`
  * @param src input floating-point real or complex array.
@@ -3117,7 +3117,7 @@ CV_EXPORTS @interface Core : NSObject
  * Calculates the inverse Discrete Fourier Transform of a 1D or 2D array.
  *
  * idft(src, dst, flags) is equivalent to dft(src, dst, flags | #DFT_INVERSE) .
- * NOTE: None of dft and idft scales the result by default. So, you should pass #DFT_SCALE to one of
+ * @note None of dft and idft scales the result by default. So, you should pass #DFT_SCALE to one of
  * dft or idft explicitly to make these transforms mutually inverse.
  * @see `+dft:dst:flags:nonzeroRows:`, `+dct:dst:flags:`, `+idct:dst:flags:`, `+mulSpectrums:b:c:flags:conjB:`, `+getOptimalDFTSize:`
  * @param src input floating-point real or complex array.
@@ -3238,7 +3238,7 @@ CV_EXPORTS @interface Core : NSObject
  * `$$\begin{array}{l} N =  \sum _{I, \texttt{mask} (I)  \ne 0} 1 \\ \texttt{mean} _c =  \frac{\sum_{ I: \; \texttt{mask}(I) \ne 0} \texttt{src} (I)_c}{N} \\ \texttt{stddev} _c =  \sqrt{\frac{\sum_{ I: \; \texttt{mask}(I) \ne 0} \left ( \texttt{src} (I)_c -  \texttt{mean} _c \right )^2}{N}} \end{array}$$`
  * When all the mask elements are 0's, the function returns
  * mean=stddev=Scalar::all(0).
- * NOTE: The calculated standard deviation is only the diagonal of the
+ * @note The calculated standard deviation is only the diagonal of the
  * complete normalized covariance matrix. If the full matrix is needed, you
  * can reshape the multi-channel array M x N to the single-channel array
  * M\*N x mtx.channels() (only possible when the matrix is continuous) and
@@ -3261,7 +3261,7 @@ CV_EXPORTS @interface Core : NSObject
  * `$$\begin{array}{l} N =  \sum _{I, \texttt{mask} (I)  \ne 0} 1 \\ \texttt{mean} _c =  \frac{\sum_{ I: \; \texttt{mask}(I) \ne 0} \texttt{src} (I)_c}{N} \\ \texttt{stddev} _c =  \sqrt{\frac{\sum_{ I: \; \texttt{mask}(I) \ne 0} \left ( \texttt{src} (I)_c -  \texttt{mean} _c \right )^2}{N}} \end{array}$$`
  * When all the mask elements are 0's, the function returns
  * mean=stddev=Scalar::all(0).
- * NOTE: The calculated standard deviation is only the diagonal of the
+ * @note The calculated standard deviation is only the diagonal of the
  * complete normalized covariance matrix. If the full matrix is needed, you
  * can reshape the multi-channel array M x N to the single-channel array
  * M\*N x mtx.channels() (only possible when the matrix is continuous) and
@@ -3511,7 +3511,7 @@ CV_EXPORTS @interface Core : NSObject
  *
  * For a not-per-element matrix product, see gemm .
  *
- * NOTE: Saturation is not applied when the output array has the depth
+ * @note Saturation is not applied when the output array has the depth
  * CV_32S. You may even get result of an incorrect sign in the case of
  * overflow.
  * @param src1 first input array.
@@ -3535,7 +3535,7 @@ CV_EXPORTS @interface Core : NSObject
  *
  * For a not-per-element matrix product, see gemm .
  *
- * NOTE: Saturation is not applied when the output array has the depth
+ * @note Saturation is not applied when the output array has the depth
  * CV_32S. You may even get result of an incorrect sign in the case of
  * overflow.
  * @param src1 first input array.
@@ -3558,7 +3558,7 @@ CV_EXPORTS @interface Core : NSObject
  *
  * For a not-per-element matrix product, see gemm .
  *
- * NOTE: Saturation is not applied when the output array has the depth
+ * @note Saturation is not applied when the output array has the depth
  * CV_32S. You may even get result of an incorrect sign in the case of
  * overflow.
  * @param src1 first input array.
@@ -3939,15 +3939,12 @@ CV_EXPORTS @interface Core : NSObject
 //  void cv::patchNaNs(Mat& a, double val = 0)
 //
 /**
- * converts NaNs to the given number
- * @param a input/output matrix (CV_32F type).
- * @param val value to convert the NaNs
+ * converts NaN's to the given number
  */
 + (void)patchNaNs:(Mat*)a val:(double)val NS_SWIFT_NAME(patchNaNs(a:val:));
 
 /**
- * converts NaNs to the given number
- * @param a input/output matrix (CV_32F type).
+ * converts NaN's to the given number
  */
 + (void)patchNaNs:(Mat*)a NS_SWIFT_NAME(patchNaNs(a:));
 
@@ -3969,7 +3966,7 @@ CV_EXPORTS @interface Core : NSObject
  * Here a 3D vector transformation is shown. In case of a 2D vector
  * transformation, the z component is omitted.
  *
- * NOTE: The function transforms a sparse set of 2D or 3D vectors. If you
+ * @note The function transforms a sparse set of 2D or 3D vectors. If you
  * want to transform an image using perspective transformation, use
  * warpPerspective . If you have an inverse problem, that is, you want to
  * compute the most probable perspective transformation out of several
@@ -4469,7 +4466,7 @@ CV_EXPORTS @interface Core : NSObject
  * the output array is determined by dtype parameter. In the second and third cases above, as well as
  * in the first case, when src1.depth() == src2.depth(), dtype can be set to the default -1. In this
  * case the output array will have the same depth as the input array, be it src1, src2 or both.
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array or a scalar.
  * @param src2 second input array or a scalar.
@@ -4509,7 +4506,7 @@ CV_EXPORTS @interface Core : NSObject
  * the output array is determined by dtype parameter. In the second and third cases above, as well as
  * in the first case, when src1.depth() == src2.depth(), dtype can be set to the default -1. In this
  * case the output array will have the same depth as the input array, be it src1, src2 or both.
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array or a scalar.
  * @param src2 second input array or a scalar.
@@ -4548,7 +4545,7 @@ CV_EXPORTS @interface Core : NSObject
  * the output array is determined by dtype parameter. In the second and third cases above, as well as
  * in the first case, when src1.depth() == src2.depth(), dtype can be set to the default -1. In this
  * case the output array will have the same depth as the input array, be it src1, src2 or both.
- * NOTE: Saturation is not applied when the output array has the depth CV_32S. You may even get
+ * @note Saturation is not applied when the output array has the depth CV_32S. You may even get
  * result of an incorrect sign in the case of overflow.
  * @param src1 first input array or a scalar.
  * @param src2 second input array or a scalar.
@@ -4608,7 +4605,7 @@ CV_EXPORTS @interface Core : NSObject
  *
  * The function cv::transpose transposes the matrix src :
  * `$$\texttt{dst} (i,j) =  \texttt{src} (j,i)$$`
- * NOTE: No complex conjugation is done in case of a complex matrix. It
+ * @note No complex conjugation is done in case of a complex matrix. It
  * should be done separately if needed.
  * @param src input array.
  * @param dst output array of the same type as src.

@@ -18,7 +18,6 @@
 #include <opencv2/gapi/gscalar.hpp>
 #include <opencv2/gapi/garray.hpp>
 #include <opencv2/gapi/gopaque.hpp>
-#include <opencv2/gapi/gframe.hpp>
 
 namespace cv
 {
@@ -39,7 +38,6 @@ using GMetaArg = util::variant
     , GScalarDesc
     , GArrayDesc
     , GOpaqueDesc
-    , GFrameDesc
     >;
 GAPI_EXPORTS std::ostream& operator<<(std::ostream& os, const GMetaArg &);
 

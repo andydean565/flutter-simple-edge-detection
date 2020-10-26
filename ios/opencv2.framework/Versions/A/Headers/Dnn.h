@@ -615,7 +615,7 @@ CV_EXPORTS @interface Dnn : NSObject
  * @param evaluate specifies testing phase of network. If true, it's similar to evaluate() method in Torch.
  * @return Net object.
  *
- * NOTE: Ascii mode of Torch serializer is more preferable, because binary mode extensively use `long` type of C language,
+ * @note Ascii mode of Torch serializer is more preferable, because binary mode extensively use `long` type of C language,
  * which has various bit-length on different systems.
  *
  * The loading file must contain serialized <a href="https://github.com/torch/nn/blob/master/doc/module.md">nn.Module</a> object
@@ -642,7 +642,7 @@ CV_EXPORTS @interface Dnn : NSObject
  * @param isBinary specifies whether the network was serialized in ascii mode or binary.
  * @return Net object.
  *
- * NOTE: Ascii mode of Torch serializer is more preferable, because binary mode extensively use `long` type of C language,
+ * @note Ascii mode of Torch serializer is more preferable, because binary mode extensively use `long` type of C language,
  * which has various bit-length on different systems.
  *
  * The loading file must contain serialized <a href="https://github.com/torch/nn/blob/master/doc/module.md">nn.Module</a> object
@@ -668,7 +668,7 @@ CV_EXPORTS @interface Dnn : NSObject
  * @param model    path to the file, dumped from Torch by using torch.save() function.
  * @return Net object.
  *
- * NOTE: Ascii mode of Torch serializer is more preferable, because binary mode extensively use `long` type of C language,
+ * @note Ascii mode of Torch serializer is more preferable, because binary mode extensively use `long` type of C language,
  * which has various bit-length on different systems.
  *
  * The loading file must contain serialized <a href="https://github.com/torch/nn/blob/master/doc/module.md">nn.Module</a> object
@@ -822,7 +822,7 @@ CV_EXPORTS @interface Dnn : NSObject
  * By default, converts only Convolutional and Fully-Connected layers'
  * weights.
  *
- * NOTE: Shrinked model has no origin float32 weights so it can't be used
+ * @note Shrinked model has no origin float32 weights so it can't be used
  * in origin Caffe framework anymore. However the structure of data
  * is taken from NVidia's Caffe fork: https://github.com/NVIDIA/caffe.
  * So the resulting model may be used there.
@@ -837,7 +837,7 @@ CV_EXPORTS @interface Dnn : NSObject
  * By default, converts only Convolutional and Fully-Connected layers'
  * weights.
  *
- * NOTE: Shrinked model has no origin float32 weights so it can't be used
+ * @note Shrinked model has no origin float32 weights so it can't be used
  * in origin Caffe framework anymore. However the structure of data
  * is taken from NVidia's Caffe fork: https://github.com/NVIDIA/caffe.
  * So the resulting model may be used there.
@@ -853,7 +853,7 @@ CV_EXPORTS @interface Dnn : NSObject
  * @param model  A path to binary network.
  * @param output A path to output text file to be created.
  *
- * NOTE: To reduce output file size, trained weights are not included.
+ * @note To reduce output file size, trained weights are not included.
  */
 + (void)writeTextGraph:(NSString*)model output:(NSString*)output NS_SWIFT_NAME(writeTextGraph(model:output:));
 

@@ -112,7 +112,7 @@ CV_EXPORTS @interface Imgcodecs : NSObject
  *
  * See cv::imread for the list of supported formats and flags description.
  *
- * NOTE: In the case of color images, the decoded images will have the channels stored in **B G R** order.
+ * @note In the case of color images, the decoded images will have the channels stored in **B G R** order.
  * @param buf Input array or vector of bytes.
  * @param flags The same flags as in cv::imread, see cv::ImreadModes.
  */
@@ -146,7 +146,7 @@ CV_EXPORTS @interface Imgcodecs : NSObject
  * -   Radiance HDR - \*.hdr, \*.pic (always supported)
  * -   Raster and Vector geospatial data supported by GDAL (see the *Note* section)
  *
- * NOTE:
+ * @note
  * -   The function determines the type of an image by the content, not by the file extension.
  * -   In the case of color images, the decoded images will have the channels stored in **B G R** order.
  * -   When using IMREAD_GRAYSCALE, the codec's internal grayscale conversion will be used, if available.
@@ -200,7 +200,7 @@ CV_EXPORTS @interface Imgcodecs : NSObject
  * -   Radiance HDR - \*.hdr, \*.pic (always supported)
  * -   Raster and Vector geospatial data supported by GDAL (see the *Note* section)
  *
- * NOTE:
+ * @note
  * -   The function determines the type of an image by the content, not by the file extension.
  * -   In the case of color images, the decoded images will have the channels stored in **B G R** order.
  * -   When using IMREAD_GRAYSCALE, the codec's internal grayscale conversion will be used, if available.

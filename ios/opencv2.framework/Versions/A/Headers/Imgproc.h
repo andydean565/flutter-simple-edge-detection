@@ -93,12 +93,13 @@ typedef NS_ENUM(int, ConnectedComponentsAlgorithmsTypes) {
 };
 
 
-// C++: enum GrabCutModes
-typedef NS_ENUM(int, GrabCutModes) {
-    GC_INIT_WITH_RECT = 0,
-    GC_INIT_WITH_MASK = 1,
-    GC_EVAL = 2,
-    GC_EVAL_FREEZE_MODEL = 3
+// C++: enum RetrievalModes
+typedef NS_ENUM(int, RetrievalModes) {
+    RETR_EXTERNAL = 0,
+    RETR_LIST = 1,
+    RETR_CCOMP = 2,
+    RETR_TREE = 3,
+    RETR_FLOODFILL = 4
 };
 
 
@@ -167,7 +168,6 @@ typedef NS_ENUM(int, InterpolationFlags) {
     INTER_AREA = 3,
     INTER_LANCZOS4 = 4,
     INTER_LINEAR_EXACT = 5,
-    INTER_NEAREST_EXACT = 6,
     INTER_MAX = 7,
     WARP_FILL_OUTLIERS = 8,
     WARP_INVERSE_MAP = 16
@@ -451,13 +451,21 @@ typedef NS_ENUM(int, AdaptiveThresholdTypes) {
 };
 
 
-// C++: enum RetrievalModes
-typedef NS_ENUM(int, RetrievalModes) {
-    RETR_EXTERNAL = 0,
-    RETR_LIST = 1,
-    RETR_CCOMP = 2,
-    RETR_TREE = 3,
-    RETR_FLOODFILL = 4
+// C++: enum MorphShapes_c
+typedef NS_ENUM(int, MorphShapes_c) {
+    CV_SHAPE_RECT = 0,
+    CV_SHAPE_CROSS = 1,
+    CV_SHAPE_ELLIPSE = 2,
+    CV_SHAPE_CUSTOM = 100
+};
+
+
+// C++: enum GrabCutModes
+typedef NS_ENUM(int, GrabCutModes) {
+    GC_INIT_WITH_RECT = 0,
+    GC_INIT_WITH_MASK = 1,
+    GC_EVAL = 2,
+    GC_EVAL_FREEZE_MODEL = 3
 };
 
 
@@ -519,6 +527,16 @@ typedef NS_ENUM(int, ConnectedComponentsTypes) {
 };
 
 
+// C++: enum SmoothMethod_c
+typedef NS_ENUM(int, SmoothMethod_c) {
+    CV_BLUR_NO_SCALE = 0,
+    CV_BLUR = 1,
+    CV_GAUSSIAN = 2,
+    CV_MEDIAN = 3,
+    CV_BILATERAL = 4
+};
+
+
 // C++: enum MarkerTypes
 typedef NS_ENUM(int, MarkerTypes) {
     MARKER_CROSS = 0,
@@ -538,9 +556,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The Imgproc module
  *
- * Member classes: `GeneralizedHough`, `GeneralizedHoughBallard`, `GeneralizedHoughGuil`, `CLAHE`, `Subdiv2D`, `LineSegmentDetector`, `Moments`
+ * Member classes: `GeneralizedHough`, `GeneralizedHoughBallard`, `GeneralizedHoughGuil`, `CLAHE`, `Subdiv2D`, `LineSegmentDetector`
  *
- * Member enums: `SpecialFilter`, `MorphTypes`, `MorphShapes`, `InterpolationFlags`, `WarpPolarMode`, `InterpolationMasks`, `DistanceTypes`, `DistanceTransformMasks`, `ThresholdTypes`, `AdaptiveThresholdTypes`, `GrabCutClasses`, `GrabCutModes`, `DistanceTransformLabelTypes`, `FloodFillFlags`, `ConnectedComponentsTypes`, `ConnectedComponentsAlgorithmsTypes`, `RetrievalModes`, `ContourApproximationModes`, `ShapeMatchModes`, `HoughModes`, `LineSegmentDetectorModes`, `HistCompMethods`, `ColorConversionCodes`, `RectanglesIntersectTypes`, `LineTypes`, `HersheyFonts`, `MarkerTypes`, `TemplateMatchModes`, `ColormapTypes`
+ * Member enums: `SmoothMethod_c`, `MorphShapes_c`, `SpecialFilter`, `MorphTypes`, `MorphShapes`, `InterpolationFlags`, `WarpPolarMode`, `InterpolationMasks`, `DistanceTypes`, `DistanceTransformMasks`, `ThresholdTypes`, `AdaptiveThresholdTypes`, `GrabCutClasses`, `GrabCutModes`, `DistanceTransformLabelTypes`, `FloodFillFlags`, `ConnectedComponentsTypes`, `ConnectedComponentsAlgorithmsTypes`, `RetrievalModes`, `ContourApproximationModes`, `ShapeMatchModes`, `HoughModes`, `LineSegmentDetectorModes`, `HistCompMethods`, `ColorConversionCodes`, `RectanglesIntersectTypes`, `LineTypes`, `HersheyFonts`, `MarkerTypes`, `TemplateMatchModes`, `ColormapTypes`
  */
 CV_EXPORTS @interface Imgproc : NSObject
 
@@ -781,7 +799,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * used for images only.
  * @return moments.
  *
- * NOTE: Only applicable to contour moments calculations from Python bindings: Note that the numpy
+ * @note Only applicable to contour moments calculations from Python bindings: Note that the numpy
  * type for the input array should be either np.int32 or np.float32.
  *
  * @see `+contourArea:oriented:`, `+arcLength:closed:`
@@ -799,7 +817,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * used for images only.
  * @return moments.
  *
- * NOTE: Only applicable to contour moments calculations from Python bindings: Note that the numpy
+ * @note Only applicable to contour moments calculations from Python bindings: Note that the numpy
  * type for the input array should be either np.int32 or np.float32.
  *
  * @see `+contourArea:oriented:`, `+arcLength:closed:`
@@ -987,7 +1005,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param _density_th Minimal density of aligned region points in the enclosing rectangle.
  * @param _n_bins Number of bins in pseudo-ordering of gradient modulus.
  *
- * NOTE: Implementation has been removed due original code license conflict
+ * @note Implementation has been removed due original code license conflict
  */
 + (LineSegmentDetector*)createLineSegmentDetector:(LineSegmentDetectorModes)_refine _scale:(double)_scale _sigma_scale:(double)_sigma_scale _quant:(double)_quant _ang_th:(double)_ang_th _log_eps:(double)_log_eps _density_th:(double)_density_th _n_bins:(int)_n_bins NS_SWIFT_NAME(createLineSegmentDetector(_refine:_scale:_sigma_scale:_quant:_ang_th:_log_eps:_density_th:_n_bins:));
 
@@ -1006,7 +1024,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * is chosen.
  * @param _density_th Minimal density of aligned region points in the enclosing rectangle.
  *
- * NOTE: Implementation has been removed due original code license conflict
+ * @note Implementation has been removed due original code license conflict
  */
 + (LineSegmentDetector*)createLineSegmentDetector:(LineSegmentDetectorModes)_refine _scale:(double)_scale _sigma_scale:(double)_sigma_scale _quant:(double)_quant _ang_th:(double)_ang_th _log_eps:(double)_log_eps _density_th:(double)_density_th NS_SWIFT_NAME(createLineSegmentDetector(_refine:_scale:_sigma_scale:_quant:_ang_th:_log_eps:_density_th:));
 
@@ -1024,7 +1042,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param _log_eps Detection threshold: -log10(NFA) \> log_eps. Used only when advance refinement
  * is chosen.
  *
- * NOTE: Implementation has been removed due original code license conflict
+ * @note Implementation has been removed due original code license conflict
  */
 + (LineSegmentDetector*)createLineSegmentDetector:(LineSegmentDetectorModes)_refine _scale:(double)_scale _sigma_scale:(double)_sigma_scale _quant:(double)_quant _ang_th:(double)_ang_th _log_eps:(double)_log_eps NS_SWIFT_NAME(createLineSegmentDetector(_refine:_scale:_sigma_scale:_quant:_ang_th:_log_eps:));
 
@@ -1041,7 +1059,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param _ang_th Gradient angle tolerance in degrees.
  * is chosen.
  *
- * NOTE: Implementation has been removed due original code license conflict
+ * @note Implementation has been removed due original code license conflict
  */
 + (LineSegmentDetector*)createLineSegmentDetector:(LineSegmentDetectorModes)_refine _scale:(double)_scale _sigma_scale:(double)_sigma_scale _quant:(double)_quant _ang_th:(double)_ang_th NS_SWIFT_NAME(createLineSegmentDetector(_refine:_scale:_sigma_scale:_quant:_ang_th:));
 
@@ -1057,7 +1075,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param _quant Bound to the quantization error on the gradient norm.
  * is chosen.
  *
- * NOTE: Implementation has been removed due original code license conflict
+ * @note Implementation has been removed due original code license conflict
  */
 + (LineSegmentDetector*)createLineSegmentDetector:(LineSegmentDetectorModes)_refine _scale:(double)_scale _sigma_scale:(double)_sigma_scale _quant:(double)_quant NS_SWIFT_NAME(createLineSegmentDetector(_refine:_scale:_sigma_scale:_quant:));
 
@@ -1072,7 +1090,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param _sigma_scale Sigma for Gaussian filter. It is computed as sigma = _sigma_scale/_scale.
  * is chosen.
  *
- * NOTE: Implementation has been removed due original code license conflict
+ * @note Implementation has been removed due original code license conflict
  */
 + (LineSegmentDetector*)createLineSegmentDetector:(LineSegmentDetectorModes)_refine _scale:(double)_scale _sigma_scale:(double)_sigma_scale NS_SWIFT_NAME(createLineSegmentDetector(_refine:_scale:_sigma_scale:));
 
@@ -1086,7 +1104,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param _scale The scale of the image that will be used to find the lines. Range (0..1].
  * is chosen.
  *
- * NOTE: Implementation has been removed due original code license conflict
+ * @note Implementation has been removed due original code license conflict
  */
 + (LineSegmentDetector*)createLineSegmentDetector:(LineSegmentDetectorModes)_refine _scale:(double)_scale NS_SWIFT_NAME(createLineSegmentDetector(_refine:_scale:));
 
@@ -1099,7 +1117,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param _refine The way found lines will be refined, see #LineSegmentDetectorModes
  * is chosen.
  *
- * NOTE: Implementation has been removed due original code license conflict
+ * @note Implementation has been removed due original code license conflict
  */
 + (LineSegmentDetector*)createLineSegmentDetector:(LineSegmentDetectorModes)_refine NS_SWIFT_NAME(createLineSegmentDetector(_refine:));
 
@@ -1111,7 +1129,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  *
  * is chosen.
  *
- * NOTE: Implementation has been removed due original code license conflict
+ * @note Implementation has been removed due original code license conflict
  */
 + (LineSegmentDetector*)createLineSegmentDetector NS_SWIFT_NAME(createLineSegmentDetector());
 
@@ -1544,7 +1562,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * above values. In these cases, the function determines the optimal threshold value using the Otsu's
  * or Triangle algorithm and uses it instead of the specified thresh.
  *
- * NOTE: Currently, the Otsu's and Triangle methods are implemented only for 8-bit single-channel images.
+ * @note Currently, the Otsu's and Triangle methods are implemented only for 8-bit single-channel images.
  *
  * @param src input array (multiple-channel, 8-bit or 32-bit floating point).
  * @param dst output array of the same size  and type and the same number of channels as src.
@@ -1574,7 +1592,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  *
  * @return Absolute value of area of intersecting polygon
  *
- * NOTE: intersectConvexConvex doesn't confirm that both polygons are convex and will return invalid results if they aren't.
+ * @note intersectConvexConvex doesn't confirm that both polygons are convex and will return invalid results if they aren't.
  */
 + (float)intersectConvexConvex:(Mat*)_p1 _p2:(Mat*)_p2 _p12:(Mat*)_p12 handleNested:(BOOL)handleNested NS_SWIFT_NAME(intersectConvexConvex(_p1:_p2:_p12:handleNested:));
 
@@ -1589,7 +1607,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  *
  * @return Absolute value of area of intersecting polygon
  *
- * NOTE: intersectConvexConvex doesn't confirm that both polygons are convex and will return invalid results if they aren't.
+ * @note intersectConvexConvex doesn't confirm that both polygons are convex and will return invalid results if they aren't.
  */
 + (float)intersectConvexConvex:(Mat*)_p1 _p2:(Mat*)_p2 _p12:(Mat*)_p12 NS_SWIFT_NAME(intersectConvexConvex(_p1:_p2:_p12:));
 
@@ -1715,7 +1733,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * represents the background label. ltype specifies the output label image type, an important
  * consideration based on the total number of labels or alternatively the total number of pixels in
  * the source image. ccltype specifies the connected components labeling algorithm to use, currently
- * Grana (BBDT) and Wu's (SAUF) CITE: Wu2009 algorithms are supported, see the #ConnectedComponentsAlgorithmsTypes
+ * Grana (BBDT) and Wu's (SAUF) algorithms are supported, see the #ConnectedComponentsAlgorithmsTypes
  * for details. Note that SAUF algorithm forces a row major ordering of labels while BBDT does not.
  * This function uses parallel version of both Grana and Wu's algorithms if at least one allowed
  * parallel framework is enabled and if the rows of the image are at least twice the number returned by #getNumberOfCPUs.
@@ -1770,7 +1788,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * represents the background label. ltype specifies the output label image type, an important
  * consideration based on the total number of labels or alternatively the total number of pixels in
  * the source image. ccltype specifies the connected components labeling algorithm to use, currently
- * Grana's (BBDT) and Wu's (SAUF) CITE: Wu2009 algorithms are supported, see the #ConnectedComponentsAlgorithmsTypes
+ * Grana's (BBDT) and Wu's (SAUF) algorithms are supported, see the #ConnectedComponentsAlgorithmsTypes
  * for details. Note that SAUF algorithm forces a row major ordering of labels while BBDT does not.
  * This function uses parallel version of both Grana and Wu's algorithms (statistics included) if at least one allowed
  * parallel framework is enabled and if the rows of the image are at least twice the number returned by #getNumberOfCPUs.
@@ -1902,7 +1920,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * bits and therefore may be further combined with the connectivity and mask fill values using
  * bit-wise or (|), see #FloodFillFlags.
  *
- * NOTE: Since the mask is larger than the filled image, a pixel `$$(x, y)$$` in image corresponds to the
+ * @note Since the mask is larger than the filled image, a pixel `$$(x, y)$$` in image corresponds to the
  * pixel `$$(x+1, y+1)$$` in the mask .
  *
  * @see `+findContours:contours:hierarchy:mode:method:offset:`
@@ -1975,7 +1993,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * bits and therefore may be further combined with the connectivity and mask fill values using
  * bit-wise or (|), see #FloodFillFlags.
  *
- * NOTE: Since the mask is larger than the filled image, a pixel `$$(x, y)$$` in image corresponds to the
+ * @note Since the mask is larger than the filled image, a pixel `$$(x, y)$$` in image corresponds to the
  * pixel `$$(x+1, y+1)$$` in the mask .
  *
  * @see `+findContours:contours:hierarchy:mode:method:offset:`
@@ -2047,7 +2065,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * bits and therefore may be further combined with the connectivity and mask fill values using
  * bit-wise or (|), see #FloodFillFlags.
  *
- * NOTE: Since the mask is larger than the filled image, a pixel `$$(x, y)$$` in image corresponds to the
+ * @note Since the mask is larger than the filled image, a pixel `$$(x, y)$$` in image corresponds to the
  * pixel `$$(x+1, y+1)$$` in the mask .
  *
  * @see `+findContours:contours:hierarchy:mode:method:offset:`
@@ -2118,7 +2136,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * bits and therefore may be further combined with the connectivity and mask fill values using
  * bit-wise or (|), see #FloodFillFlags.
  *
- * NOTE: Since the mask is larger than the filled image, a pixel `$$(x, y)$$` in image corresponds to the
+ * @note Since the mask is larger than the filled image, a pixel `$$(x, y)$$` in image corresponds to the
  * pixel `$$(x+1, y+1)$$` in the mask .
  *
  * @see `+findContours:contours:hierarchy:mode:method:offset:`
@@ -2188,7 +2206,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * bits and therefore may be further combined with the connectivity and mask fill values using
  * bit-wise or (|), see #FloodFillFlags.
  *
- * NOTE: Since the mask is larger than the filled image, a pixel `$$(x, y)$$` in image corresponds to the
+ * @note Since the mask is larger than the filled image, a pixel `$$(x, y)$$` in image corresponds to the
  * pixel `$$(x+1, y+1)$$` in the mask .
  *
  * @see `+findContours:contours:hierarchy:mode:method:offset:`
@@ -2397,7 +2415,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * Example: :
  * INCLUDE: snippets/imgproc_HoughLinesCircles.cpp
  *
- * NOTE: Usually the function detects the centers of circles well. However, it may fail to find correct
+ * @note Usually the function detects the centers of circles well. However, it may fail to find correct
  * radii. You can assist to the function by specifying the radius range ( minRadius and maxRadius ) if
  * you know it. Or, in the case of #HOUGH_GRADIENT method you may set maxRadius to a negative number
  * to return centers only without radius search, and find the correct radius using an additional procedure.
@@ -2443,7 +2461,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * Example: :
  * INCLUDE: snippets/imgproc_HoughLinesCircles.cpp
  *
- * NOTE: Usually the function detects the centers of circles well. However, it may fail to find correct
+ * @note Usually the function detects the centers of circles well. However, it may fail to find correct
  * radii. You can assist to the function by specifying the radius range ( minRadius and maxRadius ) if
  * you know it. Or, in the case of #HOUGH_GRADIENT method you may set maxRadius to a negative number
  * to return centers only without radius search, and find the correct radius using an additional procedure.
@@ -2488,7 +2506,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * Example: :
  * INCLUDE: snippets/imgproc_HoughLinesCircles.cpp
  *
- * NOTE: Usually the function detects the centers of circles well. However, it may fail to find correct
+ * @note Usually the function detects the centers of circles well. However, it may fail to find correct
  * radii. You can assist to the function by specifying the radius range ( minRadius and maxRadius ) if
  * you know it. Or, in the case of #HOUGH_GRADIENT method you may set maxRadius to a negative number
  * to return centers only without radius search, and find the correct radius using an additional procedure.
@@ -2532,7 +2550,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * Example: :
  * INCLUDE: snippets/imgproc_HoughLinesCircles.cpp
  *
- * NOTE: Usually the function detects the centers of circles well. However, it may fail to find correct
+ * @note Usually the function detects the centers of circles well. However, it may fail to find correct
  * radii. You can assist to the function by specifying the radius range ( minRadius and maxRadius ) if
  * you know it. Or, in the case of #HOUGH_GRADIENT method you may set maxRadius to a negative number
  * to return centers only without radius search, and find the correct radius using an additional procedure.
@@ -2575,7 +2593,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * Example: :
  * INCLUDE: snippets/imgproc_HoughLinesCircles.cpp
  *
- * NOTE: Usually the function detects the centers of circles well. However, it may fail to find correct
+ * @note Usually the function detects the centers of circles well. However, it may fail to find correct
  * radii. You can assist to the function by specifying the radius range ( minRadius and maxRadius ) if
  * you know it. Or, in the case of #HOUGH_GRADIENT method you may set maxRadius to a negative number
  * to return centers only without radius search, and find the correct radius using an additional procedure.
@@ -4051,7 +4069,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * vector: std::vector\<int\> implies returnPoints=false, std::vector\<Point\> implies
  * returnPoints=true.
  *
- * NOTE: `points` and `hull` should be different arrays, inplace processing isn't supported.
+ * @note `points` and `hull` should be different arrays, inplace processing isn't supported.
  *
  * Check REF: tutorial_hull "the corresponding tutorial" for more details.
  *
@@ -4079,7 +4097,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * vector: std::vector\<int\> implies returnPoints=false, std::vector\<Point\> implies
  * returnPoints=true.
  *
- * NOTE: `points` and `hull` should be different arrays, inplace processing isn't supported.
+ * @note `points` and `hull` should be different arrays, inplace processing isn't supported.
  *
  * Check REF: tutorial_hull "the corresponding tutorial" for more details.
  *
@@ -4277,8 +4295,8 @@ CV_EXPORTS @interface Imgproc : NSObject
 /**
  * Refines the corner locations.
  *
- * The function iterates to find the sub-pixel accurate location of corners or radial saddle
- * points as described in CITE: forstner1987fast, and as shown on the figure below.
+ * The function iterates to find the sub-pixel accurate location of corners or radial saddle points, as
+ * shown on the figure below.
  *
  * ![image](pics/cornersubpix.png)
  *
@@ -4807,7 +4825,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * parameter is only taken into account when there is hierarchy available.
  * @param offset Optional contour shift parameter. Shift all the drawn contours by the specified
  * `$$\texttt{offset}=(dx,dy)$$` .
- * NOTE: When thickness=#FILLED, the function is designed to handle connected components with holes correctly
+ * @note When thickness=#FILLED, the function is designed to handle connected components with holes correctly
  * even when no hierarchy date is provided. This is done by analyzing all the outlines together
  * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
  * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
@@ -4837,7 +4855,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * draws the contours, all the nested contours, all the nested-to-nested contours, and so on. This
  * parameter is only taken into account when there is hierarchy available.
  * `$$\texttt{offset}=(dx,dy)$$` .
- * NOTE: When thickness=#FILLED, the function is designed to handle connected components with holes correctly
+ * @note When thickness=#FILLED, the function is designed to handle connected components with holes correctly
  * even when no hierarchy date is provided. This is done by analyzing all the outlines together
  * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
  * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
@@ -4866,7 +4884,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * draws the contours, all the nested contours, all the nested-to-nested contours, and so on. This
  * parameter is only taken into account when there is hierarchy available.
  * `$$\texttt{offset}=(dx,dy)$$` .
- * NOTE: When thickness=#FILLED, the function is designed to handle connected components with holes correctly
+ * @note When thickness=#FILLED, the function is designed to handle connected components with holes correctly
  * even when no hierarchy date is provided. This is done by analyzing all the outlines together
  * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
  * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
@@ -4894,7 +4912,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * draws the contours, all the nested contours, all the nested-to-nested contours, and so on. This
  * parameter is only taken into account when there is hierarchy available.
  * `$$\texttt{offset}=(dx,dy)$$` .
- * NOTE: When thickness=#FILLED, the function is designed to handle connected components with holes correctly
+ * @note When thickness=#FILLED, the function is designed to handle connected components with holes correctly
  * even when no hierarchy date is provided. This is done by analyzing all the outlines together
  * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
  * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
@@ -4921,7 +4939,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * draws the contours, all the nested contours, all the nested-to-nested contours, and so on. This
  * parameter is only taken into account when there is hierarchy available.
  * `$$\texttt{offset}=(dx,dy)$$` .
- * NOTE: When thickness=#FILLED, the function is designed to handle connected components with holes correctly
+ * @note When thickness=#FILLED, the function is designed to handle connected components with holes correctly
  * even when no hierarchy date is provided. This is done by analyzing all the outlines together
  * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
  * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
@@ -4947,7 +4965,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * draws the contours, all the nested contours, all the nested-to-nested contours, and so on. This
  * parameter is only taken into account when there is hierarchy available.
  * `$$\texttt{offset}=(dx,dy)$$` .
- * NOTE: When thickness=#FILLED, the function is designed to handle connected components with holes correctly
+ * @note When thickness=#FILLED, the function is designed to handle connected components with holes correctly
  * even when no hierarchy date is provided. This is done by analyzing all the outlines together
  * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
  * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
@@ -5589,7 +5607,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * The function retrieves contours from the binary image using the algorithm CITE: Suzuki85 . The contours
  * are a useful tool for shape analysis and object detection and recognition. See squares.cpp in the
  * OpenCV sample directory.
- * NOTE: Since opencv 3.2 source image is not modified by this function.
+ * @note Since opencv 3.2 source image is not modified by this function.
  *
  * @param image Source, an 8-bit single-channel image. Non-zero pixels are treated as 1's. Zero
  * pixels remain 0's, so the image is treated as binary . You can use #compare, #inRange, #threshold ,
@@ -5617,7 +5635,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * The function retrieves contours from the binary image using the algorithm CITE: Suzuki85 . The contours
  * are a useful tool for shape analysis and object detection and recognition. See squares.cpp in the
  * OpenCV sample directory.
- * NOTE: Since opencv 3.2 source image is not modified by this function.
+ * @note Since opencv 3.2 source image is not modified by this function.
  *
  * @param image Source, an 8-bit single-channel image. Non-zero pixels are treated as 1's. Zero
  * pixels remain 0's, so the image is treated as binary . You can use #compare, #inRange, #threshold ,
@@ -5824,7 +5842,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  *
  * The function can be used to initialize a point-based tracker of an object.
  *
- * NOTE: If the function is called with different values A and B of the parameter qualityLevel , and
+ * @note If the function is called with different values A and B of the parameter qualityLevel , and
  * A \> B, the vector of returned corners with qualityLevel=A will be the prefix of the output vector
  * with qualityLevel=B .
  *
@@ -5870,7 +5888,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  *
  * The function can be used to initialize a point-based tracker of an object.
  *
- * NOTE: If the function is called with different values A and B of the parameter qualityLevel , and
+ * @note If the function is called with different values A and B of the parameter qualityLevel , and
  * A \> B, the vector of returned corners with qualityLevel=A will be the prefix of the output vector
  * with qualityLevel=B .
  *
@@ -5915,7 +5933,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  *
  * The function can be used to initialize a point-based tracker of an object.
  *
- * NOTE: If the function is called with different values A and B of the parameter qualityLevel , and
+ * @note If the function is called with different values A and B of the parameter qualityLevel , and
  * A \> B, the vector of returned corners with qualityLevel=A will be the prefix of the output vector
  * with qualityLevel=B .
  *
@@ -5959,7 +5977,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  *
  * The function can be used to initialize a point-based tracker of an object.
  *
- * NOTE: If the function is called with different values A and B of the parameter qualityLevel , and
+ * @note If the function is called with different values A and B of the parameter qualityLevel , and
  * A \> B, the vector of returned corners with qualityLevel=A will be the prefix of the output vector
  * with qualityLevel=B .
  *
@@ -6002,7 +6020,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  *
  * The function can be used to initialize a point-based tracker of an object.
  *
- * NOTE: If the function is called with different values A and B of the parameter qualityLevel , and
+ * @note If the function is called with different values A and B of the parameter qualityLevel , and
  * A \> B, the vector of returned corners with qualityLevel=A will be the prefix of the output vector
  * with qualityLevel=B .
  *
@@ -6325,7 +6343,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param maxRadius The radius of the bounding circle to transform. It determines the inverse magnitude scale parameter too.
  * @param flags A combination of interpolation methods, see #InterpolationFlags
  *
- * NOTE:
+ * @note
  * -   The function can not operate in-place.
  * -   To calculate magnitude and angle in degrees #cartToPolar is used internally thus angles are measured from 0 to 360 with accuracy about 0.3 degrees.
  *
@@ -6370,7 +6388,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param M Magnitude scale parameter. It determines the radius of the bounding circle to transform too.
  * @param flags A combination of interpolation methods, see #InterpolationFlags
  *
- * NOTE:
+ * @note
  * -   The function can not operate in-place.
  * -   To calculate magnitude and angle in degrees #cartToPolar is used internally thus angles are measured from 0 to 360 with accuracy about 0.3 degrees.
  *
@@ -6454,7 +6472,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * \texttt{ksize}$$` aperture. Each channel of a multi-channel image is processed independently.
  * In-place operation is supported.
  *
- * NOTE: The median filter uses #BORDER_REPLICATE internally to cope with border pixels, see #BorderTypes
+ * @note The median filter uses #BORDER_REPLICATE internally to cope with border pixels, see #BorderTypes
  *
  * @param src input 1-, 3-, or 4-channel image; when ksize is 3 or 5, the image depth should be
  * CV_8U, CV_16U, or CV_32F, for larger aperture sizes, it can only be CV_8U.
@@ -6504,7 +6522,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param borderValue Border value in case of a constant border. The default value has a special
  * meaning.
  * @see `+dilate:dst:kernel:anchor:iterations:borderType:borderValue:`, `+erode:dst:kernel:anchor:iterations:borderType:borderValue:`, `+getStructuringElement:ksize:anchor:`
- * NOTE: The number of iterations is the number of times erosion or dilatation operation will be applied.
+ * @note The number of iterations is the number of times erosion or dilatation operation will be applied.
  * For instance, an opening operation (#MORPH_OPEN) with two iterations is equivalent to apply
  * successively: erode -> erode -> dilate -> dilate (and not erode -> dilate -> erode -> dilate).
  */
@@ -6530,7 +6548,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param borderType Pixel extrapolation method, see #BorderTypes. #BORDER_WRAP is not supported.
  * meaning.
  * @see `+dilate:dst:kernel:anchor:iterations:borderType:borderValue:`, `+erode:dst:kernel:anchor:iterations:borderType:borderValue:`, `+getStructuringElement:ksize:anchor:`
- * NOTE: The number of iterations is the number of times erosion or dilatation operation will be applied.
+ * @note The number of iterations is the number of times erosion or dilatation operation will be applied.
  * For instance, an opening operation (#MORPH_OPEN) with two iterations is equivalent to apply
  * successively: erode -> erode -> dilate -> dilate (and not erode -> dilate -> erode -> dilate).
  */
@@ -6555,7 +6573,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param iterations Number of times erosion and dilation are applied.
  * meaning.
  * @see `+dilate:dst:kernel:anchor:iterations:borderType:borderValue:`, `+erode:dst:kernel:anchor:iterations:borderType:borderValue:`, `+getStructuringElement:ksize:anchor:`
- * NOTE: The number of iterations is the number of times erosion or dilatation operation will be applied.
+ * @note The number of iterations is the number of times erosion or dilatation operation will be applied.
  * For instance, an opening operation (#MORPH_OPEN) with two iterations is equivalent to apply
  * successively: erode -> erode -> dilate -> dilate (and not erode -> dilate -> erode -> dilate).
  */
@@ -6579,7 +6597,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * kernel center.
  * meaning.
  * @see `+dilate:dst:kernel:anchor:iterations:borderType:borderValue:`, `+erode:dst:kernel:anchor:iterations:borderType:borderValue:`, `+getStructuringElement:ksize:anchor:`
- * NOTE: The number of iterations is the number of times erosion or dilatation operation will be applied.
+ * @note The number of iterations is the number of times erosion or dilatation operation will be applied.
  * For instance, an opening operation (#MORPH_OPEN) with two iterations is equivalent to apply
  * successively: erode -> erode -> dilate -> dilate (and not erode -> dilate -> erode -> dilate).
  */
@@ -6602,7 +6620,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * kernel center.
  * meaning.
  * @see `+dilate:dst:kernel:anchor:iterations:borderType:borderValue:`, `+erode:dst:kernel:anchor:iterations:borderType:borderValue:`, `+getStructuringElement:ksize:anchor:`
- * NOTE: The number of iterations is the number of times erosion or dilatation operation will be applied.
+ * @note The number of iterations is the number of times erosion or dilatation operation will be applied.
  * For instance, an opening operation (#MORPH_OPEN) with two iterations is equivalent to apply
  * successively: erode -> erode -> dilate -> dilate (and not erode -> dilate -> erode -> dilate).
  */
@@ -7185,7 +7203,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * borderMode=#BORDER_TRANSPARENT, it means that the pixels in the destination image that
  * corresponds to the "outliers" in the source image are not modified by the function.
  * @param borderValue Value used in case of a constant border. By default, it is 0.
- * NOTE:
+ * @note
  * Due to current implementation limitations the size of an input and output images should be less than 32767x32767.
  */
 + (void)remap:(Mat*)src dst:(Mat*)dst map1:(Mat*)map1 map2:(Mat*)map2 interpolation:(int)interpolation borderMode:(BorderTypes)borderMode borderValue:(Scalar*)borderValue NS_SWIFT_NAME(remap(src:dst:map1:map2:interpolation:borderMode:borderValue:));
@@ -7219,7 +7237,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * @param borderMode Pixel extrapolation method (see #BorderTypes). When
  * borderMode=#BORDER_TRANSPARENT, it means that the pixels in the destination image that
  * corresponds to the "outliers" in the source image are not modified by the function.
- * NOTE:
+ * @note
  * Due to current implementation limitations the size of an input and output images should be less than 32767x32767.
  */
 + (void)remap:(Mat*)src dst:(Mat*)dst map1:(Mat*)map1 map2:(Mat*)map2 interpolation:(int)interpolation borderMode:(BorderTypes)borderMode NS_SWIFT_NAME(remap(src:dst:map1:map2:interpolation:borderMode:));
@@ -7252,7 +7270,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * not supported by this function.
  * borderMode=#BORDER_TRANSPARENT, it means that the pixels in the destination image that
  * corresponds to the "outliers" in the source image are not modified by the function.
- * NOTE:
+ * @note
  * Due to current implementation limitations the size of an input and output images should be less than 32767x32767.
  */
 + (void)remap:(Mat*)src dst:(Mat*)dst map1:(Mat*)map1 map2:(Mat*)map2 interpolation:(int)interpolation NS_SWIFT_NAME(remap(src:dst:map1:map2:interpolation:));
@@ -7916,7 +7934,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  *             - Add #WARP_POLAR_LINEAR to select linear polar mapping (default)
  *             - Add #WARP_POLAR_LOG to select semilog polar mapping
  *             - Add #WARP_INVERSE_MAP for reverse mapping.
- * NOTE:
+ * @note
  * -  The function can not operate in-place.
  * -  To calculate magnitude and angle in degrees #cartToPolar is used internally thus angles are measured from 0 to 360 with accuracy about 0.3 degrees.
  * -  This function uses #remap. Due to current implementation limitations the size of an input and output images should be less than 32767x32767.
@@ -7944,7 +7962,7 @@ CV_EXPORTS @interface Imgproc : NSObject
  * each pixel in markers is set to a value of the "seed" components or to -1 at boundaries between the
  * regions.
  *
- * NOTE: Any two neighbor connected components are not necessarily separated by a watershed boundary
+ * @note Any two neighbor connected components are not necessarily separated by a watershed boundary
  * (-1's pixels); for example, they can touch each other in the initial marker image passed to the
  * function.
  *
