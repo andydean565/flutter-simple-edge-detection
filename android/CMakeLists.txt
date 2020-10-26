@@ -8,5 +8,8 @@ set(SOURCES
     ${EDGE_DETECTION_DIR}/edge_detector.cpp
     ${EDGE_DETECTION_DIR}/image_processor.cpp
 )
+
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--exclude-libs,libippicv.a -Wl,--exclude-libs,libippiw.a")
+
 add_library(native_edge_detection SHARED ${SOURCES})
 target_link_libraries(native_edge_detection lib_opencv)
